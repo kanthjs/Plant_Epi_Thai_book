@@ -1,0 +1,119 @@
+project:
+  type: book
+  output-dir: _book
+
+book:
+  title: "ระบาดวิทยาโรคข้าว"
+  subtitle: "หลักการ การวิเคราะห์ และการประยุกต์ใช้"
+  author: "กันต์ธณวิชญ์ ใจสงฆ์"
+  date: today
+  date-format: "D MMMM YYYY"
+  repo-url: https://github.com/kanthjs/Plant_Epi_Thai_book
+  repo-actions: [edit, issue]
+  downloads: [pdf]          # ปุ่มดาวน์โหลด PDF บนฉบับเว็บ
+  search: true
+  page-navigation: true     # ปุ่มบทก่อนหน้า/ถัดไป ท้ายหน้า
+  sidebar:
+    style: docked           # สารบัญบทด้านซ้ายติดขอบ แบบ socviz.co
+    collapse-level: 1
+  page-footer:
+    center: "© กันต์ธณวิชญ์ ใจสงฆ์ · ศูนย์วิจัยข้าวปทุมธานี"
+  chapters:
+    - index.qmd
+    - 01-disease-progress.qmd
+    - references.qmd
+
+bibliography: references.bib
+# csl: phytopathology.csl   # ค่าเริ่มต้นคือ Chicago author-date
+
+# ---------- เลย์เอาต์แบบขอบกว้าง (Tufte / socviz) ใช้ทั้งเว็บและ PDF ----------
+reference-location: margin   # เชิงอรรถไปอยู่ขอบขวา
+citation-location: margin    # การอ้างอิงแสดงที่ขอบขวาด้วย (ยังมีรายการท้ายเล่มตามเดิม)
+fig-cap-location: margin     # คำบรรยายรูปอยู่ขอบขวา
+# ตาราง: \sidecaption ใช้ใน longtable ของ PDF ไม่ได้ (Misplaced \noalign) จึงวางคำบรรยายไว้ด้านบน
+tbl-cap-location: top
+
+crossref:
+  fig-title: "รูปที่"
+  tbl-title: "ตารางที่"
+  eq-prefix: "สมการ"
+  fig-prefix: "รูปที่"
+  tbl-prefix: "ตารางที่"
+  sec-prefix: "หัวข้อ"
+  chapters: true
+
+# ป้าย "บทที่" เวลาอ้าง @sec- ของหัวบท (crossref ไม่มี ch-prefix ต้องตั้งผ่าน language)
+language:
+  crossref-ch-prefix: "บทที่"
+
+execute:
+  echo: true
+  warning: false
+  message: false
+  freeze: auto
+
+knitr:
+  opts_chunk:
+    dev: ragg_png     # ragg อ่านฟอนต์ระบบผ่าน systemfonts ทำให้ตัวไทยในกราฟแสดงได้บน Windows
+
+format:
+  # ---------- ฉบับออนไลน์ ----------
+  html:
+    theme:
+      light: [cosmo, custom.scss]
+      dark:  [cosmo, custom.scss, custom-dark.scss]
+    mainfont: "Sarabun"
+    toc: true
+    toc-location: right
+    toc-title: "ในบทนี้"
+    number-sections: true
+    code-link: true          # ชื่อฟังก์ชัน R ในโค้ดลิงก์ไปหน้าคู่มือ
+    code-copy: true
+    reader-mode: true
+    html-math-method: mathjax
+    grid:
+      sidebar-width: 260px
+      body-width: 760px
+      margin-width: 300px
+
+  # ---------- ฉบับพิมพ์ (XeLaTeX) ----------
+  pdf:
+    pdf-engine: xelatex
+    documentclass: scrbook
+    classoption: [twoside, openright]
+    papersize: a4
+    geometry:
+      - inner=25mm
+      - top=25mm
+      - bottom=25mm
+      - textwidth=115mm
+      - marginparsep=7mm
+      - marginparwidth=48mm
+    fontsize: 11pt
+    linestretch: 1.45
+    # ฟอนต์ไทยอ่านจากไฟล์ใน fonts/ (Sarabun, OFL) ไม่ต้องติดตั้งในเครื่อง
+    mainfont: "Sarabun"
+    mainfontoptions: &sarabun
+      - Path=./fonts/
+      - Extension=.ttf
+      - UprightFont=*-Regular
+      - BoldFont=*-Bold
+      - ItalicFont=*-Italic
+      - BoldItalicFont=*-BoldItalic
+    sansfont: "Sarabun"
+    sansfontoptions: *sarabun
+    # DejaVu Sans Mono และ Latin Modern Math มากับ TinyTeX (tlmgr: dejavu, lm-math)
+    monofont: "DejaVuSansMono"
+    monofontoptions:
+      - Extension=.ttf
+      - BoldFont=*-Bold
+      - ItalicFont=*-Oblique
+      - BoldItalicFont=*-BoldOblique
+      - Scale=MatchLowercase
+    mathfont: "latinmodern-math.otf"
+    toc: true
+    toc-depth: 2
+    number-sections: true
+    colorlinks: true
+    include-in-header: preamble.tex
+    keep-tex: true

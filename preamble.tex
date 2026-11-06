@@ -1,0 +1,31 @@
+% ---------------------------------------------------------------
+% preamble.tex — ตั้งค่าภาษาไทยสำหรับ XeLaTeX
+% ---------------------------------------------------------------
+
+% 1) ตัดคำไทยด้วยพจนานุกรม ICU ภายใน XeTeX
+%    (ภาษาไทยไม่มีช่องว่างระหว่างคำ ถ้าไม่ตั้งค่านี้บรรทัดจะไม่ตัดหรือล้นขอบ)
+\XeTeXlinebreaklocale "th"
+\XeTeXlinebreakskip = 0pt plus 1pt
+
+% 2) ป้ายต่าง ๆ ของเล่มเป็นภาษาไทย
+\AtBeginDocument{%
+  \renewcommand{\contentsname}{สารบัญ}%
+  \renewcommand{\listfigurename}{สารบัญรูป}%
+  \renewcommand{\listtablename}{สารบัญตาราง}%
+  \renewcommand{\bibname}{เอกสารอ้างอิง}%
+  \renewcommand{\appendixname}{ภาคผนวก}%
+  \renewcommand{\partname}{ภาค}%
+  \renewcommand{\chaptername}{บทที่}%
+}
+
+% 3) หัวบทแบบ "บทที่ 1" ของ KOMA-Script
+\renewcommand*{\chapterformat}{\chaptername~\thechapter\autodot\enskip}
+\renewcommand*{\autodot}{}
+
+% 4) ตัวหนาในหัวข้อ: ไม่ใช้ sans เพื่อให้ฟอนต์ไทยกลมกลืนทั้งเล่ม
+\setkomafont{disposition}{\normalfont\bfseries}
+
+% 5) ย่อหน้าบรรทัดแรก 1.5em และเว้นระยะเล็กน้อยระหว่างย่อหน้า
+%    ปรับตัวเลขตามรสนิยมได้เลย
+\setlength{\parindent}{1.5em}
+\setlength{\parskip}{0.3em plus 0.1em}

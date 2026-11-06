@@ -1,0 +1,108 @@
+# การเพิ่มขึ้นของโรคตามเวลา {#sec-disease-progress}
+
+การเพิ่มขึ้นของโรคในแปลงข้าวไม่ได้เกิดแบบเส้นตรง ช่วงแรกโรคมักเพิ่มช้า เพราะเนื้อเยื่อที่เป็นโรคยังมีน้อย จากนั้นจึงเร่งตัวขึ้นอย่างรวดเร็ว และชะลอลงอีกครั้งเมื่อเนื้อเยื่อที่ยังไม่เป็นโรคเหลือน้อยลง รูปแบบนี้คือเส้นโค้งการเพิ่มขึ้นของโรค (disease progress curve) ซึ่ง @vanderplank1963 ใช้เป็นแกนหลักของระบาดวิทยาเชิงปริมาณ^[เชิงอรรถแบบนี้จะไปแสดงที่ขอบขวาของหน้าโดยอัตโนมัติ ทั้งในฉบับเว็บและฉบับ PDF]
+
+::: {.column-margin}
+**ศัพท์ในบทนี้**\
+ความรุนแรงของโรค (disease severity)\
+อัตราการเพิ่มของโรค (apparent infection rate)\
+AUDPC
+:::
+
+## แบบจำลองพื้นฐาน {#sec-models}
+
+ให้ $y$ แทนสัดส่วนความรุนแรงของโรค ($0 \le y \le 1$) และ $r$ แทนอัตราการเพิ่มขึ้นของโรค (apparent infection rate) แบบจำลองลอจิสติก (logistic model) เขียนในรูปสมการเชิงอนุพันธ์ได้ว่า
+
+$$
+\frac{dy}{dt} = r\,y\,(1 - y)
+$$ {#eq-logistic}
+
+เมื่ออินทิเกรตด้วยเงื่อนไขเริ่มต้น $y(0) = y_0$ จะได้
+
+$$
+y(t) = \frac{1}{1 + \exp\!\left\{-\left[\ln\!\left(\dfrac{y_0}{1-y_0}\right) + r\,t\right]\right\}}
+$$ {#eq-logistic-sol}
+
+ส่วนแบบจำลองกอมเพิร์ตซ์ (Gompertz model) และแบบจำลองโมโนโมเลกุลาร์ (monomolecular model) มีรูปแบบดังนี้
+
+$$
+\frac{dy}{dt} = r\,y\,(-\ln y)
+\qquad\text{และ}\qquad
+\frac{dy}{dt} = r\,(1 - y)
+$$ {#eq-gomp-mono}
+
+@madden2007 อธิบายการเลือกแบบจำลองและการประมาณค่าพารามิเตอร์ไว้อย่างละเอียด
+
+::: {.callout-note title="ข้อสังเกต"}
+แบบจำลองใน @eq-logistic ให้อัตราการเพิ่มสูงสุดที่ $y = 0.5$ ขณะที่แบบกอมเพิร์ตซ์ให้จุดเปลี่ยนเว้า (inflection point) ที่ $y = e^{-1} \approx 0.37$
+:::
+
+## จำลองเส้นโค้งด้วย R
+
+โค้ดต่อไปนี้วาดเส้นโค้งลอจิสติกจาก @eq-logistic-sol ที่อัตรา $r$ ต่างกันสามระดับ ผลแสดงใน @fig-logistic
+
+```{r}
+#| label: fig-logistic
+#| fig-cap: "เส้นโค้งลอจิสติกที่ $y_0 = 0.01$ และอัตราการเพิ่มของโรคสามระดับ"
+#| fig-width: 6
+#| fig-height: 3.6
+library(tidyverse)
+
+logistic <- function(t, y0, r) 1 / (1 + exp(-(qlogis(y0) + r * t)))
+
+expand_grid(t = seq(0, 60, by = 0.5), r = c(0.10, 0.15, 0.25)) |>
+  mutate(y = logistic(t, y0 = 0.01, r = r),
+         r = factor(r)) |>
+  ggplot(aes(t, y, colour = r)) +
+  geom_line(linewidth = 0.9) +
+  labs(x = "วันหลังเริ่มพบโรค", y = "ความรุนแรงของโรค (สัดส่วน)",
+       colour = expression(italic(r))) +
+  theme_minimal(base_family = "Sarabun")
+```
+
+กราฟเล็กสำหรับเปรียบเทียบอาจวางไว้ที่ขอบขวาทั้งรูป เช่น @fig-margin-gompertz
+
+```{r}
+#| label: fig-margin-gompertz
+#| fig-cap: "เส้นโค้งกอมเพิร์ตซ์ที่ $r = 0.15$"
+#| column: margin
+#| fig-width: 3
+#| fig-height: 2.4
+tibble(t = seq(0, 60, by = 0.5)) |>
+  mutate(y = exp(log(0.01) * exp(-0.15 * t))) |>
+  ggplot(aes(t, y)) +
+  geom_line(linewidth = 0.8) +
+  labs(x = "วัน", y = "y") +
+  theme_minimal(base_family = "Sarabun", base_size = 9)
+```
+
+## พื้นที่ใต้เส้นโค้ง {#sec-audpc}
+
+พื้นที่ใต้เส้นโค้งการเพิ่มขึ้นของโรค (area under the disease progress curve; AUDPC) สรุปความรุนแรงตลอดฤดูเป็นตัวเลขเดียว โดยคำนวณด้วยวิธีสี่เหลี่ยมคางหมู [@shaner1977]
+
+$$
+\text{AUDPC} = \sum_{i=1}^{n-1} \frac{y_i + y_{i+1}}{2}\,\left(t_{i+1} - t_i\right)
+$$ {#eq-audpc}
+
+@tbl-audpc เป็นข้อมูลสมมติเพื่อสาธิตการคำนวณเท่านั้น ไม่ใช่ข้อมูลจากแปลงทดลองจริง
+
+```{r}
+#| label: tbl-audpc
+#| tbl-cap: "ตัวอย่างสมมติ: ความรุนแรงของโรคไหม้ (%) ในสองพันธุ์ และค่า AUDPC"
+dat <- tibble(
+  day   = c(0, 7, 14, 21, 28),
+  var_a = c(1, 4, 12, 30, 45),
+  var_b = c(1, 2, 5, 9, 14)
+)
+
+audpc <- function(t, y) sum((head(y, -1) + tail(y, -1)) / 2 * diff(t))
+
+dat |>
+  add_row(day   = NA,
+          var_a = audpc(dat$day, dat$var_a),
+          var_b = audpc(dat$day, dat$var_b)) |>
+  mutate(day = if_else(is.na(day), "AUDPC", as.character(day))) |>
+  knitr::kable(align = "lrr", col.names = c("วัน", "พันธุ์ A", "พันธุ์ B"))
+```
+
+จาก @eq-audpc และ @tbl-audpc จะเห็นว่าพันธุ์ B มี AUDPC ต่ำกว่าพันธุ์ A อย่างชัดเจน ซึ่งเป็นลักษณะของความต้านทานแบบลดอัตรา (rate-reducing resistance) ที่อธิบายไว้ใน @sec-models

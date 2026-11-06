@@ -1,0 +1,20 @@
+/*-- scss:defaults --*/
+@import url('https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+
+$font-family-sans-serif: "Sarabun", system-ui, sans-serif;
+$font-size-root: 18px;          // ตัวไทยต้องใหญ่กว่าตัวอังกฤษเล็กน้อยจึงอ่านสบาย
+$line-height-base: 1.75;        // เผื่อที่ให้สระบน-ล่างและวรรณยุกต์
+$link-color: #2E6B3F;           // เขียวใบข้าว เปลี่ยนตามชอบ
+
+/*-- scss:rules --*/
+h1, h2, h3 { font-weight: 700; line-height: 1.4; }
+.figure-caption, figcaption { font-size: 0.95rem; }
+
+/* ขอบขวา: เชิงอรรถ คำบรรยายรูป และ aside ให้เล็กลงและสีอ่อนลงแบบ socviz */
+.column-margin, .margin-caption, .aside, aside,
+#quarto-margin-sidebar .footnote, .footnote-margin {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: #555;
+}
+.sidebar-title { font-weight: 700; }
