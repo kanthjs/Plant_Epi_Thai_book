@@ -1,0 +1,15 @@
+# การแพร่กระจายของโรคตามระยะทางจากแหล่งกำเนิดเชื้อ (Disease Gradients & Pathogen Dispersal) {#sec-disease-gradients}
+
+<!-- Disease Gradients & Pathogen Dispersal -->
+
+## กลไกการเคลื่อนที่ของเชื้อ {#sec-dg-mechanisms}
+
+<!-- ลม การกระเด็นของน้ำฝน แมลงหรือมนุษย์เป็นพาหะ -->
+
+## กราฟความชันของโรคตามระยะทาง (Disease Gradients) {#sec-dg-gradients}
+
+<!-- Disease gradients: ปริมาณโรคลดลงเมื่อห่างจากแหล่งเชื้อตั้งต้น -->
+
+## แบบจำลองการกระจายตัวตามระยะทาง {#sec-dg-models}
+
+<!-- สมการคำนวณระยะทำการของเชื้อจากจุดกำเนิดที่ชัดเจน -->

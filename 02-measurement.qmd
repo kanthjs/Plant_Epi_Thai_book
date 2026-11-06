@@ -1,0 +1,16 @@
+# การตรวจวัดโรคพืชและการประเมินคุณภาพข้อมูล (Measuring Disease & Data Quality) {#sec-measurement}
+
+<!-- Measuring Disease & Data Quality -->
+
+## รูปแบบตัวแปรโรคพืช {#sec-measurement-variables}
+
+<!-- เลือกวัดอุบัติการณ์ (incidence: เป็นหรือไม่เป็น) หรือความรุนแรงของโรค (severity: เป็นมากน้อยแค่ไหน) -->
+
+## หน่วยการวัดในสนามจริง {#sec-measurement-units}
+
+<!-- ประเมินโรคระดับใบ ต้น แถวปลูก หรือแปลงย่อย -->
+
+## การตรวจสอบคุณภาพของการวัด {#sec-measurement-quality}
+
+<!-- ความแม่นยำ (accuracy) ความเที่ยงตรง (precision) ความน่าเชื่อถือ (reliability)
+     ลดความคลาดเคลื่อนของผู้ประเมิน (rater error) -->

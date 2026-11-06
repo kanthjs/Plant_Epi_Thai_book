@@ -1,0 +1,15 @@
+# ทฤษฎีพลวัตประชากรโรคพืชขั้นสูง (Theoretical Temporal Epidemiology) {#sec-theoretical-temporal}
+
+<!-- Theoretical Temporal Epidemiology -->
+
+## โครงสร้างประชากรพืชอาศัย {#sec-tt-structure}
+
+<!-- แบ่งสถานะ: ต้นปกติ (healthy) ต้นติดเชื้อระยะฟักตัว (latent) ต้นแพร่เชื้อ (infectious) ต้นที่หมดสภาพแพร่เชื้อ (removed) -->
+
+## พลวัตการเปลี่ยนแปลงของพืชและโรค {#sec-tt-dynamics}
+
+<!-- คำนวณเมื่อพืชแตกใบใหม่หรือใบร่วงระหว่างเกิดโรคระบาด -->
+
+## เกณฑ์การเกิดโรคระบาดใหญ่ (Epidemic Thresholds) {#sec-tt-thresholds}
+
+<!-- Epidemic thresholds: เงื่อนไขทางทฤษฎีที่ตัดสินว่าโรคจะลุกลามหรือมอดดับเอง -->

@@ -20,7 +20,18 @@ book:
     center: "© กันต์ธณวิชญ์ ใจสงฆ์ · ศูนย์วิจัยข้าวปทุมธานี"
   chapters:
     - index.qmd
-    - 01-disease-progress.qmd
+    - 01-workflow.qmd
+    - 02-measurement.qmd
+    - 03-modeling-concepts.qmd
+    - 04-temporal-foundations.qmd
+    - 05-temporal-models.qmd
+    - 06-theoretical-temporal.qmd
+    - 07-disease-gradients.qmd
+    - 08-spatiotemporal.qmd
+    - 09-spatial-patterns.qmd
+    - 10-sampling-plans.qmd
+    - 11-decision-thresholds.qmd
+    - 12-yield-loss.qmd
     - references.qmd
 
 bibliography: references.bib
