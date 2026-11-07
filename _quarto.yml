@@ -20,7 +20,7 @@ book:
     center: "© กันต์ธณวิชญ์ ใจสงฆ์ · ศูนย์วิจัยข้าวปทุมธานี"
   chapters:
     - index.qmd
-    - 01-workflow.qmd
+    - 01-intro.qmd
     - 02-measurement.qmd
     - 03-modeling-concepts.qmd
     - 04-temporal-foundations.qmd
@@ -73,7 +73,7 @@ format:
     theme:
       light: [cosmo, custom.scss]
       dark:  [cosmo, custom.scss, custom-dark.scss]
-    mainfont: "Sarabun"
+    mainfont: "Google Sans"
     toc: true
     toc-location: right
     toc-title: "ในบทนี้"
@@ -102,17 +102,17 @@ format:
       - marginparwidth=48mm
     fontsize: 11pt
     linestretch: 1.45
-    # ฟอนต์ไทยอ่านจากไฟล์ใน fonts/ (Sarabun, OFL) ไม่ต้องติดตั้งในเครื่อง
-    mainfont: "Sarabun"
-    mainfontoptions: &sarabun
+    # ฟอนต์ไทยอ่านจากไฟล์ใน fonts/
+    mainfont: "Google Sans"
+    mainfontoptions: &googlesans
       - Path=./fonts/
       - Extension=.ttf
       - UprightFont=*-Regular
       - BoldFont=*-Bold
       - ItalicFont=*-Italic
-      - BoldItalicFont=*-BoldItalic
-    sansfont: "Sarabun"
-    sansfontoptions: *sarabun
+      - BoldItalicFont=*-Bold
+    sansfont: "Google Sans"
+    sansfontoptions: *googlesans
     # DejaVu Sans Mono และ Latin Modern Math มากับ TinyTeX (tlmgr: dejavu, lm-math)
     monofont: "DejaVuSansMono"
     monofontoptions:
