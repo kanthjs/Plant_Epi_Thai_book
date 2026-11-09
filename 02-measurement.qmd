@@ -460,6 +460,7 @@ flowchart LR
 | Lesions per leaf or plant | Count without natural denominator | — | Methods for counts |
 
 : Links between assessment methods, random variables, measurement levels, and appropriate analyses. {#tbl-meas-data-analysis}
+
 <!-- พี่ต้นข้าว: ตารางนี้ใหม่ สรุปจากเนื้อหาต้นฉบับ 2.3 และ 2.4.2.5 คอลัมน์ Analysis สองแถวล่างต้นฉบับพูดกว้าง ๆ ว่าใช้วิธีสำหรับข้อมูลไม่ต่อเนื่อง จึงเขียนไว้กว้างตามนั้น -->
 
 ### ข้อมูลจากสเกลระดับโรคและสเกลจัดอันดับ {#sec-meas-scale-data}
@@ -722,30 +723,42 @@ if (requireNamespace("epiR", quietly = TRUE)) {
 
 ชุดข้อมูล `SADRustSoybean` ในแพ็กเกจ r4pde [@r4pde] มาจากการศึกษาของ Franceschi et al. [-@franceschi2020] ผู้ประเมิน 40 คนประเมินความรุนแรงของโรคราสนิมบนใบถั่วเหลือง 50 ใบ ซึ่งวัดความรุนแรงจริงด้วยการวิเคราะห์ภาพ ผู้ประเมินแต่ละคนประเมินสองครั้ง ครั้งแรกโดยไม่ใช้แผนภาพพื้นที่มาตรฐาน (unaided) และครั้งที่สองโดยใช้แผนภาพ (aided) ผู้ประเมินคนที่ 1–20 ใช้แผนภาพชุดเดิม และคนที่ 21–40 ใช้แผนภาพชุดใหม่ที่ผู้วิจัยพัฒนาขึ้น ข้อมูลชุดนี้จึงเชื่อมสามเรื่องในบทนี้เข้าด้วยกัน ได้แก่ แผนภาพพื้นที่มาตรฐาน (@sec-meas-visual) ความแม่นยำ และการปรับปรุงการวัด (@sec-meas-improving)
 
-ฟังก์ชัน `sad_data()` จัดข้อมูลให้อยู่ในรูปที่ใช้ได้ และ `sad_ccc()` คำนวณ $\rho_c$, $r$, $C_b$, $v$ และ $u$ ของผู้ประเมินแต่ละคนในแต่ละเงื่อนไข ซึ่งเป็นสถิติชุดเดียวกับฟังก์ชัน `agreement()` ข้างบน @fig-meas-sad-rust เทียบ $\rho_c$ ของผู้ประเมินแต่ละคนเมื่อไม่ใช้และใช้แผนภาพ จุดที่อยู่เหนือเส้นประคือผู้ประเมินที่ประเมินได้แม่นยำขึ้นเมื่อใช้แผนภาพ ชื่อบทความของ Franceschi et al. [-@franceschi2020] ระบุว่าแผนภาพชุดใหม่ช่วยให้ประเมินแม่นยำขึ้น ผู้อ่านตรวจข้อสรุปนี้ได้เองจากตารางและรูปข้างล่าง
+โค้ดข้างล่างใช้ฟังก์ชัน `agreement()` ข้างบนคำนวณ $
+ho_c$, $r$, $C_b$, $v$ และ $u$ ของผู้ประเมินแต่ละคนในแต่ละเงื่อนไข (ไม่ใช้และใช้แผนภาพ) เทียบกับความรุนแรงจริงจากการวิเคราะห์ภาพ `r if (requireNamespace("r4pde", quietly = TRUE) && "SADRustSoybean" %in% data(package = "r4pde")$results[, "Item"]) "@fig-meas-sad-rust" else "รูปในส่วนนี้ (ต้องใช้ r4pde รุ่น 0.2.3 ขึ้นไปจาก GitHub)"` เทียบ $\rho_c$ ของผู้ประเมินแต่ละคนเมื่อไม่ใช้และใช้แผนภาพ จุดที่อยู่เหนือเส้นประคือผู้ประเมินที่ประเมินได้แม่นยำขึ้นเมื่อใช้แผนภาพ ชื่อบทความของ Franceschi et al. [-@franceschi2020] ระบุว่าแผนภาพชุดใหม่ช่วยให้ประเมินแม่นยำขึ้น ผู้อ่านตรวจข้อสรุปนี้ได้เองจากตารางและรูปข้างล่าง
 <!-- พี่ต้นข้าว: ตัวอย่างนี้เพิ่มใหม่ ใช้ข้อมูลจริงแทนการพึ่งข้อมูลจำลองอย่างเดียว พี่ยังไม่ได้รันโค้ด จึงไม่ได้เขียนผลเชิงตัวเลขไว้ในเนื้อหา
      หลังน้องรันแล้ว ควรเติมประโยคสรุปผลจริง (ค่าเฉลี่ย ρc ของแต่ละเงื่อนไข) / ต้องติดตั้ง: install.packages("r4pde")
+     แก้ 9 พ.ย. 2026: ร่างเดิมเรียก sad_data()/sad_ccc() ซึ่งไม่มีใน r4pde (CRAN 0.2.2 ไม่มีทั้งฟังก์ชันและชุดข้อมูล SADRustSoybean; GitHub 0.2.3 มีชุดข้อมูล)
+     พี่เขียนใหม่ด้วย agreement() ของบทนี้ และให้ chunk รันเฉพาะเมื่อมีชุดข้อมูล ยังไม่ได้รันจริงเพราะเครื่องนี้มี r4pde 0.2.2 น้องกันต์ตรวจ
      DOI ของ Franceschi et al. ตรวจจากคลัง Embrapa แล้ว แต่คลังระบุเล่มที่ 60 ซึ่งน่าจะพิมพ์ผิด พี่ใช้เล่มที่ 69 ตามหน้าเอกสารของ r4pde -->
 
 ```{r}
+#| label: meas-sad-check
+#| include: false
+# SADRustSoybean is in r4pde >= 0.2.3 (GitHub); the CRAN release 0.2.2 does not include it
+has_sad <- requireNamespace("r4pde", quietly = TRUE) &&
+  "SADRustSoybean" %in% data(package = "r4pde")$results[, "Item"]
+```
+
+```{r}
 #| label: meas-sad-rust
-#| eval: !expr requireNamespace("r4pde", quietly = TRUE)
-library(r4pde)
+#| eval: !expr has_sad
+# Rater-level agreement with actual severity, without (Unaided) and with (Aided) the SAD
+data("SADRustSoybean", package = "r4pde")
+ccc <- SADRustSoybean |>
+  pivot_longer(c(unaided, aided), names_to = "method", values_to = "estimate") |>
+  mutate(method = if_else(method == "aided", "Aided", "Unaided"), group = sad) |>
+  group_by(rater, group, method) |>
+  summarise(as_tibble_row(agreement(estimate, actual)), .groups = "drop")
 
-sad <- sad_data(SADRustSoybean, rater = "rater", image = "leaf",
-                wide = c(Unaided = "unaided", Aided = "aided"),
-                group = "sad")
-ccc <- sad_ccc(sad)
-
-# Mean agreement statistics for each condition (method x SAD set)
+# Mean agreement statistics for each condition (SAD set x method)
 ccc |>
-  group_by(condition) |>
+  group_by(group, method) |>
   summarise(across(c(rho_c, r, Cb, v, u), mean), .groups = "drop")
 ```
 
 ```{r}
 #| label: fig-meas-sad-rust
-#| eval: !expr requireNamespace("r4pde", quietly = TRUE)
+#| eval: !expr has_sad
 #| fig-cap: "Lin's concordance correlation coefficient of each of 40 raters assessing soybean rust severity without (x-axis) and with (y-axis) a standard area diagram (SAD). Raters 1–20 used the old SAD set and raters 21–40 the new set. Points above the dashed line indicate improved accuracy with the SAD. Data from Franceschi et al. (2020), distributed in the r4pde package."
 #| fig-width: 5
 #| fig-height: 4.5
@@ -851,6 +864,7 @@ round(c(p_o = p_o, p_e = p_e, kappa = kappa), 3)
 | 9 | Mature grain |
 
 : Growth stages of rice as coded in the Standard Evaluation System for Rice (SES) of the International Rice Research Institute (IRRI). {#tbl-meas-rice-stages}
+
 <!-- พี่ต้นข้าว: รหัส 1–9 น้องกันต์ตรวจกับเอกสาร SES แล้วว่าถูกต้อง (8 พ.ย. 2026)
      ยังต้องเพิ่มรายการ SES ใน references.bib พร้อมปีและฉบับ แล้วเปลี่ยนการอ้างในย่อหน้าก่อนตารางเป็น [@...] -->
 

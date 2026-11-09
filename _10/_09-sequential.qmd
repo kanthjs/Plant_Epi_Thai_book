@@ -1,0 +1,162 @@
+## การประมาณโรคแบบลำดับ {#sec-smp-sequential}
+
+Anscombe (1953) อภิปรายพื้นฐานทางสถิติของการประมาณแบบลำดับ (sequential estimation) แต่การใช้วิธีลำดับกับประชากรทางชีวภาพอิงบทความสองชิ้นของ Kuno (1969, 1972) เป็นหลัก เช่นเดียวกับการสุ่มแบบผกผัน แรงจูงใจหลักคือไม่ต้องให้ค่าเริ่มต้นของระดับโรค แต่กำหนดเงื่อนไข "หยุด" ให้หยุดสุ่มเมื่อได้ค่าประมาณที่มีความเที่ยงตามต้องการ โดยทั่วไป เงื่อนไขหยุดสร้างจากข้อที่ว่า ระดับโรคเฉลี่ยต่อหน่วยเขียนได้เป็นระดับโรคสะสมหารด้วยจำนวนหน่วยสะสมที่ประเมิน จึงแทนค่าเฉลี่ยในสูตรขนาดตัวอย่างของ @tbl-smp-srs-formulas ถึง @tbl-smp-cluster-formulas ด้วยนิพจน์นี้ ถ้าจัดรูปให้ระดับโรคสะสมอยู่ด้านซ้ายได้ ก็จะได้สูตรของระดับโรคสะสมที่ต้องการเพื่อให้ค่าเฉลี่ยมีความเที่ยงตามกำหนด ถ้าการคำนวณต้องใช้พารามิเตอร์อื่น (เช่น พารามิเตอร์การรวมกลุ่ม) ก็ยังต้องให้ค่าก่อนสุ่ม
+
+ให้ $T_N$ เป็นระดับโรคสะสมที่ต้องการ สูตรการประมาณแบบลำดับส่วนใหญ่อยู่ในรูป $T_N = f(N)$ ในทางปฏิบัติ การรู้ว่าเมื่อใดควรหยุดจึงต้องมีมากกว่าการนับหน่วยสุ่มที่ตรวจ ต้องบันทึกระดับโรคสะสมระหว่างสุ่มลงบนแผนภูมิที่แสดง*เส้นหยุด* (stop line) คือกราฟ $T_N$ กับ $N$ และหยุดสุ่มเมื่อเส้นสะสมตัดเส้นหยุด ต่างจากการสุ่มแบบผกผันที่จำนวนหน่วยทั้งหมดไม่ได้กำหนดการหยุด มีเพียงจำนวนหน่วยบวก เมื่อเก็บข้อมูลไม่ต่อเนื่องอย่างอุบัติการณ์ การประมาณแบบลำดับจำเป็นต้องประมาณอยู่บ้าง เพราะเงื่อนไขหยุดเป็นตัวแปรต่อเนื่อง เส้นสะสมของตัวแปรไม่ต่อเนื่องจึงไม่ตรงเส้นหยุดพอดี การสุ่มจะหยุดเมื่อเส้นสะสมเลยเส้นหยุดไป
+
+สูตรการประมาณแบบลำดับในหัวข้อนี้ไม่รวมตัวปรับแก้ประชากรจำกัด ซึ่งต้องพิจารณา ในกรณีขนาดตัวอย่างคงที่ มีโอกาสปรับก่อนสุ่มถ้าขนาดตัวอย่างใหญ่เกินเมื่อเทียบกับประชากร (@sec-smp-population) แต่ในการประมาณแบบลำดับ ไม่ได้กำหนดขนาดตัวอย่างก่อน ตอนเริ่มจึงไม่รู้ว่าต้องใช้ตัวปรับแก้หรือไม่ ถ้าสุ่มจากประชากรเล็ก ทางที่ดีที่สุดคือใส่ตัวปรับแก้ไว้ในเส้นหยุดตั้งแต่ต้น Kuno (1969) อภิปรายเรื่องนี้และให้ตัวอย่างเส้นหยุดที่มีตัวปรับแก้ ผลคือเส้นหยุดที่มีตัวปรับแก้จะหยุดการสุ่มเร็วกว่าเส้นหยุดของประชากรใหญ่
+
+### อุบัติการณ์จากการสุ่มอย่างง่าย {#sec-smp-seq-srs}
+
+Kuno (1969) และ Jones (1994b) อภิปรายการประมาณสัดส่วนแบบลำดับ สูตรขนาดตัวอย่างใน @tbl-smp-srs-formulas อยู่ในรูป $N = f(\bar{y}, \text{ความเที่ยง})$ แทน $\bar{y} = T_N/N$ แล้วแก้หา $T_N$ ได้เส้นหยุดใน @tbl-smp-seq-srs เมื่อสุ่มจากประชากรใหญ่ เส้นหยุดของนิยาม $CV$ และ $H$ เพิ่มขึ้นเข้าหาเส้นกำกับ $T_N = 1/CV^2$ และ $T_N = (z_{\alpha/2}/H)^2$ ตามลำดับเมื่อ $N$ เพิ่ม ($1/N \approx 0$)
+
+| Description of variability | Coefficient of variation, $CV$ | Proportion of mean, $H$ | Fixed positive number, $h$ |
+|---|---|---|---|
+| Random (binomial) | $T_N = \dfrac{1}{CV^2 + 1/N}$ | $T_N = \dfrac{1}{(H/z_{\alpha/2})^2 + 1/N}$ | $T_N = \dfrac{N}{2}\left[1 \pm \sqrt{1 - \dfrac{4h^2N}{z_{\alpha/2}^2}}\right]$ |
+
+: Stop line equations for sequential simple random sampling for disease incidence data. T_N is the cumulative number of diseased plants or plant parts after N sampling units; the finite population correction is omitted. {#tbl-smp-seq-srs}
+
+ถ้ารวมตัวปรับแก้ประชากรจำกัด เส้นหยุดของนิยาม $CV$ และ $H$ คือ
+
+$$
+T_N = \frac{1 - N/M}{CV^2 + (1 - N/M)/N}, \qquad T_N = \frac{1 - N/M}{(H/z_{\alpha/2})^2 + (1 - N/M)/N}
+$$ {#eq-smp-seq-srs-fpc}
+
+โดย $M$ คือขนาดประชากร สูตรทั้งสองให้เส้นหยุดที่ $T_N$ สูงสุดที่ $N$ ค่ากลาง ๆ แล้วลดลงเมื่อ $N$ เพิ่มต่อ ถ้านิยามความเที่ยงด้วยจำนวนบวกคงที่ $h$ สูตรใน @tbl-smp-seq-srs ให้เส้นหยุดสองเส้นที่ตัดกันเป็นวงปิดบนกราฟ $T_N$ กับ $N$ (Jones, 1994b) ที่ $N = 0$ และที่ขนาดตัวอย่างสูงสุด $N = (z_{\alpha/2}/2h)^2$ ถ้ารวมตัวปรับแก้ ขนาดตัวอย่างสูงสุดลดลงเป็น $N = 1/[(2h/z_{\alpha/2})^2 + 1/M]$ เมื่อถึงเงื่อนไขหยุดแล้ว คำนวณอุบัติการณ์และค่าคลาดเคลื่อนมาตรฐานด้วยสูตรใน @sec-smp-srs-incidence โดยใช้ $N$ เป็นขนาดตัวอย่าง แม้อาจเอนเอียง แต่ความเอนเอียงมักน้อยจนไม่มีความหมายในทางปฏิบัติ
+
+<!-- พี่ต้นข้าว: ตรวจแล้ว ทุกสูตรได้จากการแทน ybar = T_N/N ใน @tbl-smp-srs-formulas (และในสูตรที่มีตัวปรับแก้ var x (1 - N/M)) แล้วแก้หา T_N
+     ภาพ fig10-img37 fig10-img38 หาย พี่เขียน @eq-smp-seq-srs-fpc เอง น้องกันต์ตรวจรูปที่ต้นฉบับใช้
+     ต้นฉบับผิด (ต้นฉบับเขียนว่า "the formula given in Table 10.3 specifies two stop lines" ที่ถูกคือตาราง 10.12 = @tbl-smp-seq-srs)
+     ขนาดตัวอย่างสูงสุดที่มีตัวปรับแก้ ต้นฉบับเขียน 1/[(4h/z)^2 + 1/M] ซึ่งน่าจะผิด จากรากใต้เครื่องหมายกรณฑ์ = 0 ได้ 1/[(2h/z)^2 + 1/M] สอดคล้องกับกรณีไม่มีตัวปรับแก้ (z/2h)^2 -->
+
+### ข้อมูลการนับ {#sec-smp-seq-counts}
+
+ปรับสูตรใน @tbl-smp-count-formulas ด้วยการแทน $\bar{Y} = T_N/N$ แล้วแก้หา $T_N$ ได้เส้นหยุดใน @tbl-smp-seq-counts Kuno (1969) Green (1970) Binns (1975) และ Hutchison (1994) อภิปรายสูตรเหล่านี้ การประยุกต์ส่วนใหญ่อยู่ในกีฏวิทยาเศรษฐกิจ (Hutchison, 1994) แต่ Strandberg (1973) ให้ตัวอย่างทางโรคพืชในโรคเน่าดำของกะหล่ำปลี (*Xanthomonas campestris* pv. *campestris*) ด้วยเส้นหยุดที่อิงทวินามลบ
+
+| Description of variability | Coefficient of variation, $CV$ | Proportion of mean, $H$ | Fixed positive number, $h$ |
+|---|---|---|---|
+| Random (Poisson) | $T_N = \dfrac{1}{CV^2}$ | $T_N = \left(\dfrac{z_{\alpha/2}}{H}\right)^2$ | $T_N = \left(\dfrac{hN}{z_{\alpha/2}}\right)^2$ |
+| Aggregated (negative binomial) | $T_N = \dfrac{1}{CV^2 - 1/(\hat{k}N)}$ | $T_N = \dfrac{1}{(H/z_{\alpha/2})^2 - 1/(\hat{k}N)}$ | $T_N = \dfrac{\hat{k}N}{2}\left[-1 \pm \sqrt{1 + \dfrac{4h^2N}{\hat{k}z_{\alpha/2}^2}}\right]$ |
+| Aggregated (Taylor's power law) | $T_N = \left(\dfrac{CV^2}{\hat{a}}\right)^{\frac{1}{\hat{b} - 2}} N^{\frac{\hat{b} - 1}{\hat{b} - 2}}$ | $T_N = \left(\dfrac{H^2}{\hat{a}z_{\alpha/2}^2}\right)^{\frac{1}{\hat{b} - 2}} N^{\frac{\hat{b} - 1}{\hat{b} - 2}}$ | $T_N = \left(\dfrac{h^2}{\hat{a}z_{\alpha/2}^2}\right)^{\frac{1}{\hat{b}}} N^{\frac{\hat{b} + 1}{\hat{b}}}$ |
+
+: Stop line equations for sequential simple random sampling for count data. T_N is the cumulative count (for example, number of lesions) after N sampling units. For the negative binomial only positive values of N giving positive T_N are of interest. The finite population correction is omitted. {#tbl-smp-seq-counts}
+
+<!-- พี่ต้นข้าว: ตรวจแล้ว ทุกช่องได้จากการแทน Y = T_N/N ใน @tbl-smp-count-formulas แล้วแก้หา T_N และตรงกับชิ้นส่วนที่อ่านได้ของตาราง 10.13 ในต้นฉบับ -->
+
+```{r}
+#| label: smp-seq-fun
+# Cumulative record and stop line; sampling halts when the record crosses the line
+seq_plot <- function(counts, stop_fun, N_max, label_y) {
+  rec <- tibble(N = seq_along(counts), T = cumsum(counts))
+  line <- tibble(N = seq(1, N_max, by = 0.25)) |> mutate(T = stop_fun(N)) |>
+    filter(is.finite(T), T > 0, T < 2 * max(rec$T))
+  ggplot(mapping = aes(N, T)) +
+    geom_line(data = line, linewidth = 0.4) +
+    geom_line(data = rec) + geom_point(data = rec, size = 0.8) +
+    labs(x = "Number of sampling units, N", y = label_y) +
+    theme_minimal(base_family = "Google Sans")
+}
+```
+
+**ตัวอย่างที่ 10.2 (ต่อ)** ต้องการประมาณจำนวนแผลเฉลี่ยต่อต้นในแปลง 10.2.1 และ 10.2.2 (@sec-smp-count-examples) ด้วยการสุ่มแบบลำดับ ใช้ $CV = 0.1$ สำหรับแปลง 10.2.1 ใช้ข้อมูลเดิมว่าปัวซงเหมาะ จาก @tbl-smp-seq-counts ได้ $T_N = 1/0.1^2 = 100$ (@fig-smp-seq-pois) เพราะ $T_N$ คงที่ จึงเท่ากับการสุ่มแบบผกผันสำหรับข้อมูลการนับ ที่มีเงื่อนไขหยุดเป็นจำนวนแผลสะสม 100 แผล ถ้าคำนึงถึงตัวปรับแก้ประชากรจำกัด เส้นหยุดคือ
+
+$$
+T_N = \frac{1 - N/M}{CV^2}
+$$ {#eq-smp-seq-pois-fpc}
+
+ซึ่งเป็นเส้นตรงที่ตัดแกน $T_N$ ที่ $CV^{-2}$ และตัดแกน $N$ ที่ $M$
+
+```{r}
+#| label: smp-seq-ex102
+f1021 <- c(7, 5, 10, 6, 8, 7, 2, 8, 6, 4, 13, 3, 6, 5, 6, 3, 3)
+f1022 <- c(0, 4, 15, 7, 1, 7, 1, 2, 11, 8, 9, 13, 5, 6, 10, 1, 9, 4, 3, 5, 4, 9, 2, 4, 7,
+           0, 14, 1, 8, 3, 1, 5, 15, 5, 1, 2, 2, 2, 15, 0, 6, 15, 3)
+cv_seq <- function(x) sqrt(var(x) / length(x)) / mean(x)
+```
+
+สุ่มตรวจต้นทีละต้นแล้วบันทึกจำนวนแผล จนเส้นสะสมตัดเส้นหยุด สำหรับแปลง 10.2.1 หยุดเมื่อพบ `r sum(f1021)` แผลหลังตรวจ `r length(f1021)` ต้น จำนวนแผลรายต้นคือ `r paste(f1021, collapse = ", ")` ค่าประมาณ $\bar{Y} = T_N/N$ เอนเอียง แต่เป็นค่าที่ใช้กันในทางปฏิบัติ (Kuno, 1972) ได้ $\bar{Y} = `r sum(f1021)`/`r length(f1021)` = `r round(mean(f1021), 2)`$ ความแปรปรวน $s^2 = `r round(var(f1021), 2)`$ ความเที่ยงที่ได้จริงจึงเป็น $CV = \sqrt{`r round(var(f1021), 2)`/`r length(f1021)`}/`r round(mean(f1021), 2)` = `r round(cv_seq(f1021), 2)`$
+
+```{r}
+#| label: fig-smp-seq-pois
+#| fig-cap: "Sequential estimation for count data, Field 10.2.1 (Poisson distribution, CV = 0.1): the stop line T_N = 1/0.1^2 = 100 (thin horizontal line) and the cumulative number of lesions plant by plant (joined points). Sampling halted when 102 lesions had been observed on 17 plants."
+#| fig-width: 5
+#| fig-height: 3.2
+seq_plot(f1021, \(N) rep(1 / 0.1^2, length(N)), 25, "Cumulative number of lesions")
+```
+
+สำหรับแปลง 10.2.2 ใช้ข้อมูลเดิมว่าทวินามลบที่ $\hat{k} = 4$ เหมาะ จาก @tbl-smp-seq-counts สำหรับ $N > 1/(CV^2\hat{k}) = 25$ ได้ $T_N = 1/[0.1^2 - 1/(4N)]$ (@fig-smp-seq-nb) ถ้าคำนึงถึงตัวปรับแก้ เส้นหยุดคือ
+
+$$
+T_N = \frac{1 - N/M}{CV^2 - (1 - N/M)/(\hat{k}N)}
+$$ {#eq-smp-seq-nb-fpc}
+
+สำหรับ $N$ ที่ทำให้ตัวส่วนเป็นบวก การสุ่มแปลง 10.2.2 หยุดเมื่อพบ `r sum(f1022)` แผลหลังตรวจ `r length(f1022)` ต้น ได้ $\bar{Y} = `r round(mean(f1022), 2)`$, $s_Y^2 = `r round(var(f1022), 2)`$ และ $CV = `r round(cv_seq(f1022), 2)`$
+
+<!-- พี่ต้นข้าว: ตรวจแล้ว 102/17 = 6.00, s^2 = 7.75 และ 245/43 = 5.70, s^2 = 21.36, CV = 0.12 ตรงกับต้นฉบับ
+     @eq-smp-seq-nb-fpc ในต้นฉบับแปลงไฟล์มาเสีย พี่สร้างใหม่จากความแปรปรวนทวินามลบคูณ (1 - N/M) น้องกันต์ตรวจ -->
+
+```{r}
+#| label: fig-smp-seq-nb
+#| fig-cap: "Sequential estimation for count data, Field 10.2.2 (negative binomial distribution with k = 4, CV = 0.1): the stop line T_N = 1/(0.1^2 - 1/(4N)) for N > 25 (smooth curve) and the cumulative number of lesions plant by plant. Sampling halted when 245 lesions had been observed on 43 plants."
+#| fig-width: 5
+#| fig-height: 3.2
+seq_plot(f1022, \(N) ifelse(N > 25, 1 / (0.1^2 - 1 / (4 * N)), NA), 60, "Cumulative number of lesions")
+```
+
+Binns และ Nyrop (1992) อภิปรายการสุ่มแบบลำดับเพื่อประมาณจำนวนนับไว้ดี นิยามความเที่ยงที่ใช้เป็นข้อกำหนดเฉลี่ยในระยะยาว ไม่ใช่เกณฑ์ที่จะได้ทุกครั้งที่สุ่ม ถ้าใช้แผนการสุ่มแบบลำดับหลายครั้ง ค่าประมาณที่ได้จะมีการแจกแจงที่มีค่าเฉลี่ยและความแปรปรวนของตัวเอง ซึ่งบอกความเที่ยงโดยรวมของแผน ไม่ใช่ของค่าประมาณแต่ละครั้ง การประเมินด้วยชุดข้อมูลที่มีอยู่และข้อมูลจำลองใช้กำหนดความเที่ยงโดยรวมนี้ได้ในขั้นพัฒนาแผน (Hutchison, 1994)
+
+### อุบัติการณ์จากการสุ่มแบบกลุ่ม {#sec-smp-seq-cluster}
+
+Madden et al. (1996) พัฒนาสูตรประมาณอุบัติการณ์จากการสุ่มแบบกลุ่มแบบลำดับ ปรับสูตรใน @tbl-smp-cluster-formulas ด้วยการแทน $\bar{y} = T_N/(nN)$ แล้วแก้หา $T_N$ เมื่อทำได้ ได้เส้นหยุดใน @tbl-smp-seq-cluster ถ้านิยามความเที่ยงด้วยจำนวนบวกคงที่ $h$ เส้นหยุดทั้งหมดเป็นแบบ "วงปิด" (@sec-smp-seq-srs) ในบางกรณี คือเมื่อใช้ความเที่ยงสัมพัทธ์และกฎยกกำลัง (@sec-sp-power-law) ไม่มีสูตรง่ายของ $T_N$ เป็นฟังก์ชันของ $N$ ต้องหาเส้นหยุดเชิงตัวเลข (Madden et al., 1996) สมรรถนะระยะยาวของแผนก็ตรวจได้ด้วยชุดข้อมูลที่มีอยู่และข้อมูลจำลอง (Madden et al., 1996) Turechek และ Madden (1999b) และ Turechek et al. (2001) พัฒนาวิธีประมาณแบบลำดับสำหรับโรคสตรอว์เบอร์รี พร้อมรายละเอียดของการวิเคราะห์เชิงพื้นที่ที่เป็นฐานของแผนและวิธีประเมินสมรรถนะระยะยาว
+
+| Description of variability | Coefficient of variation, $CV$ | Proportion of mean, $H$ | Fixed positive number, $h$ |
+|---|---|---|---|
+| Random (binomial) | $T_N = \dfrac{1}{CV^2 + 1/(nN)}$ | $T_N = \dfrac{1}{(H/z_{\alpha/2})^2 + 1/(nN)}$ | $T_N = \dfrac{nN}{2}\left[1 \pm \sqrt{1 - \dfrac{4h^2nN}{z_{\alpha/2}^2}}\right]$ |
+| Aggregated (beta-binomial or deff) | $T_N = \dfrac{1}{CV^2/\mathrm{deff} + 1/(nN)}$ | $T_N = \dfrac{1}{H^2/(z_{\alpha/2}^2\,\mathrm{deff}) + 1/(nN)}$ | $T_N = \dfrac{nN}{2}\left[1 \pm \sqrt{1 - \dfrac{4h^2nN}{z_{\alpha/2}^2\,\mathrm{deff}}}\right]$ |
+| Aggregated (power law) | $\gamma_N = \dfrac{CV^2}{\hat{A}}\,n^{3\hat{b} - 2}N^{2\hat{b} - 1}$ | $\gamma_N = \dfrac{H^2}{\hat{A}z_{\alpha/2}^2}\,n^{3\hat{b} - 2}N^{2\hat{b} - 1}$ | $T_N = \dfrac{nN}{2}\left[1 \pm \sqrt{1 - 4\left(\dfrac{h^2N}{\hat{A}z_{\alpha/2}^2}\right)^{1/\hat{b}}n}\right]$ |
+
+: Stop line equations for sequential cluster sampling for disease incidence data. T_N is the cumulative number of diseased plants after N sampling units, each containing n individuals; deff = 1 + rho(n - 1). For the power law with CV or H there is no closed form: T_N is found numerically from gamma_N = f(T_N) = T_N^(b - 2) (nN - T_N)^b. The finite population correction is omitted. {#tbl-smp-seq-cluster}
+
+<!-- พี่ต้นข้าว: ตรวจแล้ว แถวทวินามและ deff ได้จากการแทน ybar = T_N/(nN) ใน @tbl-smp-cluster-formulas
+     แถวกฎยกกำลัง: แทนแล้วได้ T_N^(b-2)(nN - T_N)^b = (CV^2/A) n^(3b-2) N^(2b-1) ตรงกับที่ต้นฉบับเขียนในตัวอย่าง (gamma_N) ช่อง h พี่สร้างใหม่ น้องกันต์ตรวจ -->
+
+**ตัวอย่างที่ 10.3 (ต่อ)** ประมาณอุบัติการณ์ในแปลง 10.3.1 และ 10.3.2 (@sec-smp-cluster-examples) ด้วยการสุ่มแบบลำดับ ใช้ $CV = 0.1$ สำหรับแปลง 10.3.1 ใช้ข้อมูลเดิมว่าทวินามเหมาะ จาก @tbl-smp-seq-cluster เส้นหยุดคือ $T_N = 1/[0.1^2 + (9N)^{-1}]$ (@fig-smp-seq-cl-binom) เส้นนี้ต่ำมากเมื่อ $N$ น้อย เช่น ที่ $N = 1$ ได้ $T_N = `r round(1 / (0.01 + 1/9), 2)`$ ซึ่งอาจถูกเลยไปได้ถ้าควอแดรตแรกเป็นโรคทั้งเก้าต้น การหยุดหลังตรวจหน่วยสุ่มน้อยมากมักไม่พึงประสงค์ แผนการสุ่มแบบลำดับที่มีเส้นหยุดต่ำที่ $N$ น้อยแบบนี้จึงมักกำหนดจำนวนหน่วยสุ่มขั้นต่ำไว้ (เช่น ห้าหน่วย)
+
+```{r}
+#| label: smp-seq-ex103
+q1031 <- c(3, 1, 5, 4, 0, 5, 5, 1, 2, 2, 4, 1, 5, 3, 3, 2, 4, 5, 2, 3, 1, 5, 2)
+q1032 <- c(4, 2, 2, 6, 0, 3, 4, 2, 6, 2, 4, 6, 2, 0, 2, 2, 2, 2, 2, 2, 0, 1, 3, 3, 6, 1, 4,
+           3, 7, 1, 2, 0, 5, 1, 2, 5, 0, 1, 2, 3, 2, 5, 1, 3, 2, 2, 2, 4, 5, 4, 0, 5, 5)
+cv_inc <- function(x, n = 9) sqrt(var(x / n) / length(x)) / mean(x / n)
+# Power-law stop line found numerically: T^(b-2) (nN - T)^b = (CV^2/A) n^(3b-2) N^(2b-1)
+pl_stop <- function(N, A = 9.0, b = 1.4, n = 9, cv = 0.1) {
+  map_dbl(N, \(NN) {
+    g <- cv^2 / A * n^(3 * b - 2) * NN^(2 * b - 1)
+    uniroot(\(T) (b - 2) * log(T) + b * log(n * NN - T) - log(g),
+            c(1e-6, n * NN - 1e-6))$root
+  })
+}
+```
+
+สุ่มตรวจควอแดรต (ละเก้าต้น) ทีละควอแดรตและบันทึกจำนวนต้นที่เป็นโรคสะสม จนตัดเส้นหยุด สำหรับแปลง 10.3.1 หยุดเมื่อพบต้นเป็นโรค `r sum(q1031)` ต้นหลังตรวจ `r length(q1031)` ควอแดรต ค่ารายควอแดรตคือ `r paste(q1031, collapse = ", ")` ค่าเฉลี่ยและความแปรปรวน (@eq-sp-mean และ @eq-sp-var) คือ $\bar{y} = `r round(mean(q1031/9), 3)`$ และ $s_y^2 = `r round(var(q1031/9), 3)`$ ความเที่ยงที่ได้จริงจึงเป็น $CV = `r round(cv_inc(q1031), 2)`$ ค่าประมาณเอนเอียง (เพราะได้จากการสุ่มแบบลำดับ) แต่ในทางปฏิบัติมักละเลย
+
+```{r}
+#| label: fig-smp-seq-cl-binom
+#| fig-cap: "Sequential estimation of disease incidence from cluster sampling, Field 10.3.1 (binomial distribution, n = 9, CV = 0.1): stop line T_N = 1/(0.1^2 + 1/(9N)) and the cumulative number of diseased plants quadrat by quadrat. Sampling halted when 68 diseased plants had been observed in 23 quadrats."
+#| fig-width: 5
+#| fig-height: 3.2
+seq_plot(q1031, \(N) 1 / (0.1^2 + 1 / (9 * N)), 35, "Cumulative number of diseased plants")
+```
+
+สำหรับแปลง 10.3.2 มีความสัมพันธ์ยกกำลังที่คำนวณไว้แล้ว $s_y^2 = \hat{A}(s_{bin}^2)^{\hat{b}}$ โดย $\hat{A} = 9.0$ และ $\hat{b} = 1.4$ เพราะเขียนเส้นหยุดในรูป $T_N = f(N)$ ไม่ได้ จึงต้องใช้วิธีเชิงตัวเลข สำหรับ $N$ แต่ละค่า หา $T_N$ ที่ทำให้ $\gamma_N = (CV^2/\hat{A})\,n^{3\hat{b} - 2}N^{2\hat{b} - 1}$ เท่ากับ $f(T_N) = T_N^{\hat{b} - 2}(nN - T_N)^{\hat{b}}$ (@tbl-smp-seq-cluster) ใน R ใช้ `uniroot()` (@fig-smp-seq-cl-pl) $T_N$ ต่ำเมื่อ $N$ น้อย จึงควรกำหนดให้ตรวจอย่างน้อยห้าหน่วย การสุ่มแปลง 10.3.2 หยุดเมื่อพบต้นเป็นโรค `r sum(q1032)` ต้นหลังตรวจ `r length(q1032)` ควอแดรต ได้ $\bar{y} = `r round(mean(q1032/9), 3)`$ และ $s_y^2 = `r round(var(q1032/9), 3)`$ ความเที่ยงที่ได้จริงคือ $CV = `r round(cv_inc(q1032), 2)`$ ความเอนเอียงละเลยได้อีก (เพราะมักน้อย)
+
+```{r}
+#| label: fig-smp-seq-cl-pl
+#| fig-cap: "Sequential estimation of disease incidence from cluster sampling, Field 10.3.2 (binary power law with A = 9.0, b = 1.4, n = 9, CV = 0.1): stop line found numerically (curve) and the cumulative number of diseased plants quadrat by quadrat. Sampling halted when 145 diseased plants had been observed in 53 quadrats."
+#| fig-width: 5
+#| fig-height: 3.2
+seq_plot(q1032, pl_stop, 70, "Cumulative number of diseased plants")
+```
+
+<!-- พี่ต้นข้าว: ตรวจแล้ว 68/207 = 0.329 (s^2 = 0.032, CV = 0.11) และ 145/477 = 0.304 (s^2 = 0.041, CV = 0.09) ตรงกับต้นฉบับ (ตัวเลขจาก render)
+     ต้นฉบับผิด (คำบรรยายรูป 10.9 ในต้นฉบับเขียน 0.12 แทน 0.1^2 จากการแปลงไฟล์) -->

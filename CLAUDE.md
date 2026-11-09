@@ -24,23 +24,26 @@
   ครั้งต่อไปใช้ภาษาไทยอย่างเดียว ศัพท์ที่ไม่มีคำไทยใช้กันแพร่หลายให้ใช้อังกฤษ เช่น AUDPC
 - เลี่ยงวลีสำเร็จรูป เช่น "ในยุคปัจจุบัน" "กล่าวโดยสรุป" และไม่ขึ้นต้นด้วย "อย่างไรก็ตาม" ซ้ำ ๆ
 - ประโยคสั้นยาวสลับกัน ไม่ใส่หัวข้อย่อยหรือตัวหนาเกินจำเป็น
-- ใช้ชื่อศัพท์ให้ตรงกันทั้งเล่ม ถ้าเพิ่มศัพท์ใหม่ให้บันทึกใน `glossary.md` (สร้างเมื่อมีศัพท์แรก)
+- ใช้ชื่อศัพท์ให้ตรงกันทั้งเล่ม โดยน้องกันต์จะทยอยแจ้งคำเฉพาะที่บังคับใช้เพื่อป้องกันความสับสน ให้บันทึกใน `glossary.md` ทันทีและยึดใช้ตรงกันทั้งเล่ม (คำใดภาษาไทยสับสน ให้ใช้อังกฤษหรือทับศัพท์ตามที่ตกลง)
 - คุยกับผู้เขียน: ภาษาพูด อบอุ่นแบบพี่น้อง ถ้าผู้เขียนพิมพ์ว่า "เร่ง" ให้ตอบกระชับ
 
 ## 4. เครื่องมือ
 - Quarto 1.9+ (project type: book), R + tidyverse ใช้ native pipe `|>`
-- แพ็กเกจหลักด้านระบาดวิทยาโรคพืช: r4pde (Del Ponte; CRAN, MIT) ใช้ฟังก์ชันและชุดข้อมูลได้ อ้างอิง `[@r4pde]` และอ้างแหล่งเดิมของชุดข้อมูลเสมอ
+- R packages หลัก 3 ตัวสำหรับระบาดวิทยาโรคพืชที่ยึดใช้ในเล่มนี้:
+  1. r4pde (https://github.com/emdelponte/r4pde)
+  2. epifitter (https://alvesks.github.io/epifitter/)
+  3. epiphy (https://chgigot.github.io/epiphy/)
+  (และอาจมีแพ็กเกจเสริมอื่นเพิ่มเติมในอนาคตตามที่ตกลง)
   ห้ามคัดลอกเนื้อหาหรือรูปจากหนังสือ R for Plant Disease Epidemiology (CC BY-NC 4.0) เพราะเล่มนี้จะพิมพ์จำหน่าย
   chunk ที่ใช้แพ็กเกจเสริมให้ใส่ `#| eval: !expr requireNamespace("pkg", quietly = TRUE)` เพื่อไม่ให้ render พัง
-- แพ็กเกจเสริมอื่น: epifitter (Alves, Del Ponte, Sparks) สำหรับฟิตเส้นการพัฒนาของโรคและ AUDPC
-  epiphy (Gigot) สำหรับรูปแบบเชิงพื้นที่ (power law, beta-binomial, SADIE) ยังไม่ได้ตรวจสัญญาอนุญาตและสถานะบน CRAN ของทั้งสองแพ็กเกจ
-- แผนใช้แพ็กเกจตามบท (ตกลง 8 พ.ย. 2026)
+- แผนใช้แพ็กเกจตามบท (ตกลง 8–9 พ.ย. 2026)
   บท 2: r4pde (DSI, sad_*, SADRustSoybean) / บท 3: base R (lm, nls, glm) เพื่อสอนกลไกก่อน
   บท 4–6: epifitter (fit_lin, fit_nlin, fit_nlin2, fit_multi, AUDPC, AUDPS, sim_*) + r4pde functional_*
   บท 7: r4pde fit_gradients / บท 9: epiphy (agg_index, power_law, fit_two_distr, sadie) + r4pde (BPL, join_count, oruns_test, AFSD)
   บท 10–11: epiphy (beta-binomial) / บทพยากรณ์และสภาพอากาศ: r4pde (get_nasapower, windowpane)
-- PDF: XeLaTeX + KOMA-Script `scrbook` + ฟอนต์ Sarabun + Latin Modern Math, กระดาษ A4
-- เว็บ: theme cosmo + `custom.scss` (+ `custom-dark.scss`)
+- ฟอนต์: ใช้ Google Sans ทั้งหมด (ไม่ใช้ Sarabun ตามตกลง 9 พ.ย. 2026) ทั้งใน PDF, Web และกราฟ ggplot
+- PDF: XeLaTeX + KOMA-Script `scrbook` + ฟอนต์ Google Sans + Latin Modern Math, กระดาษ A4
+- เว็บ: theme cosmo + `custom.scss` (+ `custom-dark.scss`) ฟอนต์ Google Sans
 - Editor ของผู้เขียน: Positron / VS Code บน Windows (repo อยู่ที่ `D:\Github\Plant_Epi_Thai_book`)
 
 คำสั่ง:
@@ -61,7 +64,7 @@ quarto publish gh-pages       # เผยแพร่เว็บ
 - ภาษาอังกฤษล้วน (ตัดสิน 8 พ.ย. 2026): ภายใน chunk ของ R ทั้งคอมเมนต์ ชื่อตัวแปร ข้อความในกราฟ (แกน legend panel)
   เนื้อในตาราง (หัวตารางและช่อง) และข้อความในไดอะแกรม (เช่น mermaid)
   และคำบรรยายรูปและตาราง (`fig-cap`/`tbl-cap`) ด้วย ป้าย "รูปที่/ตารางที่" จาก crossref ยังเป็นภาษาไทยตาม _quarto.yml
-- ggplot: `theme_minimal(base_family = "Sarabun")` เพื่อให้ตัวไทยในกราฟแสดงได้
+- ggplot: `theme_minimal(base_family = "Google Sans")` (หรือ font sans สากล ไม่ใช้ Sarabun)
   กราฟที่จะพิมพ์ขาวดำควรแยกกลุ่มด้วย linetype/shape ไม่ใช้สีอย่างเดียว
 - ไม่ใช้ภาพสแกนจากหนังสือหรือบทความ (ตัดสิน 8 พ.ย. 2026): กราฟเขียนใหม่ด้วย R ไดอะแกรม/แผนผังใช้ mermaid
   ถ้าไม่มีข้อมูลจริงให้ใช้ข้อมูลสมมติและบอกในคำบรรยายรูป ภาพที่ยังเป็นภาพสแกนต้องมีคอมเมนต์กำกับจนกว่าจะแทนได้
@@ -76,7 +79,7 @@ quarto publish gh-pages       # เผยแพร่เว็บ
   label/cross-ref ใช้ข้ามไฟล์ย่อยได้ตามปกติ path รูปเขียนเทียบกับรากโปรเจกต์ (เช่น `figures/ch04/...`) เพราะ include แทรกข้อความตรง ๆ
 - chunk R ในไฟล์ย่อยรันต่อกันตามลำดับ include (ตัวแปรจากไฟล์ก่อนหน้าใช้ต่อได้) ห้ามสลับลำดับ include โดยไม่ตรวจว่า chunk ที่ใช้ตัวแปรตามมาทีหลัง
 - render ตรวจด้วยไฟล์หลัก: `quarto render 04-temporal-foundations.qmd --to html`
-- แยกแล้ว: บท 3 (`_03/`, 6 ไฟล์) บท 4 (`_04/`, 8 ไฟล์) และบท 5 (`_05/`, 7 ไฟล์)
+- แยกแล้ว: บท 3 (`_03/`, 6 ไฟล์) บท 4 (`_04/`, 8 ไฟล์) บท 5 (`_05/`, 7 ไฟล์) บท 8 (`_08/`, 7 ไฟล์) บท 9 (`_09/`, 10 ไฟล์) บท 10 (`_10/`, 10 ไฟล์) บท 11 (`_11/`, 6 ไฟล์) และบท 12 (`_12/`, 7 ไฟล์)
 - รูปจากไฟล์ภาพ `![...](...){#fig-...}` ต้องมีบรรทัดว่างก่อนและหลัง (รวมถึงก่อนคอมเมนต์ `<!-- -->`) ไม่อย่างนั้นจะไม่เป็นรูปที่มีเลขและ cross-ref หาไม่เจอ
 
 ### เลย์เอาต์ขอบกว้าง (แบบ socviz.co)

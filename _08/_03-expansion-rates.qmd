@@ -74,7 +74,7 @@ bind_rows(
   facet_wrap(~scale, scales = "free") +
   scale_linetype_manual(values = kernel_lty) +
   labs(x = "Distance from source, s", y = NULL, linetype = NULL) +
-  theme_minimal(base_family = "Sarabun") +
+  theme_minimal(base_family = "Google Sans") +
   theme(legend.position = "top")
 ```
 
@@ -189,9 +189,9 @@ profiles |>
   geom_line(linewidth = 0.4) +
   geom_hline(yintercept = Y_prime, linetype = "dashed") +
   facet_wrap(~panel) +
-  scale_y_log10(labels = scales::label_number(drop0trailing = TRUE)) +
+  scale_y_log10(labels = scales::label_log()) +
   labs(x = "Distance from source, s", y = "Disease density, Yn(s) (log scale)") +
-  theme_minimal(base_family = "Sarabun")
+  theme_minimal(base_family = "Google Sans")
 ```
 
 ```{r}
@@ -206,7 +206,7 @@ ggplot(iso_disc, aes(n, s_prime, linetype = kernel, shape = kernel)) +
   scale_x_continuous(breaks = 1:n_max) +
   labs(x = "Generation, n", y = "Distance of isopath, s'n",
        linetype = NULL, shape = NULL) +
-  theme_minimal(base_family = "Sarabun")
+  theme_minimal(base_family = "Google Sans")
 ```
 
 @fig-st-cn แสดง $C_n$ เป็นฟังก์ชันของเวลาสำหรับพารามิเตอร์ชุดเดียวกับ @fig-st-ndisc อัตราการขยายตัวเข้าใกล้ค่าคงที่ $C$ ไม่นานหลังเริ่มระบาด และผลนี้ไม่ได้ขึ้นกับค่าพารามิเตอร์ที่เลือก ค่าคงที่นี้หาได้จาก @eq-st-gauss-cn โดยให้ $n$ มีค่ามากขึ้นอย่างไม่มีขอบเขต พจน์แรกใต้เครื่องหมายกรณฑ์จะหายไป (เพราะ $(\ln n)/n \to 0$) อัตราการขยายตัวคงที่จึงเป็น
@@ -228,7 +228,7 @@ ggplot(iso_disc, aes(n, Cn, linetype = kernel, shape = kernel)) +
   scale_x_continuous(breaks = 1:n_max) +
   labs(x = "Generation, n", y = "Mean expansion rate, Cn",
        linetype = NULL, shape = NULL) +
-  theme_minimal(base_family = "Sarabun")
+  theme_minimal(base_family = "Google Sans")
 ```
 
 @eq-st-gauss-c บอกว่า $C$ เพิ่มขึ้นเป็นเส้นตรงตามส่วนเบี่ยงเบนมาตรฐาน $\sigma$ ของการกระจายแบบเกาส์ $\sigma$ ที่มากขึ้นหมายถึงความลาดชันที่ลาดลง และให้ $C$ สูงขึ้น $C$ ยังเพิ่มขึ้นตาม $R_0$ คือการติดเชื้อใหม่ต่อการติดเชื้อหนึ่งครั้งที่มากขึ้นทำให้เส้นไอโซพาทเคลื่อนเร็วขึ้น เมื่อ $R_0$ มาก (เช่น $R_0 > 10$) $C$ เพิ่มขึ้นเกือบเป็นเส้นตรงกับ $\ln R_0$ และการเพิ่มขึ้นของ $C$ ต่อ $R_0$ หนึ่งหน่วยจะสูงเมื่อ $R_0$ ต่ำ และลดลงเมื่อ $R_0$ สูง (@fig-st-c-r0 แผง A)
@@ -305,7 +305,7 @@ expand_grid(R0 = exp(seq(log(1.05), log(100), length.out = 120)),
   scale_x_log10() +
   labs(x = "Basic reproduction number, R0 (log scale)",
        y = "Asymptotic expansion rate, C", linetype = "sigma") +
-  theme_minimal(base_family = "Sarabun")
+  theme_minimal(base_family = "Google Sans")
 ```
 
 #### การกระจายแบบราก {#sec-st-root}

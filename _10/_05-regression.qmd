@@ -1,0 +1,297 @@
+## การถดถอยของข้อมูลอุบัติการณ์ {#sec-smp-regression}
+
+ข้อมูลอุบัติการณ์อาจเก็บด้วยการสุ่มแบบกลุ่มในหลายพื้นที่เพื่อเปรียบเทียบกัน สำหรับตัวแปรที่แจกแจงปกติ การวิเคราะห์ความแปรปรวน (ANOVA) เป็นฐานของการเปรียบเทียบค่าเฉลี่ย (เช่น Gilligan, 1986) แต่ข้อมูลอุบัติการณ์ซึ่งเป็นสัดส่วนอาจไม่เป็นไปตามสมมติฐานบางข้อของ ANOVA (Garrett et al., 2004) และยากขึ้นอีกเมื่อสัดส่วนมาจากขนาดตัวอย่างต่างกัน (แต่ดู Cochran, 1943; Reimer, 1959) ทางหนึ่งคือใช้โมเดลเชิงเส้นวางนัยทั่วไป (generalized linear model, GLM) (McCullagh and Nelder, 1989) ซึ่งจัดการสมบัติสำคัญของข้อมูลที่ไม่ปกติด้วยการแปลงที่เหมาะ (ฟังก์ชันเชื่อม, link function) เพื่อให้ได้โมเดลเชิงเส้น ร่วมกับการระบุการแจกแจงของตัวแปรตอบสนองที่เหมาะอย่างชัดแจ้ง
+
+ข้อดีสำคัญของ GLM คือเชื่อมโดยตรงกับวิธีบรรยายข้อมูลอุบัติการณ์จากการสุ่มแบบกลุ่มที่อิงทวินามและบีตา-ทวินาม หัวข้อนี้จึงเน้นการถดถอยโลจิสติกและการถดถอยบีตา-ทวินามเป็นวิธีเปรียบเทียบ แม้จะมีวิธีอื่นอีกหลายแบบสำหรับวิเคราะห์สัดส่วน Anderson (1988) Schabenberger และ Pierce (2002) และ Collett (2003) ทบทวนวิธีเหล่านี้ไว้ชัดเจนในเชิงสถิติ GLM แนะนำไว้แล้วในบทที่ 3 และใช้บ้างในบทที่ 4
+
+```{r}
+#| label: smp-reg-data
+# Bald (1937) TSWV, 12 December 1928: frequencies of diseased plants (of 9) per quadrat
+tswv_fr <- tibble(Y = 0:9,
+                  `BP-OHS`  = c(0, 0, 0, 0, 0, 0, 3, 7, 20, 10),
+                  `BP-T`    = c(0, 0, 0, 0, 0, 0, 0, 6, 12, 22),
+                  `EDR-OHS` = c(0, 0, 0, 2, 6, 13, 6, 7, 6, 0),
+                  `EDR-T`   = c(0, 0, 0, 0, 3, 3, 12, 12, 7, 3))
+tswv_long <- tswv_fr |>
+  pivot_longer(-Y, names_to = "plot", values_to = "freq") |>
+  uncount(freq) |>
+  separate(plot, into = c("cultivar", "irrigation"), sep = "-", remove = FALSE)
+
+# Zarnoch et al. (1995) dogwood anthracnose survey, 1991-1992: Y infected among n dead trees per plot
+dogwood <- bind_rows(
+  tibble(state = "North Carolina",
+         Y = c(2, 0, 0, 5, 8, 3, 0, 8, 1, 10, 7, 0, 1, 0, 4, 3, 0, 0, 5, 0,
+               0, 3, 12, 6, 2, 4, 0, 0, 0, 6, 10, 2, 13, 0, 0, 7, 0, 8, 1),
+         n = c(3, 2, 5, 7, 14, 3, 1, 8, 1, 10, 7, 15, 11, 7, 10, 20, 9, 9, 9, 4,
+               7, 9, 13, 20, 10, 14, 8, 4, 3, 6, 15, 7, 20, 8, 6, 15, 5, 14, 7)),
+  tibble(state = "Virginia",
+         Y = c(4, 18, 0, 2, 11, 4, 13, 8, 2, 14, 3, 1, 5, 7, 2, 7, 12, 7, 1, 7),
+         n = c(9, 20, 12, 7, 20, 10, 18, 14, 14, 20, 15, 5, 12, 20, 9, 16, 20, 15, 10, 12))
+)
+dev_tbl <- function(models) {
+  tibble(Model = names(models),
+         Deviance = map_dbl(models, deviance),
+         df = map_dbl(models, df.residual))
+}
+```
+
+### การถดถอยโลจิสติก {#sec-smp-logistic}
+
+สำหรับสัดส่วนทวินาม การถดถอยโลจิสติก (logistic regression, โมเดลโลจิสติกเชิงเส้น) มักเป็นจุดเริ่มที่เหมาะ โดยระบุฟังก์ชันเชื่อมโลจิตและการแจกแจงทวินาม Collett (2003) อธิบายพื้นฐานทางสถิติไว้ครบและชัดเจน ซึ่งสรุปย่อมากในที่นี้ สมมติว่าบันทึกสถานะโรคเป็นแบบสองค่า (ต้น "ปกติ" หรือ "เป็นโรค") ในแปลงทดลองแบบแฟกทอเรียล $2^2$ โมเดลการถดถอยโลจิสติกที่มีพจน์ของแต่ละปัจจัยและอันตรกิริยาสองปัจจัยคือ
+
+$$
+\operatorname{logit}(p_{ij}) = \ln\left(\frac{p_{ij}}{1 - p_{ij}}\right) = C_0 + A_i + B_j + (AB)_{ij}
+$$ {#eq-smp-logistic}
+
+โดย $p_{ij}$ คือความน่าจะเป็นที่ต้นซึ่งได้รับระดับ $i$ ของปัจจัย $A$ และระดับ $j$ ของปัจจัย $B$ ($i, j = 1, 2$) จะเป็นโรค และ $C_0$ เป็นค่าคงที่ ส่วนเชิงเส้นของโมเดล $\eta_{ij} = C_0 + A_i + B_j + (AB)_{ij}$ เรียกว่าตัวทำนายเชิงเส้น (linear predictor) ค่าประมาณเขียนว่า $\hat{\eta}$ ฟังก์ชันเชื่อมโลจิตโยงส่วนเชิงเส้นกับ $p$ ขณะที่ $p$ อยู่ระหว่างศูนย์ถึงหนึ่ง $\operatorname{logit}(p)$ มีค่าได้ตั้งแต่ลบอนันต์ถึงบวกอนันต์ เมื่อประมาณ $\hat{\eta}_{ij}$ ได้ ความน่าจะเป็นที่ต้นเป็นโรคคือ $\hat{p}_{ij} = \exp(\hat{\eta}_{ij})/[1 + \exp(\hat{\eta}_{ij})]$ ในทางปฏิบัติฟิตโมเดลเป็นลำดับ สำหรับแฟกทอเรียล $2^2$ เริ่มจากโมเดลที่ง่ายที่สุด คือ (a) ค่าคงที่ (b) ค่าคงที่และ $A$ (c) ค่าคงที่และ $B$ (d) ค่าคงที่ $A$ และ $B$ และ (e) ค่าคงที่ $A$ $B$ และ $AB$
+
+ต้องประเมินว่าแต่ละโมเดลฟิตข้อมูลดีหรือไม่เพียงใด เพื่อช่วยตัดสินว่าควรมีพจน์ใดในตัวทำนายเชิงเส้น ปกติฟิตด้วยภาวะน่าจะเป็นสูงสุด การเปรียบเทียบโมเดลใช้ปริมาณที่เรียกว่าดีเวียนซ์ (deviance) ซึ่งเท่ากับลบสองเท่าของลอการิทึมของอัตราส่วนระหว่างภาวะน่าจะเป็นสูงสุดของโมเดลที่พิจารณากับของโมเดลที่มีพารามิเตอร์เท่าจำนวนค่าสังเกต (โมเดลเต็ม) ดีเวียนซ์มากแปลว่าฟิตไม่ดี และดีเวียนซ์น้อยแปลว่าฟิตดี
+
+**ตัวอย่างที่ 10.4** ข้อมูล TSWV ของ Bald (1937) (@fig-sp-tswv-freq) มาจากการทดลองแฟกทอเรียล $2^2$ ของมะเขือเทศสองพันธุ์ (Burwood Prize, BP, $A_1$; Early Dwarf Red, EDR, $A_2$) และวิธีให้น้ำสองแบบ (สปริงเกลอร์เหนือทรงพุ่ม, OHS, $B_1$; ร่องน้ำ, T, $B_2$) ตัวแปรตอบสนองแบบสองค่าคือการติด TSWV ของต้นมะเขือเทศ แปลงละ 40 ควอแดรต ควอแดรตละเก้าต้น ความถี่ที่สังเกตได้อยู่ใน @tbl-smp-tswv-freq และ @tbl-smp-tswv-dev แสดงดีเวียนซ์หลังฟิตโมเดลลำดับดังกล่าว (ฟิตด้วย `glm()` ใน R)
+
+```{r}
+#| label: tbl-smp-tswv-freq
+#| tbl-cap: "TSWV data from Bald (1937), assessment of 12 December 1928: number of quadrats (of 40 per plot) with the given number of diseased plants out of nine, for each cultivar-irrigation combination."
+knitr::kable(rename(tswv_fr, `Diseased plants (of 9)` = Y))
+```
+
+```{r}
+#| label: tbl-smp-tswv-dev
+#| tbl-cap: "Deviances after fitting a sequence of logistic regression models to the TSWV data (160 quadrats): a, constant; b, constant + cultivar; c, constant + irrigation; d, constant + cultivar + irrigation; e, model d + cultivar x irrigation."
+tswv_models <- list(
+  `10.4a` = glm(cbind(Y, 9 - Y) ~ 1, binomial, tswv_long),
+  `10.4b` = glm(cbind(Y, 9 - Y) ~ cultivar, binomial, tswv_long),
+  `10.4c` = glm(cbind(Y, 9 - Y) ~ irrigation, binomial, tswv_long),
+  `10.4d` = glm(cbind(Y, 9 - Y) ~ cultivar + irrigation, binomial, tswv_long),
+  `10.4e` = glm(cbind(Y, 9 - Y) ~ cultivar * irrigation, binomial, tswv_long)
+)
+knitr::kable(dev_tbl(tswv_models), digits = 3)
+```
+
+<!-- พี่ต้นข้าว: ตรวจแล้ว glm() ให้ดีเวียนซ์ 294.600, 181.374, 280.606, 166.238, 166.013 ตรงกับต้นฉบับ (ต้นฉบับใช้ EGRET) -->
+
+เมื่อโมเดลโลจิสติกฟิตได้ดี ดีเวียนซ์มีการแจกแจงไคกำลังสองโดยประมาณ โดยองศาอิสระเท่ากับจำนวนค่าสังเกตลบจำนวนพารามิเตอร์ของโมเดลนั้น ทดสอบได้ด้วยการเทียบดีเวียนซ์กับการแจกแจงไคกำลังสอง (ไม่เป็นทางการคือ ดีเวียนซ์ของโมเดลที่ฟิตดีจะใกล้องศาอิสระของมัน) ดูโมเดล 10.4e ก่อน ซึ่งให้ $P = `r round(pchisq(deviance(tswv_models[["10.4e"]]), df.residual(tswv_models[["10.4e"]]), lower.tail = FALSE), 2)`$ ถ้าดีเวียนซ์ของโมเดลนี้มาก (ตามธรรมเนียมคือ $P < 0.05$) จะบ่งว่าทวินามบรรยายความแปรปรวนภายในแปลงได้ไม่พอ คือมีความแปรปรวนส่วนเกินจากทวินาม หรือการรวมกลุ่ม ผลของกรณีนั้นกล่าวใน @sec-smp-bb-regression ในกรณีนี้ทวินามบรรยายความแปรปรวนภายในแปลงได้ ซึ่งไม่น่าแปลกใจจากที่รู้จากบทที่ 9
+
+ยังต้องเลือกโมเดลที่เหมาะ การเปรียบเทียบโมเดลที่ซ้อนกันใช้สถิติอัตราส่วนภาวะน่าจะเป็น (likelihood ratio statistic, LRS) ซึ่งก็คือผลต่างของดีเวียนซ์สองค่า ดีเวียนซ์ของโมเดลที่มีพจน์มากกว่าลบออกจากดีเวียนซ์ของโมเดลที่มีพจน์น้อยกว่าคือ LRS และผลต่างขององศาอิสระคือองศาอิสระของ LRS เพราะดีเวียนซ์แต่ละค่ามีการแจกแจงไคกำลังสองโดยประมาณ ผลต่างก็เช่นกัน (Collett, 2003) ตารางของ LRS บางครั้งเรียกว่าตารางการวิเคราะห์ดีเวียนซ์ (analysis of deviance)
+
+**ตัวอย่างที่ 10.4 (ต่อ)** @tbl-smp-tswv-lrs แสดง LRS ของข้อมูล TSWV ชั้นบน (ระหว่างแปลง) ได้รูปเดียวกันไม่ว่าจะวิเคราะห์จากข้อมูลเต็ม 160 ค่าหรือจากสัดส่วนรวมของสี่แปลง ชั้นนี้อ้างถึงความแปรปรวนระหว่างแปลงซึ่งเป็นหน่วยทดลองที่ได้รับกรรมวิธี ในแผนการทดลองนี้ พจน์พันธุ์ × วิธีให้น้ำในชั้นบนเท่ากับส่วนเหลือ ชั้นล่างได้จากการวิเคราะห์ทั้ง 160 ค่า และอ้างถึงความแปรปรวนภายในแปลง โดยควอแดรตเก้าต้นเป็นหน่วยสุ่ม
+
+```{r}
+#| label: tbl-smp-tswv-lrs
+#| tbl-cap: "Analysis of deviance for the TSWV data. Upper stratum (between plots): likelihood ratio statistics (LRS) for cultivar and irrigation method, unadjusted and adjusted for the other factor, and for the interaction. Lower stratum (within plots): residual deviance of model 10.4e."
+lrs <- function(m0, m1) {
+  L <- deviance(m0) - deviance(m1); d <- df.residual(m0) - df.residual(m1)
+  c(LRS = L, df = d, P = pchisq(L, d, lower.tail = FALSE))
+}
+m <- tswv_models
+rbind(
+  `Cultivar (10.4a vs 10.4b)` = lrs(m$`10.4a`, m$`10.4b`),
+  `Cultivar, adjusted for irrigation (10.4c vs 10.4d)` = lrs(m$`10.4c`, m$`10.4d`),
+  `Irrigation (10.4a vs 10.4c)` = lrs(m$`10.4a`, m$`10.4c`),
+  `Irrigation, adjusted for cultivar (10.4b vs 10.4d)` = lrs(m$`10.4b`, m$`10.4d`),
+  `Cultivar x irrigation (10.4d vs 10.4e)` = lrs(m$`10.4d`, m$`10.4e`),
+  `Lower stratum: within plots (10.4e)` = c(deviance(m$`10.4e`), df.residual(m$`10.4e`),
+    pchisq(deviance(m$`10.4e`), df.residual(m$`10.4e`), lower.tail = FALSE))
+) |>
+  as_tibble(rownames = "Source of variation") |>
+  knitr::kable(digits = 3)
+```
+
+ผลของพันธุ์ทดสอบได้ทั้งแบบคำนึงถึงผลของวิธีให้น้ำ (การเทียบแบบ "ปรับแล้ว" ระหว่าง 10.4c กับ 10.4d) หรือไม่คำนึง (เทียบ 10.4a กับ 10.4b) ผลของวิธีให้น้ำก็เช่นกัน ต่อจากนี้จะแสดงเฉพาะการเทียบแบบปรับแล้ว ทดสอบนัยสำคัญโดยเทียบ LRS กับการแจกแจงไคกำลังสอง ค่าประมาณพารามิเตอร์ (บนสเกลโลจิต) หลังฟิตโมเดล 10.4d อยู่ใน @tbl-smp-tswv-est
+
+```{r}
+#| label: tbl-smp-tswv-est
+#| tbl-cap: "Parameter estimates (logit scale) and standard errors after fitting model 10.4d to the TSWV data. The first level of each factor (BP, OHS) is the reference; the estimates for cultivar and irrigation are differences between levels. P values are from Wald z tests and are a guide only."
+summary(tswv_models$`10.4d`)$coefficients |>
+  as_tibble(rownames = "Term") |>
+  mutate(Term = c("C0", "Cultivar (EDR - BP)", "Irrigation (T - OHS)")) |>
+  select(Term, Estimate, `Standard error` = `Std. Error`, P = `Pr(>|z|)`) |>
+  knitr::kable(digits = 3)
+```
+
+อุบัติการณ์ในพันธุ์ Burwood Prize สูงกว่า Early Dwarf Red ($P < 0.001$) และสูงกว่าเมื่อให้น้ำทางร่องเทียบกับสปริงเกลอร์ ($P < 0.001$) ตัวทำนายเชิงเส้นที่ประมาณได้คือ $\hat{\eta}_{11} = 2.039$ (BP–OHS), $\hat{\eta}_{12} = 2.039 + 0.534$ (BP–T), $\hat{\eta}_{21} = 2.039 - 1.510$ (EDR–OHS) และ $\hat{\eta}_{22} = 2.039 - 1.510 + 0.534$ (EDR–T) ความน่าจะเป็นที่ฟิตได้คือ `r paste(names(tswv_fr)[-1], sprintf("%.3f", predict(tswv_models[["10.4d"]], newdata = tibble(cultivar = c("BP", "BP", "EDR", "EDR"), irrigation = c("OHS", "T", "OHS", "T")), type = "response")), sep = " ", collapse = "; ")` ซึ่งใกล้กับสัดส่วนที่สังเกตได้
+
+<!-- พี่ต้นข้าว: ตรวจแล้ว ค่าประมาณ 2.039 (0.140), -1.510 (0.152), 0.534 (0.138) และความน่าจะเป็นที่ฟิต 0.885, 0.929, 0.629, 0.743 ตรงกับต้นฉบับ (ภาพ fig10-img18 fig10-img19 หาย) -->
+
+### การถดถอยบีตา-ทวินาม {#sec-smp-bb-regression}
+
+Zarnoch et al. (1995) วิเคราะห์ข้อมูลการติดโรคแอนแทรคโนสของด็อกวูด (*Discula destructiva*) ทางตะวันออกเฉียงใต้ของสหรัฐอเมริกา ข้อมูลปี 1991–1992 แสดงจำนวนต้นตายต่อแปลง และจำนวนที่ตายโดยมีหลักฐานว่าน่าจะเกิดจากโรคแอนแทรคโนส ในนอร์ทแคโรไลนา (39 แปลง) และเวอร์จิเนีย (20 แปลง) (@tbl-smp-dogwood-data) หน่วยสุ่ม (แปลง) มีขนาดไม่เท่ากัน ตัวส่วนของทวินาม ($n$) ไม่คงที่ จึงสร้างความถี่คาดหมายเพื่อทดสอบด้วยไคกำลังสองไม่ได้ แต่การทดสอบ $C(\alpha)$ ของทวินามเทียบบีตา-ทวินาม (@sec-sp-beta-binomial) แยกสองรัฐให้ $P < 0.001$ ทั้งคู่ เราจึงรู้ตั้งแต่ต้นว่าการวิเคราะห์ที่อิงทวินามจะมีจุดอ่อน แต่จะเดินไปทีละขั้นและบรรเทาจุดอ่อนเหล่านั้นไปด้วย
+
+```{r}
+#| label: tbl-smp-dogwood-data
+#| tbl-cap: "Data from the North Carolina-Virginia dogwood anthracnose survey, 1991-1992 (Zarnoch et al., 1995): n is the number of dead dogwood trees on a plot, Y the number of dead trees infected by dogwood anthracnose. Summary by state."
+dogwood |>
+  summarise(Plots = n(), `Sum Y` = sum(Y), `Sum n` = sum(n),
+            `Proportion infected` = sum(Y) / sum(n), .by = state) |>
+  knitr::kable(digits = 3)
+```
+
+<!-- พี่ต้นข้าว: ข้อมูลรายแปลงทั้ง 59 แปลงอยู่ใน chunk smp-reg-data (ตาราง 10.7 ของต้นฉบับ) พี่แสดงเฉพาะสรุปรายรัฐเพื่อประหยัดที่ ถ้าอยากพิมพ์ตารางเต็ม ใช้ knitr::kable(dogwood) -->
+
+**ตัวอย่างที่ 10.5** ทุกต้นที่ประเมินตายแล้ว ตัวแปรตอบสนองแบบสองค่าคือ "ตายและติดโรคแอนแทรคโนส" หรือ "ตายแต่ไม่ติดโรค" ตัวแปรอธิบายตัวเดียวคือ "รัฐ" ซึ่งเป็นปัจจัยสองระดับ สิ่งที่สนใจคือสัดส่วนการตายของด็อกวูดที่เกิดจากโรคแอนแทรคโนสต่างกันระหว่างสองรัฐหรือไม่ เริ่มเหมือนตัวอย่างที่ 10.4 คือฟิตโมเดลโลจิสติกลำดับ (a) ค่าคงที่ และ (b) ค่าคงที่และผลของรัฐ
+
+```{r}
+#| label: smp-dogwood-logistic
+dw_a <- glm(cbind(Y, n - Y) ~ 1, binomial, dogwood)
+dw_b <- glm(cbind(Y, n - Y) ~ state, binomial, dogwood)
+dw_b_coef <- summary(dw_b)$coefficients
+```
+
+ดีเวียนซ์ของโมเดล 10.5a และ 10.5b คือ `r round(deviance(dw_a), 2)` (`r df.residual(dw_a)` องศาอิสระ) และ `r round(deviance(dw_b), 2)` (`r df.residual(dw_b)` องศาอิสระ) การเทียบสองโมเดลให้ LRS = `r round(deviance(dw_a) - deviance(dw_b), 2)` 1 องศาอิสระ $P = `r round(pchisq(deviance(dw_a) - deviance(dw_b), 1, lower.tail = FALSE), 2)`$ บ่งว่าสัดส่วนการตายจากโรคต่างกันระหว่างสองรัฐ ค่าประมาณจากโมเดล 10.5b คือ นอร์ทแคโรไลนา $\operatorname{logit}(\hat{p}) = `r round(dw_b_coef[1, 1], 2)`$ (SE = `r round(dw_b_coef[1, 2], 2)`) และผลต่างระหว่างรัฐ (สเกลโลจิต) `r round(dw_b_coef[2, 1], 2)` (SE = `r round(dw_b_coef[2, 2], 2)`, $P = `r round(dw_b_coef[2, 4], 2)`$) ตามธรรมเนียมจะสรุปว่าสองรัฐต่างกัน ปัญหาคือหลังฟิตโมเดล 10.5b ดีเวียนซ์ยังมากอย่างมีนัยสำคัญ (`r round(deviance(dw_b), 1)` ที่ `r df.residual(dw_b)` องศาอิสระ, $P < 0.001$) ซึ่งอาจบ่งว่าทวินามบรรยายความแปรปรวนภายในแปลงได้ไม่พอ
+
+ค่าคลาดเคลื่อนมาตรฐานจากโมเดล 10.5b อิงสมมติฐานว่าความแปรปรวนภายในแปลงเป็นแบบทวินาม ถ้ามีความแปรปรวนส่วนเกินจากทวินาม ค่าคลาดเคลื่อนมาตรฐานเหล่านี้จะเล็กเกินไป การใช้ทวินามจึงทำให้นัยสำคัญของการเปรียบเทียบดูเกินจริง แต่ก่อนวิเคราะห์ความแปรปรวนส่วนเกิน ควรตรวจเหตุอื่นของดีเวียนซ์ที่มากก่อน เช่น ขาดตัวแปรอธิบายสำคัญ หรือมีค่าสังเกตที่ผิดปกติหรือมีอิทธิพลมาก Collett (2003, บทที่ 5) อธิบายวิธีตรวจโมเดลไว้ ข้อมูลนี้ไม่มีตัวแปรอธิบายอื่นให้ใส่เพิ่ม สถิติ delta-beta บอกอิทธิพลของค่าสังเกตแต่ละค่าต่อการฟิต โดยประมาณว่าพารามิเตอร์จะเปลี่ยนเท่าใดถ้าตัดค่าสังเกตนั้นออก (@fig-smp-dfbeta) ค่าสังเกตลำดับที่ 41 (เวอร์จิเนีย, $Y = 18$, $n = 20$) มี delta-beta ติดลบค่อนข้างมาก แต่ Zarnoch et al. (1995) ไม่มีหลักฐานให้ตัดค่านี้ จึงวิเคราะห์ต่อโดยคำนึงถึงความแปรปรวนส่วนเกิน
+
+```{r}
+#| label: fig-smp-dfbeta
+#| fig-cap: "Post-fit regression diagnostics for model 10.5b (logistic regression of the dogwood anthracnose data on state): delta-beta (dfbeta) for the state parameter for each observation. Observation 41 (Virginia, Y = 18, n = 20) has the largest negative value."
+#| fig-width: 5.5
+#| fig-height: 3.2
+tibble(obs = seq_len(nrow(dogwood)), dfbeta = dfbeta(dw_b)[, 2], state = dogwood$state) |>
+  ggplot(aes(obs, dfbeta, shape = state)) +
+  geom_hline(yintercept = 0, colour = "grey60") +
+  geom_point() +
+  labs(x = "Observation number", y = "Delta-beta (state)", shape = NULL) +
+  theme_minimal(base_family = "Google Sans") +
+  theme(legend.position = "top")
+```
+
+<!-- พี่ต้นข้าว: ต้นฉบับใช้ delta-beta จาก EGRET (ค่ามากสุด -0.84 ตามคำบรรยายรูปที่ถูกตัด) พี่ใช้ dfbeta() ของ R ซึ่งเป็นค่าที่ไม่ได้ปรับมาตรฐาน ขนาดอาจต่างจากต้นฉบับ แต่ค่าสังเกตที่ 41 ควรเด่นเหมือนกัน น้องกันต์ตรวจรูป -->
+
+การถดถอยบีตา-ทวินาม (β-binomial regression) (Williams, 1975; Crowder, 1978) ฟิตโมเดลได้แบบเดียวกับการถดถอยโลจิสติก แต่สมมติว่าความแปรปรวนภายในแปลงเป็นแบบบีตา-ทวินาม (@sec-sp-beta-binomial) แทนทวินาม
+
+**ตัวอย่างที่ 10.5 (ต่อ)** ขยายลำดับโมเดลโดยเพิ่มพารามิเตอร์การรวมกลุ่ม $\theta$ ของบีตา-ทวินาม ได้ (c) ค่าคงที่ กับ $\theta$ ร่วม (d) ค่าคงที่และรัฐ กับ $\theta$ ร่วม (e) ค่าคงที่ กับ $\theta$ แยกรายรัฐ และ (f) ค่าคงที่และรัฐ กับ $\theta$ แยกรายรัฐ ใน R ฟิตได้ด้วย `glmmTMB()` ที่ระบุ `family = betabinomial` และใช้ `dispformula` กำหนดว่าพารามิเตอร์การรวมกลุ่มร่วมหรือแยก
+
+```{r}
+#| label: smp-bb-regression
+#| eval: !expr requireNamespace("glmmTMB", quietly = TRUE)
+library(glmmTMB)
+bb_models <- list(
+  `10.5c` = glmmTMB(cbind(Y, n - Y) ~ 1, family = betabinomial, data = dogwood),
+  `10.5d` = glmmTMB(cbind(Y, n - Y) ~ state, family = betabinomial, data = dogwood),
+  `10.5e` = glmmTMB(cbind(Y, n - Y) ~ 1, dispformula = ~ state, family = betabinomial, data = dogwood),
+  `10.5f` = glmmTMB(cbind(Y, n - Y) ~ state, dispformula = ~ state, family = betabinomial, data = dogwood)
+)
+m2ll <- map_dbl(bb_models, \(m) -2 * as.numeric(logLik(m)))
+lrs_bb <- c(bd = -2 * as.numeric(logLik(dw_b)) - m2ll[["10.5d"]],
+            df = m2ll[["10.5d"]] - m2ll[["10.5f"]],
+            ef = m2ll[["10.5e"]] - m2ll[["10.5f"]],
+            cd = m2ll[["10.5c"]] - m2ll[["10.5d"]])
+bb_d_coef <- summary(bb_models$`10.5d`)$coefficients$cond
+```
+
+```{r}
+#| label: tbl-smp-bb-lrs
+#| tbl-cap: "Likelihood ratio statistics for the beta-binomial regression models fitted to the dogwood anthracnose data with glmmTMB (betabinomial family): inclusion of a common aggregation parameter, separate aggregation parameters, and the state effect with separate or common aggregation parameters."
+#| eval: !expr requireNamespace("glmmTMB", quietly = TRUE)
+tibble(
+  Comparison = c("10.5b vs 10.5d: common aggregation parameter",
+                 "10.5d vs 10.5f: separate aggregation parameters",
+                 "10.5e vs 10.5f: state (separate aggregation)",
+                 "10.5c vs 10.5d: state (common aggregation)"),
+  LRS = unname(lrs_bb)
+) |>
+  mutate(P = c(pnorm(sqrt(LRS[1]), lower.tail = FALSE),
+               pchisq(LRS[-1], 1, lower.tail = FALSE))) |>
+  knitr::kable(digits = 3)
+```
+
+<!-- พี่ต้นข้าว: ตรวจแล้ว glmmTMB ให้ LRS 115.64, 10.39, 0.70, 1.07 ตรงกับต้นฉบับ (EGRET) ทุกค่า
+     ต้นฉบับรายงาน "ดีเวียนซ์" ของโมเดลบีตา-ทวินาม (163.56, 162.49, 152.80, 152.10) ซึ่งนิยามต่างจาก -2 log L ของ glmmTMB ด้วยค่าคงที่
+     พี่จึงแสดงเฉพาะ LRS ซึ่งไม่ขึ้นกับค่าคงที่นั้น -->
+
+การเพิ่มพารามิเตอร์การรวมกลุ่มร่วม (เทียบโมเดล 10.5b กับ 10.5d) ให้ LRS = `r if (exists("lrs_bb")) round(lrs_bb[["bd"]], 2) else "115.63"` ลดดีเวียนซ์อย่างมีนัยสำคัญ ข้อสังเกตคือ LRS ของการเพิ่ม $\theta$ ตัวเดียวเข้าโมเดลที่ไม่มีพารามิเตอร์การรวมกลุ่ม ไม่ทดสอบเป็นไคกำลังสอง แต่ทดสอบ $\sqrt{\mathrm{LRS}}$ เป็นค่าปกติมาตรฐาน (เพราะ $\theta = 0$ อยู่ที่ขอบของพื้นที่พารามิเตอร์) ในที่นี้ $\sqrt{115.63} = 10.75$ การเทียบโมเดล 10.5d กับ 10.5f ให้ LRS = 10.39 ($P = 0.001$) คือการแยกพารามิเตอร์การรวมกลุ่มรายรัฐลดดีเวียนซ์ได้อีก แต่ดีเวียนซ์หลังฟิตโมเดล 10.5f ยังมากอย่างมีนัยสำคัญ แปลว่ายังมีความแปรปรวนที่พารามิเตอร์การรวมกลุ่มของบีตา-ทวินามจับไม่ได้
+
+ตอนนี้ทดสอบผลของรัฐโดยคำนึงถึงความแปรปรวนส่วนเกินแล้ว การเทียบโมเดล 10.5e กับ 10.5f ให้ LRS = 0.70 ($P = 0.40$) คือการใส่รัฐไม่ลดดีเวียนซ์อย่างมีนัยสำคัญเมื่อมีพารามิเตอร์การรวมกลุ่มแยกรายรัฐ และได้ผลเดียวกันเมื่อใช้พารามิเตอร์การรวมกลุ่มร่วม (เทียบ 10.5c กับ 10.5d, LRS = 1.07, $P = 0.30$) ค่าประมาณจากโมเดล 10.5d คือ ค่าคงที่ $C_0 = `r if (exists("bb_d_coef")) round(bb_d_coef[1, 1], 3) else "-0.635"`$ (SE = `r if (exists("bb_d_coef")) round(bb_d_coef[1, 2], 3) else "0.233"`) ผลต่างของรัฐ `r if (exists("bb_d_coef")) round(bb_d_coef[2, 1], 3) else "0.369"` (SE = `r if (exists("bb_d_coef")) round(bb_d_coef[2, 2], 3) else "0.356"`, $P = 0.30$) และพารามิเตอร์การรวมกลุ่มร่วม $\hat{\theta} = `r if (exists("bb_models")) round(1 / sigma(bb_models[["10.5d"]]), 3) else "0.546"`$
+
+จากโมเดล 10.5d จึงไม่มีความต่างระหว่างนอร์ทแคโรไลนากับเวอร์จิเนียในสัดส่วนการตายของด็อกวูดที่เกิดจากโรค ($P = 0.30$) ข้อสรุปนี้ต่างจากโมเดล 10.5b ที่ไม่ได้คำนึงถึงความแปรปรวนส่วนเกิน เพราะข้อมูลรวมกลุ่มจริง ค่าคลาดเคลื่อนมาตรฐานจากโมเดล 10.5b จึงเล็กเกินไป จนให้นัยสำคัญที่ผิด ผลสำคัญที่สุดของการคำนึงถึงความแปรปรวนส่วนเกินไม่ได้อยู่ที่ค่าประมาณพารามิเตอร์ แต่อยู่ที่ค่าคลาดเคลื่อนมาตรฐานซึ่งใหญ่ขึ้นเมื่อเทียบกับการถดถอยโลจิสติก
+
+<!-- พี่ต้นข้าว: ตรวจแล้ว C0 = -0.635 (0.233), state = 0.369 (0.356), theta = 0.546 ตรงกับต้นฉบับ (glmmTMB รายงาน dispersion phi = alpha + beta, theta = 1/phi) -->
+
+Hughes และ Madden (1998) ให้อีกตัวอย่างของการถดถอยบีตา-ทวินาม ในการให้คำแนะนำการจัดการสวนเมล็ดพันธุ์ black spruce (*Picea mariana*) ในออนแทรีโอ (Bruhn et al., 1996) อีกทางเลือกคือการถดถอยโลจิสติก-ปกติ-ทวินาม (logistic normal binomial, LNB) (Hughes and Samita, 1998; Hughes et al., 1998) เพื่อเห็นความต่าง กลับไปที่ @eq-smp-logistic ซึ่ง $p_{ij}$ เป็นความน่าจะเป็นคงที่ การรวมกลุ่มสร้างโมเดลได้โดยผ่อนสมมติฐานนี้ สมมติฐานเรื่องรูปแบบความแปรปรวนของความน่าจะเป็นต่างกันให้โมเดลต่างกัน ถ้าความน่าจะเป็นแปรรอบค่าเฉลี่ยตามการแจกแจงบีตา ได้โมเดลบีตา-ทวินาม ถ้าความน่าจะเป็นที่แปลงด้วย*โลจิต*แปรรอบค่าเฉลี่ยตามการแจกแจงปกติ (การแจกแจงโลจิสติกปกติ; Aitchison and Shen, 1980) ได้โมเดล LNB ทั้งสองแบบมีประโยชน์ ข้อดีของ LNB คือขยายไปวิเคราะห์หลายสเกลในลำดับชั้นได้ง่าย เช่น แปลง ควอแดรตในแปลง ต้นในควอแดรต และใบในต้น (Piepho, 1999; Madden et al., 2002) ใน R ฟิตโมเดล LNB เป็นโมเดลผสมเชิงเส้นวางนัยทั่วไป (GLMM) ได้ เช่น `glmmTMB(cbind(Y, n - Y) ~ state + (1 | plot), family = binomial)`
+
+### การถดถอยโลจิสติกกับข้อมูลที่แปลงด้วย deff {#sec-smp-deff-regression}
+
+Rao และ Scott (1992) เสนออีกวิธีวิเคราะห์ความแปรปรวนส่วนเกินในข้อมูลการสุ่มแบบกลุ่ม โดยแปลงข้อมูลอย่างง่ายด้วยดัชนีการกระจาย (ซึ่งเรียกว่า deff; @sec-sp-dispersion-revisited) ข้อมูลต้องจำแนกด้วยปัจจัยเดียว การแปลงคือคำนวณสำหรับแต่ละหน่วยสุ่ม $Y^{*} = Y/\mathrm{deff}_i$ และ $n^{*} = n/\mathrm{deff}_i$ ($i$ คือระดับของปัจจัย) แล้วใช้ $Y^{*}$ และ $n^{*}$ ในการถดถอยโลจิสติก ปริมาณ $n/\mathrm{deff}$ คือขนาดตัวอย่างประสิทธิผล (effective sample size) ในงานด้านการสุ่มตัวอย่าง (Kish, 1995) สำหรับข้อมูลรวมกลุ่ม deff > 1 การหาร $n$ ด้วย deff จึงได้ขนาดตัวอย่างประสิทธิผลน้อยกว่า $n$ สะท้อนว่ากลุ่มต้น $n$ ต้นในหน่วยสุ่มเดียวกันให้ข้อมูลน้อยลง เมื่อความใกล้ทำให้มีแนวโน้มมีสถานะโรคเหมือนกัน
+
+สำหรับข้อมูลด็อกวูด ต้นฉบับใช้ deff 4.458 สำหรับนอร์ทแคโรไลนา และ 3.239 สำหรับเวอร์จิเนีย ฟิตโมเดลโลจิสติกลำดับกับข้อมูลที่แปลงแล้ว (g) ค่าคงที่ และ (h) ค่าคงที่และรัฐ
+
+```{r}
+#| label: smp-deff-regression
+dw_deff <- dogwood |>
+  mutate(deff = if_else(state == "North Carolina", 4.458, 3.239),
+         Ys = Y / deff, ns = n / deff)
+dw_g <- suppressWarnings(glm(cbind(Ys, ns - Ys) ~ 1, binomial, dw_deff))
+dw_h <- suppressWarnings(glm(cbind(Ys, ns - Ys) ~ state, binomial, dw_deff))
+dw_h_coef <- summary(dw_h)$coefficients
+```
+
+ดีเวียนซ์ของโมเดล 10.5g และ 10.5h คือ `r round(deviance(dw_g), 2)` (58 องศาอิสระ) และ `r round(deviance(dw_h), 2)` (57 องศาอิสระ) การเทียบให้ LRS = `r round(deviance(dw_g) - deviance(dw_h), 2)` ($P = `r round(pchisq(deviance(dw_g) - deviance(dw_h), 1, lower.tail = FALSE), 2)`$) ผลต่างระหว่างรัฐ (สเกลโลจิต) คือ `r round(dw_h_coef[2, 1], 3)` (SE = `r round(dw_h_coef[2, 2], 3)`) ตามธรรมเนียมจึงไม่สรุปว่าสองรัฐต่างกัน และหลังฟิตโมเดล 10.5h ดีเวียนซ์เป็น `r round(deviance(dw_h), 2)` ที่ 57 องศาอิสระ ($P = `r round(pchisq(deviance(dw_h), 57, lower.tail = FALSE), 2)`$) การแปลงด้วย deff จึงดูจัดการความแปรปรวนส่วนเกินได้ดี เมื่อเทียบกับการถดถอยโลจิสติกเดิม ค่าประมาณใกล้กันแต่ค่าคลาดเคลื่อนมาตรฐานใหญ่ขึ้น เช่นเดียวกับการถดถอยบีตา-ทวินาม ผลคือเลี่ยงการให้นัยสำคัญที่ผิดได้ ข้อดีที่เป็นไปได้ของวิธีแปลงด้วย deff คือไม่ขึ้นกับโมเดลการแจกแจงเฉพาะ และทำด้วยซอฟต์แวร์สถิติทั่วไปได้ง่าย ส่วนข้อดีของการถดถอยบีตา-ทวินาม (และ GLMM ที่ใช้การแจกแจงโลจิสติก-ปกติ-ทวินาม) คือเชื่อมการใช้การแจกแจงความน่าจะเป็นในการวิเคราะห์ข้อมูลกับการบรรยายรูปแบบเชิงพื้นที่โดยตรง และใช้กับการทดลองที่มีมากกว่าหนึ่งปัจจัยได้
+
+<!-- พี่ต้นข้าว: ตรวจแล้ว ได้ดีเวียนซ์ 69.29 และ 68.17, ผลต่าง 0.337 (SE 0.319) ตรงกับต้นฉบับ
+     น้องกันต์ตรวจ: ถ้าคำนวณ deff จากข้อมูลด้วยสูตรขนาดหน่วยสุ่มไม่เท่ากัน (@eq-sp-unequal-var) พี่ได้ 4.69 และ 3.51 ไม่ตรงกับ 4.458 และ 3.239 ของต้นฉบับ
+     ต้นฉบับอาจใช้สูตรอื่น (เช่น ตัวส่วน N แทน N - 1 หรือถ่วงน้ำหนักต่างกัน) พี่จึงใช้ค่าตามต้นฉบับ -->
+
+### การฟิตการแจกแจงความน่าจะเป็น {#sec-smp-fitting-distributions}
+
+ใน @sec-sp-binomial และ @sec-sp-beta-binomial เราฟิตทวินามและบีตา-ทวินามกับข้อมูลเพื่อบรรยายการแจกแจงความถี่ของอุบัติการณ์ ขอบอกให้ชัดว่าวิธีใน @sec-smp-logistic และ @sec-smp-bb-regression ให้ผลเดียวกันทุกประการ เพียงใช้พารามิเตอร์ต่างรูป การถดถอยโลจิสติกให้ค่าประมาณพารามิเตอร์ทวินามของการแจกแจงอุบัติการณ์ TSWV ทั้งสี่ชุด และการถดถอยบีตา-ทวินามให้ค่าประมาณพารามิเตอร์บีตา-ทวินามของข้อมูลด็อกวูดแต่ละรัฐ (ซึ่งวาดเป็นการแจกแจงความถี่ไม่ได้เพราะ $n$ ต่างกัน) ถ้าวิเคราะห์เพียงเพื่อบรรยายข้อมูลแต่ละรัฐ จะได้สรุปแบบ @tbl-smp-bbd-summary
+
+| β-binomial parameter estimates | North Carolina | Virginia |
+|---|---|---|
+| $\hat{p}$ | 0.362 | 0.428 |
+| SE($\hat{p}$) | 0.058 | 0.052 |
+| $\hat{\theta}$ | 1.037 | 0.185 |
+| SE($\hat{\theta}$) | 0.332 | 0.081 |
+
+: Beta-binomial parameter estimates for the dogwood anthracnose data of each state obtained with the BBD program (Madden and Hughes, 1994), as reported by Madden et al. (2007). {#tbl-smp-bbd-summary}
+
+โมเดล 10.5d พอสำหรับเปรียบเทียบสองรัฐ แต่โมเดล 10.5f คือการวิเคราะห์ที่เทียบได้กับ @tbl-smp-bbd-summary ค่าประมาณจากโมเดล 10.5f คือ นอร์ทแคโรไลนา $\operatorname{logit}(\hat{p}) = -0.568$ ซึ่งให้ $\hat{p} = e^{-0.568}/(1 + e^{-0.568}) = 0.362$ และ $\hat{\theta} = 1.037$ เวอร์จิเนีย $\hat{p} = e^{-0.568 + 0.278}/(1 + e^{-0.568 + 0.278}) = 0.428$ และ $\hat{\theta} = 1.037 - 0.852 = 0.185$ @tbl-smp-bbd-summary และโมเดล 10.5f จึงเป็นการวิเคราะห์เดียวกันในพารามิเตอร์ต่างรูป ซึ่งชี้ว่าคำบรรยายข้อมูลอุบัติการณ์ที่รวมกลุ่มด้วยการแจกแจงความน่าจะเป็น เป็นฐานของการเปรียบเทียบเมื่อเก็บข้อมูลมากกว่าหนึ่งชุด
+
+<!-- พี่ต้นข้าว: ตรวจแล้ว exp(-0.568)/(1 + exp(-0.568)) = 0.362 และ exp(-0.290)/(1 + exp(-0.290)) = 0.428
+     ข้อสังเกต: ในต้นฉบับ (EGRET) theta เป็นแบบบวก 1.037 - 0.852 ส่วน glmmTMB ใช้ log(phi) จึงไม่ได้แสดงค่าจาก glmmTMB ตรงนี้
+     ต้นฉบับผิด (ต้นฉบับอ้าง "sections 10.5.1 and 10.5.2" ในหัวข้อนี้ ที่ถูกคือ 10.6.1 และ 10.6.2) -->
+
+## การถดถอยของข้อมูลการนับ {#sec-smp-count-regression}
+
+เช่นเดียวกับที่ทวินามและบีตา-ทวินามเป็นฐานทั้งของการวิเคราะห์รูปแบบเชิงพื้นที่และการสร้างโมเดลทางสถิติของข้อมูลอุบัติการณ์ ปัวซงและทวินามลบก็ใช้กับข้อมูลโรคที่เป็นการนับได้ เพราะข้อมูลโรคแบบการนับมีค่อนข้างน้อย ในที่นี้จึงสรุปสั้น ๆ Cameron และ Trivedi (1998) อธิบายวิธีไว้ครบในเชิงสถิติ
+
+### การถดถอยปัวซงและทวินามลบ {#sec-smp-poisson-nb}
+
+ข้อมูลการนับมีปัญหาคล้ายข้อมูลอุบัติการณ์ (@sec-smp-regression) เมื่อต้องการเปรียบเทียบค่าเฉลี่ย การถดถอยปัวซง (Poisson regression) เลี่ยงปัญหาความไม่ปกติของข้อมูลการนับที่จำกัดการใช้ ANOVA โดยใช้ลอการิทึมธรรมชาติเป็นฟังก์ชันเชื่อมและระบุการแจกแจงปัวซง แต่ถ้าใช้การถดถอยปัวซงกับข้อมูลที่รวมกลุ่ม ค่าคลาดเคลื่อนมาตรฐานของตัวทำนายเชิงเส้นและผลต่างจะเล็กเกินไป และอาจอ้างนัยสำคัญเกินจริง การถดถอยทวินามลบเป็นวิธีหนึ่งที่วิเคราะห์ข้อมูลการนับที่รวมกลุ่มโดยคำนึงถึงความแปรปรวนส่วนเกินจากปัวซง
+
+**ตัวอย่างที่ 10.6** กลับไปที่ข้อมูลสำรวจด็อกวูด (@tbl-smp-dogwood-data) ตัวอย่างที่ 10.5 วิเคราะห์*สัดส่วน*การตายที่เกิดจากโรค ตัวอย่างนี้วิเคราะห์*จำนวน*ต้นที่ตายจากโรค คือใช้เพียง $Y$ เพราะการตายในแปลงมีขีดบน (ตายได้ไม่เกิน $n$ ต้น) การวิเคราะห์เป็นสัดส่วนจึงเหมาะกว่า การวิเคราะห์จำนวนจะสมเหตุสมผลเมื่อ $Y$ น้อยเมื่อเทียบกับ $n$ จุดประสงค์ของตัวอย่างนี้คือแสดงวิธีวิเคราะห์ข้อมูลการนับ @tbl-smp-count-reg แสดงผลของโมเดลสามแบบ (ฟิตใน R)
+
+```{r}
+#| label: smp-count-reg
+#| eval: !expr requireNamespace("glmmTMB", quietly = TRUE)
+cr_a <- glm(Y ~ state, family = poisson, data = dogwood)
+cr_b <- MASS::glm.nb(Y ~ state, data = dogwood)
+cr_c <- glmmTMB(Y ~ state, dispformula = ~ state, family = nbinom2, data = dogwood)
+lp_se <- function(fit, newdata) {
+  p <- predict(fit, newdata = newdata, se.fit = TRUE)
+  tibble(state = newdata$state, lp = as.numeric(p$fit), se = as.numeric(p$se.fit))
+}
+nd <- tibble(state = c("North Carolina", "Virginia"))
+k_c <- exp(fixef(cr_c)$disp[1] + c(0, fixef(cr_c)$disp[2]))
+count_reg_tbl <- bind_rows(
+  lp_se(cr_a, nd) |> mutate(Model = "10.6a Poisson", k = NA_real_),
+  lp_se(cr_b, nd) |> mutate(Model = "10.6b Negative binomial, common k", k = cr_b$theta),
+  lp_se(cr_c, nd) |> mutate(Model = "10.6c Negative binomial, separate k", k = k_c)
+)
+```
+
+```{r}
+#| label: tbl-smp-count-reg
+#| tbl-cap: "Estimated linear predictors (ln scale) and standard errors for three regression models fitted to the number of dead dogwood trees infected by dogwood anthracnose per plot: Poisson regression, negative binomial regression with a common aggregation parameter k, and with a separate k for each state."
+#| eval: !expr requireNamespace("glmmTMB", quietly = TRUE)
+count_reg_tbl |>
+  select(Model, State = state, `Linear predictor` = lp, SE = se, k) |>
+  knitr::kable(digits = 3)
+```
+
+<!-- พี่ต้นข้าว: ตรวจแล้ว Poisson ได้ 1.212 และ 1.856 (SE 0.087, 0.088) ดีเวียนซ์ 257.99 และ NB ร่วมได้ k = 0.909 (SE 0.238) ตรงกับต้นฉบับ (SAS)
+     NB แยก k ใช้ glmmTMB nbinom2 + dispformula ได้ k = 0.566 และ 2.000 ตรงกับต้นฉบับ (ตรวจจาก render แล้ว)
+     ต้นฉบับผิด (คำบรรยายตาราง 10.10 อ้าง "Table 9.2" ที่ถูกคือตาราง 10.7 = @tbl-smp-dogwood-data) -->
+
+โมเดล 10.6a เป็นการถดถอยปัวซง ผลต่างระหว่างรัฐ (สเกล ln) คือ 0.645 (SE = 0.124, $P = 0.001$) แต่ดีเวียนซ์มากอย่างมีนัยสำคัญ (257.99 ที่ 57 องศาอิสระ) บ่งการรวมกลุ่ม (ความแปรปรวนส่วนเกินจากปัวซง) โมเดล 10.6b เป็นการถดถอยทวินามลบที่มีพารามิเตอร์การรวมกลุ่มร่วม ผลต่างระหว่างรัฐยังเป็น 0.645 แต่ SE = 0.314 ($P = 0.045$) และดีเวียนซ์ลดลงเป็นราว 68 ที่ 57 องศาอิสระซึ่งยอมรับได้ ถึงตรงนี้อาจสรุปว่ามีหลักฐานที่ระดับนัยสำคัญราว 5% ว่าสองรัฐต่างกันในจำนวนต้นตายจากโรคต่อแปลง แต่คงอยากตรวจโมเดลที่แยกพารามิเตอร์การรวมกลุ่มรายรัฐ เพื่อดูว่าจะสรุปนัยสำคัญได้หนักแน่นขึ้นทางใดทางหนึ่งหรือไม่ โมเดล 10.6c ซึ่งแยก $k$ รายรัฐ ให้ผลต่าง 0.645 เช่นเดิม แต่ SE = 0.293 ($P = 0.032$) จึงสรุปได้ว่ามีหลักฐานว่าสองรัฐต่างกันในจำนวนต้นตายจากโรคต่อแปลง ขณะที่ตัวอย่างที่ 10.5 สรุปว่าไม่มีความต่างใน*สัดส่วน*การตายที่เกิดจากโรค
+
+จาก @tbl-smp-count-reg โมเดล 10.6c บรรยายการรวมกลุ่มได้ดีขึ้น พารามิเตอร์การรวมกลุ่มร่วมในโมเดล 10.6b ใหญ่เกินไปสำหรับนอร์ทแคโรไลนา (ข้อมูลรวมกลุ่มมากกว่าที่โมเดล 10.6b บรรยาย) และเล็กเกินไปสำหรับเวอร์จิเนีย (ข้อมูลรวมกลุ่มน้อยกว่า) ความต่างนี้สะท้อนในโมเดล 10.6c เป็นค่าคลาดเคลื่อนมาตรฐานของตัวทำนายเชิงเส้นที่เพิ่มขึ้นสำหรับนอร์ทแคโรไลนา และลดลงสำหรับเวอร์จิเนีย (เทียบกับโมเดล 10.6b)

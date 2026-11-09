@@ -1,0 +1,151 @@
+## ตัวอย่างการวิเคราะห์ {#sec-yl-example}
+
+หัวข้อนี้สาธิตการฟิตโมเดลเชิงประจักษ์กับข้อมูลความสูญเสียผลผลิต จากผลบางส่วนที่ Navas-Cortés et al. (2000) รายงาน เรื่องผลของโรคเหี่ยว *Fusarium* ต่อผลผลิตถั่วลูกไก่ (chickpea) ในแต่ละวันปลูกสามวัน ปลูกถั่วลูกไก่สองพันธุ์ ("P-2245" และ "PV-61") ในแปลงจิ๋วที่ใส่เชื้อ *Fusarium oxysporum* f. sp. *ciceris* race 0 หรือ race 5 สามระดับความหนาแน่น ที่นี่ใช้ข้อมูลของฤดูปลูกเดียว (1987/88) การสร้างโมเดลของ Navas-Cortés et al. (2000) ใช้ผลผลิตสัมพัทธ์เป็นหลัก แต่เพื่อการสาธิต ที่นี่ใช้ผลผลิตจริง (กรัม/แถวแปลงจิ๋ว) ผลผลิตสัมพัทธ์ในงานต้นทางคำนวณจากผลผลิตเมื่อไม่มีโรค ซึ่งต่างกันตามวันปลูก
+
+ผู้วิจัยประเมินระดับโรคตลอดการระบาด และฟิตโมเดล Richards (บทที่ 4) กับข้อมูลความก้าวหน้าของโรค สรุปอัตราการเพิ่มของโรคด้วยอัตราเฉลี่ยถ่วงน้ำหนัก ($\varpi$; บทที่ 4) ซึ่งปรับสำหรับรูปร่างของเส้นโค้งที่ต่างกัน และคำนวณตัวแปรอื่นด้วย ได้แก่ AUDPC และเวลาจนพบอาการครั้งแรก ต้นฉบับ (รูป 12.8) แสดงค่าเฉลี่ยของสี่ซ้ำ ผลผลิต $W$ ลดลงตามคาดเมื่อระดับโรคปลายฤดู ($y_F$) AUDPC และพารามิเตอร์อัตราเพิ่มขึ้น มีเพียงความสัมพันธ์ $W:y_F$ ที่ดูเป็นเส้นตรง และ $W$ สัมพันธ์ทางบวกกับเวลาจนพบอาการ ซึ่งคาดได้จากกราฟอื่น เพราะรู้ว่าพารามิเตอร์อัตราของโมเดลความก้าวหน้าของโรคสัมพันธ์ทางลบกับเวลาจนถึงค่าโรคหนึ่ง (บทที่ 4) ที่นี่แสดงการวิเคราะห์เฉพาะความสัมพันธ์ $W:y_F$ ข้อมูลอยู่ใน @tbl-yl-chickpea (ต้นฉบับให้ในรูปโปรแกรม SAS)
+
+<!-- พี่ต้นข้าว: รูป 12.8 (W กับ AUDPC เวลาจนพบอาการ และอัตรา) ไม่มีข้อมูลตัวแปรอื่น พี่จึงใช้เฉพาะ W กับ y_F จากโปรแกรม SAS ในรูป 12.9 ของต้นฉบับ (35 ค่าสังเกต)
+     ต้นฉบับผิด (title ในโปรแกรม SAS เขียนว่า "Take all of wheat" ที่ถูกคือโรคเหี่ยว Fusarium ของถั่วลูกไก่) -->
+
+```{r}
+#| label: tbl-yl-chickpea
+#| tbl-cap: "Yield of chickpeas (W, g per microplot row) and final intensity of Fusarium wilt (y_F), means across four replications, for two cultivars (P-2245, PV-61) and two races (0, 5) of Fusarium oxysporum f. sp. ciceris, 1987/88 season (Navas-Cortés et al., 2000; data listed in the SAS program of Fig. 12.9 in Madden et al., 2007). Observations within each cultivar-race combination are different planting dates and inoculum densities, listed in matching order."
+chickpea <- tibble(
+  race = rep(c(5, 5, 0, 0), c(9, 9, 8, 9)),
+  cult = rep(c("2245", "61", "2245", "61"), c(9, 9, 8, 9)),
+  yF = c(0.97, 1.00, 0.99, 1.00, 1.00, 1.00, 0.95, 1.00, 1.00,
+         0.69, 0.58, 0.30, 0.89, 0.87, 0.87, 0.85, 0.85, 1.00,
+         0.10, 0.13, 0.31, 0.08, 0.06, 0.85, 0.71, 0.83,
+         0.24, 0.04, 0.07, 0.11, 0.04, 0.07, 0.71, 0.46, 0.35),
+  W = c(5.7, 0.8, 0.6, 0.0, 0.0, 0.0, 2.6, 0.0, 0.2,
+        141.0, 186.5, 296.3, 16.5, 36.4, 55.6, 2.5, 40.5, 5.5,
+        261.4, 249.1, 188.7, 174.3, 156.2, 19.9, 37.7, 18.8,
+        274.0, 339.7, 343.3, 231.5, 226.8, 238.6, 57.8, 92.9, 130.6)
+) |>
+  mutate(race = factor(race, levels = c(5, 0)), cult = factor(cult, levels = c("2245", "61")))
+chickpea |>
+  mutate(Cultivar = if_else(cult == "61", "PV-61", "P-2245")) |>
+  group_by(Race = race, Cultivar) |>
+  summarise(n = n(), `y_F` = paste(yF, collapse = ", "), W = paste(W, collapse = ", "), .groups = "drop") |>
+  knitr::kable()
+```
+
+ผลผลิตมีค่าตั้งแต่ราว 300 กรัม/แถวแปลงจิ๋วที่ $y \approx 0$ ลงไปถึง 0 ที่ $y \approx 1$ จึงไม่มีหลักฐานของผลผลิตต่ำสุดที่ไม่ใช่ศูนย์ (ใช้ $W_{\min} = 0$ และ $b = 1$ ใน @eq-yl-uniform ได้) และไม่มีหลักฐานว่า $W$ ทรงตัวที่ค่าสูงสุดเมื่อระดับโรคบางระดับมากกว่า 0 กล่าวคือไม่มีระดับโรค (ต่ำ) ที่ต่ำกว่านั้นผลผลิตไม่ตอบสนองต่อโรค (แบบใน @fig-yl-switch) จึงไม่มีขีดเริ่มของการตอบสนองของผลผลิต ซึ่งตรงกับ $a = 0$ ใน @eq-yl-uniform ขั้นแรกจึงฟิต @eq-yl-linear รูปทางสถิติ (เหมือน @eq-yl-uniform-line ที่ $a = 0$, $W_{\min} = 0$ และ $b = 1$) ด้วยการถดถอยกำลังสองน้อยที่สุดสามัญ (บทที่ 3)
+
+$$
+W_i = \beta_0 - \beta_1 y_{F,i} + \varepsilon_i
+$$ {#eq-yl-chickpea-simple}
+
+โดยตัวห้อย $i$ คือค่าสังเกตแต่ละค่า เมื่อไม่มีขีดเริ่มของโรค $\beta_0$ ก็คือ $W_0$ ใน @eq-yl-general
+
+```{r}
+#| label: yl-chickpea-simple
+cp_ols <- lm(W ~ yF, data = chickpea)
+cp_wls <- lm(W ~ yF, data = chickpea, weights = (W + 1)^(-1/2))
+cs <- function(fit, i) unname(summary(fit)$coefficients[i, 1:2])
+```
+
+ค่าประมาณพารามิเตอร์ (ความคลาดเคลื่อนมาตรฐานในวงเล็บ) คือ $\hat{\beta}_0 = `r round(cs(cp_ols, 1)[1], 1)`$ (`r round(cs(cp_ols, 1)[2], 1)`) และ $\hat{\beta}_1 = `r round(-cs(cp_ols, 2)[1], 1)`$ (`r round(cs(cp_ols, 2)[2], 1)`) และ $R^2 = `r round(summary(cp_ols)$r.squared, 2)`$ เส้นที่ฟิตได้อยู่ใน @fig-yl-chickpea A ข้อสังเกตคือโปรแกรมถดถอยถือว่าพจน์ในโมเดลเชิงเส้นบวกกัน แต่บทนี้เขียนโมเดลผลผลิตด้วยเครื่องหมายลบระหว่างจุดตัดแกนกับพจน์โรค เพื่อให้ $\beta_1$ เป็นบวกเมื่อ $W$ ลดลงตาม $y$ ผลลัพธ์ของโปรแกรมจึงแสดงความชันเป็น −280.9 แทนค่าบวก เพื่อให้สอดคล้องกับบทนี้ก็เพียงเปลี่ยนเครื่องหมาย
+
+<!-- พี่ต้นข้าว: ตรวจแล้ว lm() ให้ 277.8 (14.3) และ 280.9 (20.3) R² = 0.85 ตรงกับต้นฉบับ -->
+
+ดังที่อภิปรายไว้ เมื่อ @eq-yl-uniform-line เหมาะ ความชันคือ $W_0 - W_{\min}$ หรือ $W_0$ เมื่อ $W_{\min} = 0$ โมเดลที่ฟิตกับข้อมูลตัวอย่างให้ทั้งความชันและจุดตัดแกนราว 280 สอดคล้องกับทฤษฎี กราฟส่วนเหลือบ่งว่าความสัมพันธ์เชิงเส้นเหมาะ แต่มีหลักฐานว่าความแปรปรวนของส่วนเหลือขึ้นกับ $W$ (หรือ $y_F$) คือแปรปรวนมากเมื่อ $W$ มาก ($y_F$ น้อย) และน้อยเมื่อ $W$ น้อย ($y_F$ มาก) จึงฟิตโมเดลใหม่ด้วยกำลังสองน้อยที่สุดแบบถ่วงน้ำหนัก โดยน้ำหนักเท่ากับ $(W + 1)^{-1/2}$ (เป็นการวิเคราะห์เชิงประจักษ์ล้วน ๆ) ได้ $\hat{\beta}_0 = `r round(cs(cp_wls, 1)[1], 1)`$ (`r round(cs(cp_wls, 1)[2], 1)`) และ $\hat{\beta}_1 = `r round(-cs(cp_wls, 2)[1], 1)`$ (`r round(cs(cp_wls, 2)[2], 1)`) และ $R^2 = `r round(summary(cp_wls)$r.squared, 3)`$
+
+<!-- พี่ต้นข้าว: ตรวจแล้ว ค่าประมาณตรงกับต้นฉบับ 262.6 (15.3) และ 265.8, R² = 0.886 ความคลาดเคลื่อนมาตรฐานของความชันได้ 16.6 ต้นฉบับ 16.4 ต่างเล็กน้อย
+     ต้นฉบับเขียน β̂1 = −265.8 (ติดเครื่องหมายจากโปรแกรม) พี่ใช้ค่าบวกตามที่บทนี้กำหนด -->
+
+การวิเคราะห์จนถึงตอนนี้ไม่ได้คำนึงถึงผลของพันธุ์และ race ของเชื้อ ขั้นต่อไปอาจวิเคราะห์แยกแต่ละคู่พันธุ์กับ race แล้วเปรียบเทียบค่าประมาณพารามิเตอร์ด้วยการทดสอบ t แต่จะไม่ทำที่นี่ เหตุผลหนึ่งคือบางคู่ (เช่น "P-2245" กับ race 5) มีช่วงของ $W$ และ $y_F$ แคบมาก ทำให้ประมาณความชันและจุดตัดแกนที่สมเหตุสมผลจากข้อมูลไม่กี่จุดได้ยาก แต่จะใช้แนวทางรวมที่เป็นทางการกว่า คือการวิเคราะห์ความแปรปรวนร่วม โดยมี $y_F$ เป็นตัวแปรต่อเนื่อง และพันธุ์ ($C$) กับ race ($\Re$) เป็นตัวแปรปัจจัย แนวทางนี้ใช้ในบทที่ 4 สำหรับเปรียบเทียบเส้นโค้งความก้าวหน้าของโรค ผู้อ่านควรเข้าใจเนื้อหาส่วนนั้นก่อน เพราะจะไม่ทวนรายละเอียดที่นี่
+
+ในรูปสมการเทียม (pseudo-equation) เขียนผลผลิตได้ว่า
+
+$$
+\begin{aligned}
+\text{YIELD} = {} & \text{CONSTANT} + \text{CULTIVAR} + \text{RACE} \\
+& + \text{DISEASE} + (\text{CULTIVAR} \times \text{DISEASE}) \\
+& + (\text{RACE} \times \text{DISEASE}) + \text{ERROR}
+\end{aligned}
+$$
+
+จุดตัดแกน (ในกรณีนี้คือผลผลิตสูงสุดเมื่อไม่มีโรค) คือ CONSTANT + CULTIVAR + RACE และความชันคือ DISEASE + (CULTIVAR × DISEASE) + (RACE × DISEASE) โดยตัวแปรปัจจัยมีค่าต่างกันตามพันธุ์และ race ในรูปโมเดลความแปรปรวนร่วม ขยาย @eq-yl-chickpea-simple เป็น
+
+$$
+W_{ijk} = \beta_0 + C_j + \Re_k - \beta_1 y_{F,ijk} + \beta_{1j}\, y_{F,ijk} + \beta_{1k}\, y_{F,ijk} + \varepsilon_{ijk}
+$$ {#eq-yl-chickpea-ancova}
+
+โดย $\beta_0$ เป็นค่าคงที่ $C_j$ คือผลของพันธุ์ที่ $j$ ($j$ = 61, 2245) และ $\Re_k$ คือผลของ race ที่ $k$ ($k$ = 0, 5) ต่อจุดตัดแกน ($W$ ที่ $y_F = 0$) $\beta_1$ เป็นความชันของ $y_F$ (เหมือนเดิม) และ $\beta_{1j}$ กับ $\beta_{1k}$ คือผลของพันธุ์ที่ $j$ และ race ที่ $k$ ต่อความชัน ตัวห้อย $i$ คือค่าสังเกตแต่ละค่า (วันปลูกและความหนาแน่นหน่วยเชื้อต่างกัน ซึ่งไม่ได้สร้างโมเดลโดยตรงที่นี่) ไม่ได้รวมอันตรกิริยาของพันธุ์กับ race ต่อจุดตัดแกนหรือความชัน เพราะเห็นว่าค่าสังเกตไม่พอจะประมาณพจน์เหล่านี้ได้แม่นยำ และจะกลับไปเจอปัญหาช่วงค่าสังเกตแคบในบางคู่ของพันธุ์ race และระดับโรคอีก
+
+ต้นฉบับฟิต @eq-yl-chickpea-ancova ด้วย PROC MIXED ของ SAS ที่นี่ใช้ `lm()` ของ R ซึ่งให้ผลเดียวกันเพราะไม่มีพจน์สุ่มนอกจากส่วนเหลือ โดยตั้งระดับอ้างอิงเป็นพันธุ์ "P-2245" และ race 5 (ระดับสุดท้ายตามแบบของ SAS) เพื่อให้ได้ค่าประมาณชุดเดียวกับต้นฉบับ การทดสอบ F แบบ type 3 ของ SAS ได้จากการฟิตซ้ำด้วยคอนทราสต์แบบผลรวมเป็นศูนย์ (เมื่อแต่ละปัจจัยมีสองระดับ $F = t^2$ ของสัมประสิทธิ์)
+
+```{r}
+#| label: tbl-yl-chickpea-ancova
+#| tbl-cap: "Covariance analysis of chickpea yield (W) in relation to final Fusarium wilt intensity (y_F), cultivar and pathogen race: estimated parameters with standard errors (reference levels: cultivar P-2245, race 5; coefficients are on the additive scale used by the software, so slopes are negative)."
+cp_ancova <- lm(W ~ cult + race + yF + cult:yF + race:yF, data = chickpea)
+cp_sum0 <- lm(W ~ cult + race + yF + cult:yF + race:yF, data = chickpea,
+              contrasts = list(cult = "contr.sum", race = "contr.sum"))
+anc_tab <- summary(cp_ancova)$coefficients |>
+  as_tibble(rownames = "Term") |>
+  select(Term, Estimate, SE = `Std. Error`, t = `t value`, p = `Pr(>|t|)`)
+type3 <- summary(cp_sum0)$coefficients[-1, , drop = FALSE] |>
+  as_tibble(rownames = "Effect") |>
+  transmute(Effect = c("cult", "race", "y_F", "y_F x cult", "y_F x race"),
+            `F value` = `t value`^2, `Pr > F` = `Pr(>|t|)`)
+knitr::kable(anc_tab, digits = c(0, 2, 2, 2, 4))
+```
+
+```{r}
+#| label: tbl-yl-chickpea-type3
+#| tbl-cap: "Type 3 F-tests of fixed effects (1 and 29 degrees of freedom) for the covariance model of chickpea yield."
+knitr::kable(type3, digits = c(0, 2, 4))
+```
+
+```{r}
+#| label: yl-chickpea-lines
+cf <- coef(cp_ancova)
+cp_lines <- expand_grid(cult = c("2245", "61"), race = c("5", "0")) |>
+  mutate(intercept = cf["(Intercept)"] + if_else(cult == "61", cf["cult61"], 0) +
+           if_else(race == "0", cf["race0"], 0),
+         slope = cf["yF"] + if_else(cult == "61", cf["cult61:yF"], 0) +
+           if_else(race == "0", cf["race0:yF"], 0),
+         group = paste0("r", race, "_", if_else(cult == "61", "61", "22")))
+```
+
+ผลการทดสอบ F ของผลคงที่ (@tbl-yl-chickpea-type3) บ่งว่าทั้งสองปัจจัยมีผลต่อจุดตัดแกน (เช่น $F = `r round(type3[["F value"]][1], 2)`$ สำหรับพันธุ์) และความชัน (เช่น $F = `r round(type3[["F value"]][4], 2)`$ สำหรับอันตรกิริยาของโรคกับพันธุ์) ความสูงและความชันของเส้นจึงได้รับผลจากปัจจัยทดลอง จุดตัดแกนและความชันของแต่ละคู่พันธุ์กับ race คำนวณจากค่าประมาณพารามิเตอร์ใน @tbl-yl-chickpea-ancova เช่น จุดตัดแกนของ "PV-61" กับ race 0 คือ $\hat{\beta}_0 + \hat{C}_{61} + \hat{\Re}_0 = `r round(cf[1], 1)` + `r round(cf[2], 1)` - `r round(-cf[3], 1)` = `r round(cf[1] + cf[2] + cf[3], 1)`$ เนื่องจากระดับอ้างอิงมีค่าเป็นศูนย์ จุดตัดแกนของ "P-2245" กับ race 5 ก็คือ $\hat{\beta}_0 = `r round(cf[1], 1)` + 0 + 0 = `r round(cf[1], 1)`$ (แสดงโดยตรงเป็น Intercept) ความชันที่แสดงเป็นลบ เพราะโปรแกรมถือว่าพจน์บวกกัน @tbl-yl-chickpea-lines แสดงจุดตัดแกนและความชันของทั้งสี่คู่
+
+```{r}
+#| label: tbl-yl-chickpea-lines
+#| tbl-cap: "Estimated intercepts (disease-free yield, g per microplot row) and slopes (beta1, shown as positive declines in yield per unit disease) of the chickpea yield:Fusarium wilt relationship for each combination of cultivar and pathogen race, from the covariance model."
+cp_lines |>
+  transmute(Cultivar = if_else(cult == "61", "PV-61", "P-2245"), Race = race,
+            Intercept = intercept, `Slope (beta1)` = -slope) |>
+  knitr::kable(digits = 1)
+```
+
+<!-- พี่ต้นข้าว: ตรวจแล้ว lm() ให้ค่าประมาณตรงกับผลลัพธ์ SAS ในรูป 12.11 ของต้นฉบับทุกค่า (385.29, 59.20, −145.85, −386.18, −82.87, 117.04; F type 3 = 6.12, 9.37, 135.02, 5.93, 4.01)
+     จุดตัดแกนและความชันของสี่คู่ตรงกับ estimate statements (385.29, 444.49, 239.44, 298.64; −386.18, −469.06, −269.15, −352.02) -->
+
+เมื่อมีเพียงสองพันธุ์ การทดสอบ F ที่มีนัยสำคัญของผลหลักและอันตรกิริยากับระดับโรค บ่งว่า "PV-61" กับ "P-2245" ต่างกันทั้งผลผลิตเมื่อไม่มีโรค และอัตราการลดลงของผลผลิตเมื่อโรคเพิ่ม กล่าวคือ ผลผลิตเมื่อไม่มีโรคของ "PV-61" สูงกว่าอีกพันธุ์ `r round(cf[["cult61"]], 1)` กรัม/แถวแปลงจิ๋ว แต่ผลผลิตลดลงตามโรคชันกว่า `r round(-cf[["cult61:yF"]], 1)` กรัม (ต่อหน่วยระดับโรค) ถ้ามีมากกว่าสองพันธุ์ ต้องใช้คอนทราสต์ (บทที่ 4) หาว่าคู่ใดต่างกัน เส้นที่ทำนายของแต่ละคู่ race กับพันธุ์อยู่ใน @fig-yl-chickpea B ต่างจากกรณีที่ไม่คำนึงถึงปัจจัยทดลอง กราฟส่วนเหลือไม่บ่งว่าต้องใช้น้ำหนัก PROC MIXED ไม่คำนวณ $R^2$ เคล็ดลับหนึ่ง (สำหรับโมเดลเชิงเส้นที่ไม่มีพจน์สุ่มนอกจากส่วนเหลือ) คือยกกำลังสองสหสัมพันธ์ระหว่าง $W$ ที่สังเกตกับที่ทำนาย ซึ่งได้ $R^2 = `r round(cor(chickpea$W, fitted(cp_ancova))^2, 2)`$
+
+<!-- พี่ต้นข้าว: ต้นฉบับผิด (เขียนว่า "a residual plot did reveal a need to use weights" แต่ในบริบท "In contrast to..." และโมเดลที่ฟิตไม่ได้ถ่วงน้ำหนัก ควรเป็น "did not") พี่แปลเป็น "ไม่บ่ง" น้องกันต์ตรวจ -->
+
+```{r}
+#| label: fig-yl-chickpea
+#| fig-cap: "Yield of chickpeas (g per microplot row) in relation to final intensity of Fusarium wilt (y_F). Symbols represent combinations of pathogen race (r0 or r5) and cultivar (61 = PV-61, 22 = P-2245). (A) Fit of the simple linear model. (B) Fit of the covariance model, with additive effects of race and cultivar on the intercept and the slope. Data from Navas-Cortés et al. (2000)."
+#| fig-width: 7
+#| fig-height: 3.6
+cp_plot <- chickpea |> mutate(group = paste0("r", race, "_", if_else(cult == "61", "61", "22")))
+base_cp <- ggplot(cp_plot, aes(yF, W)) +
+  geom_point(aes(shape = group), size = 2) +
+  scale_shape_manual(values = c(r0_22 = 1, r0_61 = 16, r5_22 = 2, r5_61 = 17)) +
+  coord_cartesian(xlim = c(0, 1), ylim = c(0, 450)) +
+  labs(x = "Final disease intensity (y_F)", y = "Yield (W, g/row)", shape = "Race_cultivar",
+       linetype = "Race_cultivar") +
+  theme_minimal(base_family = "Google Sans")
+pA <- base_cp + geom_abline(intercept = coef(cp_ols)[1], slope = coef(cp_ols)[2]) + labs(title = "A") +
+  theme(legend.position = "none")
+pB <- base_cp +
+  geom_abline(data = cp_lines, aes(intercept = intercept, slope = slope, linetype = group)) +
+  labs(title = "B")
+pA | pB
+```
+
+ขอเตือนว่าการวิเคราะห์นี้อิงค่าเฉลี่ยของซ้ำ ถ้ามีข้อมูลรายซ้ำ จะประเมินผลของปัจจัยทดลองได้ครบกว่า ด้วยการฟิตโมเดลที่มีผลสุ่มเหมาะกับแผนการทดลองแบบ split-plot (Schabenberger and Pierce, 2002) ที่ Navas-Cortés et al. (2000) ใช้ และสร้างโมเดลเพิ่มสำหรับ AUDPC และตัวแปรทำนายอื่นได้ ทั้งกับผลผลิตและผลผลิตสัมพัทธ์เป็นตัวแปรตอบสนอง ดูการวิเคราะห์ผลผลิตสัมพัทธ์โดยละเอียดใน Navas-Cortés et al. (2000)

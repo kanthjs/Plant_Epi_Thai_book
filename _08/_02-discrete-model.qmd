@@ -42,11 +42,11 @@ ggplot(two_src, aes(s, Y, linetype = curve)) +
   annotate("segment", x = xi, xend = xi, y = 0, yend = Yxi,
            linewidth = 1.2) +
   annotate("text", x = xi, y = Yxi + 0.08, label = c("xi[1]", "xi[2]"),
-           parse = TRUE, family = "Sarabun") +
+           parse = TRUE, family = "Google Sans") +
   scale_linetype_manual(values = c("dashed", "dotted", "solid")) +
   labs(x = "Position, s", y = "Density of new infections",
        linetype = NULL) +
-  theme_minimal(base_family = "Sarabun") +
+  theme_minimal(base_family = "Google Sans") +
   theme(legend.position = "top")
 ```
 

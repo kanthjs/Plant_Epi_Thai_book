@@ -1,0 +1,130 @@
+## การสุ่มอย่างง่ายสำหรับข้อมูลการนับ {#sec-smp-srs-counts}
+
+สูตรขนาดตัวอย่างสำหรับการสุ่มอย่างง่ายของข้อมูลการนับมีให้ไว้โดย Karandinos (1976) Ruesink (1980) Wilson และ Room (1982) Ives และ Moon (1987) และ Campbell และ Madden (1990) การแจกแจงปัวซง การแจกแจงทวินามลบ และกฎยกกำลังของ Taylor (บทที่ 9) ให้คำบรรยายความแปรปรวนของข้อมูลการนับ การคำนวณขนาดตัวอย่างต้องมีค่าเริ่มต้นของพารามิเตอร์ และนิยามความเที่ยงตาม @sec-smp-reliability ซึ่งอิงค่าคลาดเคลื่อนมาตรฐานของค่าเฉลี่ย
+
+### การแจกแจงปัวซง {#sec-smp-poisson}
+
+พารามิเตอร์เดียวของการแจกแจงปัวซง (@sec-sp-poisson) คือ $\mu$ ซึ่งประมาณด้วยค่าเฉลี่ยต่อหน่วยสุ่ม $\bar{Y}$ (เช่น จำนวนแผลเฉลี่ยต่อใบ) ความแปรปรวนของปัวซงก็ประมาณด้วย $\bar{Y}$ ด้วย สำหรับตัวอย่าง $N$ หน่วย ค่าคลาดเคลื่อนมาตรฐานของค่าเฉลี่ยจึงเป็น $\sqrt{\bar{Y}/N}$ นิยามความเที่ยงสามแบบให้
+
+$$
+CV = \frac{\sqrt{\bar{Y}/N}}{\bar{Y}}, \qquad z_{\alpha/2}\sqrt{\frac{\bar{Y}}{N}} = H\bar{Y}, \qquad z_{\alpha/2}\sqrt{\frac{\bar{Y}}{N}} = h
+$$ {#eq-smp-pois-rel}
+
+@tbl-smp-count-formulas จัดรูปให้ได้ $N$ การคำนวณต้องมีนิยามความเที่ยงและค่าเริ่มต้นของค่าเฉลี่ย $\bar{Y}$ (ซึ่งกำหนดความแปรปรวนด้วย)
+
+### การแจกแจงทวินามลบ {#sec-smp-nbinom}
+
+พารามิเตอร์สองตัวของการแจกแจงทวินามลบ (@sec-sp-neg-binomial) คือ $\mu$ และ $k$ ประมาณ $\mu$ ด้วย $\bar{Y}$ และความแปรปรวนประมาณได้ด้วย $\bar{Y} + \bar{Y}^2/\hat{k}$ สำหรับตัวอย่าง $N$ หน่วย ค่าคลาดเคลื่อนมาตรฐานของค่าเฉลี่ยคือ $\sqrt{(\bar{Y} + \bar{Y}^2/\hat{k})/N}$ นิยามความเที่ยงสามแบบให้
+
+$$
+CV = \frac{\sqrt{(\bar{Y} + \bar{Y}^2/\hat{k})/N}}{\bar{Y}}, \qquad z_{\alpha/2}\sqrt{\frac{\bar{Y} + \bar{Y}^2/\hat{k}}{N}} = H\bar{Y}, \qquad z_{\alpha/2}\sqrt{\frac{\bar{Y} + \bar{Y}^2/\hat{k}}{N}} = h
+$$ {#eq-smp-nb-rel}
+
+การคำนวณขนาดตัวอย่างต้องมีนิยามความเที่ยงและค่าเริ่มต้นของ $\bar{Y}$ และ $\hat{k}$ (ซึ่งกำหนดความแปรปรวนร่วมกัน) แต่ $\hat{k}$ มักแปรตามค่าเฉลี่ย จึงไม่น่าจะมี $\hat{k}$ ค่าเดียวที่เหมาะกับช่วง $\bar{Y}$ กว้าง ทางเลี่ยงหนึ่งคือบรรยายการรวมกลุ่มด้วยกฎของ Taylor แทน
+
+### กฎยกกำลังของ Taylor {#sec-smp-taylor}
+
+กฎของ Taylor บรรยายความสัมพันธ์ระหว่างความแปรปรวนกับค่าเฉลี่ยของข้อมูลการนับ (@sec-sp-taylor) ความแปรปรวนประมาณได้ด้วย $s_Y^2 = \hat{a}\bar{Y}^{\hat{b}}$ โดยค่าสัมประสิทธิ์ได้จากการวิเคราะห์ข้อมูลก่อนหน้า ค่าคลาดเคลื่อนมาตรฐานของค่าเฉลี่ยของตัวอย่าง $N$ หน่วยคือ $\sqrt{\hat{a}\bar{Y}^{\hat{b}}/N}$ นิยามความเที่ยงสามแบบให้
+
+$$
+CV = \frac{\sqrt{\hat{a}\bar{Y}^{\hat{b}}/N}}{\bar{Y}}, \qquad z_{\alpha/2}\sqrt{\frac{\hat{a}\bar{Y}^{\hat{b}}}{N}} = H\bar{Y}, \qquad z_{\alpha/2}\sqrt{\frac{\hat{a}\bar{Y}^{\hat{b}}}{N}} = h
+$$ {#eq-smp-taylor-rel}
+
+การคำนวณต้องมีนิยามความเที่ยง กฎของ Taylor ที่คำนวณไว้แล้วสำหรับระบบโรคนั้น และค่าเริ่มต้นของ $\bar{Y}$ สูตรขนาดตัวอย่างจากนิยาม $CV$ และ $H$ มีลักษณะแปลกคือ $N$ ลดลงเมื่อ $\bar{Y}$ เพิ่มถ้า $\hat{b} < 2$ แต่เพิ่มขึ้นเมื่อ $\hat{b} > 2$ (Buntin, 1994) ในทางปฏิบัติ $b > 2$ พบไม่บ่อย แต่ถ้าพบ ควรระวังเมื่อใช้คำนวณขนาดตัวอย่าง
+
+| Description of variability | Coefficient of variation, $CV$ | Proportion of mean, $H$ | Fixed positive number, $h$ |
+|---|---|---|---|
+| Random (Poisson) | $N = \dfrac{1}{\bar{Y}\,CV^2}$ | $N = \dfrac{1}{\bar{Y}}\left(\dfrac{z_{\alpha/2}}{H}\right)^2$ | $N = \bar{Y}\left(\dfrac{z_{\alpha/2}}{h}\right)^2$ |
+| Aggregated (negative binomial) | $N = \left(\dfrac{1}{\bar{Y}} + \dfrac{1}{\hat{k}}\right)\dfrac{1}{CV^2}$ | $N = \left(\dfrac{1}{\bar{Y}} + \dfrac{1}{\hat{k}}\right)\left(\dfrac{z_{\alpha/2}}{H}\right)^2$ | $N = \left(\bar{Y} + \dfrac{\bar{Y}^2}{\hat{k}}\right)\left(\dfrac{z_{\alpha/2}}{h}\right)^2$ |
+| Aggregated (Taylor's power law) | $N = \dfrac{\hat{a}\bar{Y}^{\hat{b} - 2}}{CV^2}$ | $N = \hat{a}\bar{Y}^{\hat{b} - 2}\left(\dfrac{z_{\alpha/2}}{H}\right)^2$ | $N = \hat{a}\bar{Y}^{\hat{b}}\left(\dfrac{z_{\alpha/2}}{h}\right)^2$ |
+
+: Formulae for sample size calculations for count data collected by simple random sampling, with three definitions of reliability. N is the number of sampling units required, Ybar an initial estimate of the mean count per sampling unit and z the 100(1 - alpha/2)th percentile of the standard normal distribution. For aggregated data an estimate of the negative binomial k or of Taylor's power law parameters (a, b) is required. The formulae omit the finite population correction. {#tbl-smp-count-formulas}
+
+<!-- พี่ต้นข้าว: ตรวจแล้ว ทุกช่องของตารางได้จากการจัดรูป @eq-smp-pois-rel @eq-smp-nb-rel @eq-smp-taylor-rel (ต้นฉบับสมการ 10.7–10.15 เป็นภาพ และตาราง 10.2 แปลงไฟล์มาเสีย)
+     ต้นฉบับมีหัวข้อ 10.4.3 (Taylor) ปนอยู่ในย่อหน้าของ 10.4.2 พี่แยกเป็นหัวข้อ -->
+
+### ตัวอย่างการคำนวณขนาดตัวอย่าง {#sec-smp-count-examples}
+
+@fig-smp-count-n แสดงว่าขนาดตัวอย่าง $N$ แปรตาม $\bar{Y}$ อย่างไรเมื่อใช้กฎของ Taylor บรรยายความแปรปรวน ($\hat{a} = 3.46$, $\hat{b} = 1.38$; Boivin et al., 1990) ที่ $CV = 0.2$ เทียบกับเมื่อใช้ปัวซง ทั้งสองกรณี $N$ ลดลงเมื่อ $\bar{Y}$ เพิ่มขึ้น แต่ $N$ ตามกฎของ Taylor (ข้อมูลรวมกลุ่ม) สูงกว่าตามปัวซง (ข้อมูลสุ่ม) ยกเว้นที่ความหนาแน่นต่ำมาก
+
+```{r}
+#| label: fig-smp-count-n
+#| fig-cap: "Simple random sampling for count data: required sample size N in relation to the initial estimate of mean count per sampling unit, with CV = 0.2, based on Taylor's power law with a = 3.46, b = 1.38 (Boivin et al., 1990) and on the Poisson distribution."
+#| fig-width: 5.5
+#| fig-height: 3.4
+tibble(Y = seq(0.05, 20, by = 0.05)) |>
+  mutate(`Taylor's power law` = 3.46 * Y^(1.38 - 2) / 0.2^2,
+         Poisson = 1 / (Y * 0.2^2)) |>
+  pivot_longer(-Y, names_to = "model", values_to = "N") |>
+  ggplot(aes(Y, N, linetype = model)) +
+  geom_line() +
+  scale_x_log10() + scale_y_log10() +
+  labs(x = "Mean count per sampling unit (log scale)", y = "Sample size, N (log scale)",
+       linetype = NULL) +
+  theme_minimal(base_family = "Google Sans") +
+  theme(legend.position = "top")
+```
+
+<!-- พี่ต้นข้าว: ต้นฉบับวาดสองแผงแยก พี่รวมเป็นแผงเดียวบนแกนลอการิทึมเพื่อให้เห็นจุดตัด (Taylor ต่ำกว่าปัวซงเมื่อ Y < 3.46^(-1/0.38) ราว 0.04) -->
+
+**ตัวอย่างที่ 10.2** ต้นฉบับแสดงแผนที่จำนวนแผลต่อต้นของสองแปลงที่เป็นโรค เริ่มแรกสุ่มตัวอย่างอย่างง่ายแปลงละ 20 ต้น (ตัวอย่าง 10.2.1 และ 10.2.2a) ต่อมาสุ่มตัวอย่างที่สองจากแปลงที่สองอีก 40 ต้น (ตัวอย่าง 10.2.2b) การแจกแจงความถี่ของจำนวนแผลต่อต้นอยู่ใน @tbl-smp-ex102
+
+```{r}
+#| label: tbl-smp-ex102
+#| tbl-cap: "Frequency (number of plants) of the number of lesions per plant in three simple random samples from two fields (Example 10.2), with summary statistics: mean, variance, standard error of the mean and coefficient of variation of the mean."
+lesions <- 0:17
+ex102 <- list(
+  `Sample 10.2.1 (N = 20)`  = c(0, 1, 1, 3, 2, 1, 5, 1, 4, 1, 1, 0, 0, 0, 0, 0, 0, 0),
+  `Sample 10.2.2a (N = 20)` = c(1, 0, 1, 2, 4, 2, 3, 2, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0),
+  `Sample 10.2.2b (N = 40)` = c(2, 4, 2, 3, 1, 2, 7, 7, 2, 1, 3, 1, 0, 1, 1, 1, 0, 2)
+)
+ex102_stats <- map_dfr(ex102, \(f) {
+  x <- rep(lesions, f)
+  tibble(N = length(x), Mean = mean(x), Variance = var(x),
+         SE = sqrt(var(x) / length(x)), CV = sqrt(var(x) / length(x)) / mean(x))
+}, .id = "Sample")
+freq_tbl <- as_tibble(ex102) |>
+  mutate(`Lesions per plant` = as.character(lesions), .before = 1)
+stat_rows <- ex102_stats |>
+  select(-Sample) |>
+  mutate(across(everything(), \(v) sprintf("%.2f", v))) |>
+  t() |> as_tibble(rownames = "Lesions per plant", .name_repair = ~ names(ex102))
+bind_rows(mutate(freq_tbl, across(-1, as.character)), stat_rows) |>
+  knitr::kable()
+```
+
+<!-- พี่ต้นข้าว: ตรวจแล้ว ค่าเฉลี่ยและความแปรปรวน 5.65/6.13, 6.40/17.09, 6.60/19.37 ตรงกับต้นฉบับ
+     แผนที่แปลง (Field 10.2.1 และ 10.2.2) ในต้นฉบับแปลงไฟล์มาเสียจนอ่านไม่ได้ พี่ตัดออก เหลือเฉพาะตารางความถี่ซึ่งเพียงพอต่อการคำนวณ
+     ต้นฉบับชวนให้ผู้อ่านสุ่มเองจากแผนที่เป็นแบบฝึกหัด ถ้าน้องกันต์อยากคงไว้ ต้องพิมพ์แผนที่ใหม่จากหนังสือ -->
+
+ตัวอย่าง 10.2.1 มีค่าคลาดเคลื่อนมาตรฐานของ $\bar{Y}$ เท่ากับ $\sqrt{6.13/20} = 0.55$ และ $CV \approx 10\%$ ตัวอย่าง 10.2.2a มีค่าคลาดเคลื่อนมาตรฐาน $\sqrt{17.09/20} = 0.92$ และ $CV \approx 14\%$ แม้ค่าเฉลี่ยของสองแปลงใกล้กัน แต่ประมาณได้ด้วยความเที่ยงต่างกัน เหตุผลคือในแปลง 10.2.1 มีต้นที่จำนวนแผลห่างจากค่าเฉลี่ยมากเพียงไม่กี่ต้น ส่วนแปลง 10.2.2 มีทั้งต้นที่แผลน้อยและต้นที่แผลมากมากกว่า ซึ่งบ่งว่ารูปแบบจำนวนแผลต่อต้นของแปลง 10.2.2 รวมกลุ่มมากกว่า (ในสเกลต้น) และส่งผลต่อปริมาณการสุ่มที่ต้องใช้เพื่อให้ได้ความเที่ยงตามกำหนด
+
+ลองมองตัวอย่าง 20 ต้นสองชุดเป็นตัวอย่างนำร่อง สำหรับแปลง 10.2.1 ความแปรปรวน (6.13) ใกล้ค่าเฉลี่ย (5.65) จึงสมมติได้ว่าการแจกแจงปัวซงเหมาะ สำหรับแปลง 10.2.2 ความแปรปรวน (17.09) มากกว่าค่าเฉลี่ย (6.40) จึงสมมติการแจกแจงทวินามลบแทน โดย $\hat{k} = \bar{Y}^2/(s_Y^2 - \bar{Y}) \approx 4$ ถ้ากำหนดความเที่ยง $CV = 0.1$ จาก @tbl-smp-count-formulas แปลง 10.2.1 ต้องการ $N = 1/(5.65 \times 0.1^2) \approx 18$ ต้น ใกล้ $N = 20$ ของตัวอย่างนำร่องซึ่งให้ $CV \approx 0.1$ ตามคาด แปลง 10.2.2 ต้องการ $N = (1/6.4 + 1/4)(1/0.1^2) \approx 40$ ต้น เพราะการรวมกลุ่มเพิ่มขึ้นเมื่อ $\hat{k}$ *ลดลง* ถ้า $\hat{k} = 4$ มากเกินค่าจริง ขนาดตัวอย่างที่คำนวณได้จะน้อยเกินไป และกลับกัน
+
+แม้การรวมกลุ่มจะปานกลาง (ตาม $\hat{k}$) ก็ต้องใช้หน่วยสุ่มราวสองเท่าของแปลงที่มีค่าเฉลี่ยเท่ากันแต่รูปแบบสุ่ม เพื่อให้ได้ความเที่ยงเท่ากัน ($CV = 0.1$) ตัวอย่างสุ่ม $N = 40$ ต้นจากแปลง 10.2.2 (ตัวอย่าง 10.2.2b) มี $\bar{Y} = 6.60$ และ $s_Y^2 = 19.37$ ค่าคลาดเคลื่อนมาตรฐานคือ $\sqrt{19.37/40} = 0.70$ ให้ $CV \approx 0.1$ ตามที่ต้องการ
+
+<!-- พี่ต้นข้าว: ตรวจแล้ว 1/(5.65 x 0.01) = 17.7, (1/6.4 + 1/4)/0.01 = 40.6, k = 6.4^2/(17.09 - 6.4) = 3.83 -->
+
+### ช่วงความเชื่อมั่นแบบแม่นตรงของปัวซง {#sec-smp-exact-pois}
+
+ช่วงความเชื่อมั่นโดยประมาณแบบง่ายของปัวซง $\bar{Y} \pm z_{\alpha/2}\sqrt{\bar{Y}/N}$ ซึ่งใช้ในสูตรขนาดตัวอย่าง มีจุดอ่อนแบบเดียวกับของทวินาม (@sec-smp-exact-binom) เช่น ถ้าพบแผลหนึ่งแผลในตัวอย่าง $N = 10$ ต้น ช่วง 95% โดยประมาณของค่าเฉลี่ย ($\bar{Y} = 0.1$ แผลต่อต้น) คือ $-0.096$ ถึง $0.296$ (ใช้ $z_{\alpha/2} = 1.96$) หรือ $-0.126$ ถึง $0.326$ ถ้าใช้การแจกแจง $t$ ที่ 9 องศาอิสระ ซึ่งใช้ไม่ได้เพราะค่าเฉลี่ยจริงติดลบไม่ได้ Garwood (1936) สร้างช่วงความเชื่อมั่น "แม่นตรง" ของปัวซงในทำนองเดียวกับช่วงของ Clopper–Pearson มีตารางใน Fisher และ Yates (1963) และ Diem และ Lentner (1970) ใน R ใช้ `poisson.test()`
+
+ตารางให้ช่วงของจำนวน*รวม*ในตัวอย่าง $N$ หน่วย ในตัวอย่างนี้จำนวนแผลรวมบน 10 ต้นเท่ากับหนึ่ง ช่วง 95% แบบ Clopper–Pearson คือ `r sprintf("%.3f", poisson.test(1)$conf.int[1])` ถึง `r sprintf("%.2f", poisson.test(1)$conf.int[2])` หารด้วย 10 ได้ช่วงของค่าเฉลี่ย 0.0025 ถึง 0.557 แผลต่อต้น ขีดล่างเป็นบวกตามที่ควร และขีดบนสูงกว่าช่วงแบบปกติมาก ช่วงไม่สมมาตรรอบค่าเฉลี่ย เช่นเดียวกับทวินาม ช่วงแบบ Clopper–Pearson ค่อนข้างอนุรักษ์นิยม Crow และ Gardner (1959) ให้ช่วง "แม่นตรง" ของปัวซงแบบที่อนุรักษ์นิยมน้อยกว่า สำหรับตัวอย่างใหญ่และค่าเฉลี่ยไม่ใกล้ศูนย์ ช่วงแบบปกติโดยประมาณมักใช้ได้
+
+ต่อมาพิจารณาตัวอย่าง $N$ ต้นที่ไม่พบแผลเลย คำนวณช่วงทางเดียว $100(1 - \alpha)\%$ ได้เหมือนกรณีอุบัติการณ์ โดยขีดล่างเป็นศูนย์และขีดบน $p_U$ ได้จาก $\Pr(Y = 0) = \alpha = e^{-Np_U}$ ซึ่งให้โดยตรง (ไม่ต้องใช้อนุกรมเทย์เลอร์)
+
+$$
+p_U = \frac{-\ln\alpha}{N}
+$$ {#eq-smp-pU-pois}
+
+ซึ่งเป็นสูตรที่กฎของสามและค่าประมาณอื่น ๆ ใน @sec-smp-exact-binom อิงอยู่ ช่วงทางเดียว 95% ของค่าเฉลี่ยจึงเป็น 0 ถึง $p_U \approx 3/N$ เช่น ไม่พบแผลในตัวอย่าง 10 ต้น ช่วงของค่าเฉลี่ยคือ 0 ถึง $3/10 = 0.333$ และช่วงของจำนวนแผลรวมใน 10 ต้นคือ 0 ถึง $Np_U = -\ln(0.05) = 2.996 \approx 3$
+
+ตารางช่วง "แม่นตรง" ของทวินามลบหาไม่ง่าย Gozé et al. (2003) อธิบายการคำนวณจากพื้นที่หางของการแจกแจงทวินามลบ ส่วน Krebs (1999) ให้วิธีที่ใช้การแปลงพารามิเตอร์ที่ค่อนข้างซับซ้อน (ซึ่งไม่ได้อิงพื้นที่หางอย่างชัดเจน) สำหรับตัวอย่าง $N$ หน่วยที่ไม่พบโรค ช่วงทางเดียวมีขีดล่างศูนย์และขีดบน $p_U$ ที่ $\Pr(Y = 0) = \alpha = (1 + \mu/k)^{-k}$ โดย $\mu = Np_U$ จึงได้
+
+$$
+p_U = \frac{k\left(\alpha^{-1/k} - 1\right)}{N}
+$$ {#eq-smp-pU-nb}
+
+แน่นอนว่าเมื่อไม่พบโรค ประมาณ $k$ จากข้อมูลไม่ได้ ต้องสมมติค่าหรือใช้ค่าจากตัวอย่างก่อน ข้อสังเกตคือ $\lim_{k \to \infty} k(\alpha^{-1/k} - 1) = -\ln\alpha$ ถ้าคิดว่า $k$ มาก จึงใช้สูตรของปัวซงเป็นค่าประมาณได้
+
+<!-- พี่ต้นข้าว: ตรวจแล้ว @eq-smp-pU-nb ได้จาก (1 + N p_U/k)^(-k) = alpha และลิมิตเมื่อ k -> inf เท่ากับ -ln(alpha) (ภาพ eq10-020 ซึ่งน่าจะเป็นลิมิตนี้หาย) -->

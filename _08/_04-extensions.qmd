@@ -46,16 +46,17 @@ ggplot(mapping = aes(x, y)) +
   geom_path(data = panel_b, aes(group = r), colour = "grey50") +
   geom_segment(data = tibble(panel = "B. Line source"),
                aes(x = 0, xend = 0, y = -4, yend = 4), linewidth = 1.2) +
-  geom_segment(data = tibble(panel = "B. Line source"),
-               aes(x = 0, xend = 2, y = c(-1.5, 1.5), yend = c(-1.5, 1.5)),
+  geom_segment(data = tibble(panel = "B. Line source", y = c(-1.5, 1.5)),
+               aes(x = 0, xend = 2, y = y, yend = y),
                linetype = "dashed") +
   geom_point(data = labels_b, size = 2) +
   geom_text(data = labels_b, aes(label = lab), nudge_x = 0.35,
-            family = "Sarabun") +
-  annotate("text", x = 1, y = 0, label = "d", family = "Sarabun") +
+            family = "Google Sans") +
+  geom_text(data = tibble(x = 1, y = -1.2, panel = "B. Line source"),
+            label = "d", family = "Google Sans") +
   facet_wrap(~panel) +
   coord_equal(xlim = c(-4.2, 4.2), ylim = c(-4.2, 4.2)) +
-  theme_minimal(base_family = "Sarabun") +
+  theme_minimal(base_family = "Google Sans") +
   theme(axis.title = element_blank(), axis.text = element_blank(),
         panel.grid = element_blank())
 ```
@@ -186,11 +187,11 @@ plot_hlir <- function(d, xmax) {
     geom_line() +
     scale_linetype_manual(values = c("solid", "dashed")) +
     scale_linewidth_manual(values = c(1, 0.4)) +
-    scale_y_log10(labels = scales::label_number(drop0trailing = TRUE)) +
+    scale_y_log10(labels = scales::label_log()) +
     coord_cartesian(ylim = c(1e-3, 1e4)) +
     labs(x = "Distance from source, s", y = "Disease density, Y(t, s) (log scale)",
          linetype = NULL, linewidth = NULL) +
-    theme_minimal(base_family = "Sarabun") +
+    theme_minimal(base_family = "Google Sans") +
     theme(legend.position = "top")
 }
 
