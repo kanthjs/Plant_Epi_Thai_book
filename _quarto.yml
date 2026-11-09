@@ -20,6 +20,7 @@ book:
     center: "© กันต์ธณวิชญ์ ใจสงฆ์ · ศูนย์วิจัยข้าวปทุมธานี"
   chapters:
     - index.qmd
+    - 00-preface.qmd
     - 01-intro.qmd
     - 02-measurement.qmd
     - 03-modeling-concepts.qmd
