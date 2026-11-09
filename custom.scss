@@ -1,5 +1,4 @@
 /*-- scss:defaults --*/
-@import url('https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,400;0,600;0,700;1,400&display=swap');
 
 @font-face {
   font-family: 'Google Sans';
@@ -20,7 +19,7 @@
   font-style: italic;
 }
 
-$font-family-sans-serif: "Google Sans", "Sarabun", system-ui, sans-serif;
+$font-family-sans-serif: "Google Sans", system-ui, sans-serif;
 $font-size-root: 18px;          // ตัวไทยต้องใหญ่กว่าตัวอังกฤษเล็กน้อยจึงอ่านสบาย
 $line-height-base: 1.75;        // เผื่อที่ให้สระบน-ล่างและวรรณยุกต์
 $link-color: #2E6B3F;           // เขียวใบข้าว เปลี่ยนตามชอบ
