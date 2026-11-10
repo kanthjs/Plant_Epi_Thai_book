@@ -1,6 +1,7 @@
 /.quarto/
 /_book/
 *_cache/
+*_files/
 *.log
 *.aux
 *.toc
