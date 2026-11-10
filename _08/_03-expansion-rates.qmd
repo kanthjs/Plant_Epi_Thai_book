@@ -154,7 +154,7 @@ iso_disc <- map(sim_disc, "iso") |> bind_rows() |>
 
 #### การกระจายแบบเกาส์ {#sec-st-gauss}
 
-เมื่อใช้การกระจายแบบเกาส์ (@tbl-st-contact) @eq-st-model มีผลเฉลยชัดแจ้ง เพราะ convolution ของการแจกแจงปกติ $n$ ตัวก็ยังเป็นการแจกแจงปกติที่มีความแปรปรวน $n\sigma^2$ (Johnson et al., 1994, 1995) disease density ที่ตำแหน่ง $s$ ในรุ่นที่ $n$ คือ
+เมื่อใช้การกระจายแบบเกาส์ (@tbl-st-contact) @eq-st-model มีผลเฉลยชัดแจ้ง เพราะ convolution ของการแจกแจงปกติ $n$ ตัวก็ยังเป็นการแจกแจงปกติที่มีความแปรปรวน $n\sigma^2$ (Johnson et al., 1994, 1995) disease density (ปริมาณโรคต่อหน่วยพื้นที่หรือต่อหน่วยพืช) ที่ตำแหน่ง $s$ ในรุ่นที่ $n$ คือ
 
 $$
 Y_n(s) = \frac{R_0^n \, Y_0}{\sigma\sqrt{2\pi n}} \exp\left(-\frac{s^2}{2n\sigma^2}\right)
