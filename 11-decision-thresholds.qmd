@@ -1,4 +1,4 @@
-# การตัดสินใจในทางปฏิบัติของการจัดการโรคพืช (Decision Making in the Practice of Plant Disease Management) {#sec-decision-thresholds}
+# Decision Making in the Practice of Plant Disease Management {#sec-decision-thresholds}
 
 <!-- พี่ต้นข้าว: ร่าง v1 (9 พ.ย. 2026) เขียนใหม่จาก md/ch11/ch11.md ทั้งบท (แนวทางเดียวกับบทที่ 8–10)
      ร่างเดิมเก็บไว้ที่ 11-decision-thresholds-ori.qmd ไม่ได้ render ร่างเดิมเป็นภาษาคุยกับผู้เขียน ("สวัสดีครับน้องกันต์!")

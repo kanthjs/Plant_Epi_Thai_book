@@ -1,4 +1,4 @@
-# พลวัตของการระบาดในมิติเวลาและพื้นที่ (Spatio-Temporal Disease Dynamics) {#sec-spatiotemporal}
+# Spatio-Temporal Disease Dynamics {#sec-spatiotemporal}
 
 <!-- พี่ต้นข้าว: ร่าง v1 (9 พ.ย. 2026) จัดโครงใหม่จาก 08-spatiotemporal-ori.qmd เทียบกับ md/ch08/ch08.md ทั้งบท (แนวทางเดียวกับบทที่ 6)
      ร่างเดิมเป็นข้อความแปลที่วางมาจากเว็บ สมการแตกเป็นตัวอักษรทีละบรรทัด หัวข้อติดกับย่อหน้า และภาพสมการหายหมด

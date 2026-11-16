@@ -1,4 +1,4 @@
-# โมเดลเชิงกลไกของการระบาดตามเวลาและองค์ประกอบของโรค (Temporal Analysis II: The Components of Disease) {#sec-temporal-models}
+# Temporal Analysis II: The Components of Disease {#sec-temporal-models}
 
 <!-- พี่ต้นข้าว: ร่าง v2 (8 พ.ย. 2026) จัดโครงใหม่จาก 05-temporal-models-ori.qmd เทียบกับ md/ch05/ch05.md ทั้งบท
      ผู้อ่าน: ปริญญาตรีค่อนไปทางปริญญาโท / โค้ด R แทรกในหัวข้อที่แนวคิดนั้นปรากฏ / ภาพสแกนทั้งหมดวาดใหม่ด้วย R หรือ mermaid

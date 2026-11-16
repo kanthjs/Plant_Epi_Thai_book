@@ -1,4 +1,4 @@
-# พื้นฐานการสร้างโมเดลในระบาดวิทยา (Introduction to Modeling in Epidemiology) {#sec-modeling-concepts}
+# Introduction to Modeling in Epidemiology {#sec-modeling-concepts}
 
 <!-- พี่ต้นข้าว: ร่าง v2 (8 พ.ย. 2026) จัดโครงใหม่จาก 03-modeling-concepts-ori.qmd เทียบกับ md/ch03/ch03.md
      ผู้อ่าน: ปริญญาตรีค่อนไปทางปริญญาโท / โค้ด R แทรกในหัวข้อที่แนวคิดนั้นปรากฏ

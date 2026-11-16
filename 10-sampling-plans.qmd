@@ -1,4 +1,4 @@
-# การประมาณระดับโรคพืชด้วยการสุ่มตัวอย่าง (Estimating Plant Disease by Sampling) {#sec-sampling-plans}
+# Estimating Plant Disease by Sampling {#sec-sampling-plans}
 
 <!-- พี่ต้นข้าว: ร่าง v1 (9 พ.ย. 2026) เขียนใหม่จาก md/ch10/ch10.md ทั้งบท (แนวทางเดียวกับบทที่ 8 และ 9)
      ร่างเดิมเก็บไว้ที่ 10-sampling-plans-ori.qmd ไม่ได้ render ร่างเดิมเขียนเป็นภาษาคุยกับผู้เขียน ("สวัสดีครับน้องกันต์!")

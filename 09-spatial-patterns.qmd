@@ -1,4 +1,4 @@
-# รูปแบบเชิงพื้นที่ของโรคพืช (Spatial Patterns of Plant Disease) {#sec-spatial-patterns}
+# Spatial Patterns of Plant Disease {#sec-spatial-patterns}
 
 <!-- พี่ต้นข้าว: ร่าง v1 (9 พ.ย. 2026) เขียนใหม่จาก md/ch09/ch09.md ทั้งบท (แนวทางเดียวกับบทที่ 6 และ 8)
      ร่างเดิมเก็บไว้ที่ 09-spatial-patterns-ori.qmd ไม่ได้ render

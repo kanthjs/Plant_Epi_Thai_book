@@ -1,4 +1,4 @@
-# การวัดโรคและคุณภาพของข้อมูลโรค (Measuring Disease and Data Quality) {#sec-measurement}
+# Measuring Disease and Data Quality {#sec-measurement}
 
 <!-- พี่ต้นข้าว: ร่าง v2 (8 พ.ย. 2026) จัดโครงใหม่จาก 02-measurement-ori.qmd
      ผู้อ่าน: ปริญญาตรีค่อนไปทางปริญญาโท

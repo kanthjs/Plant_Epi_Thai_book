@@ -21,6 +21,7 @@ book:
   chapters:
     - index.qmd
     - 00-preface.qmd
+    - 00-history.qmd
     - 01-intro.qmd
     - 02-measurement.qmd
     - 03-modeling-concepts.qmd

@@ -1,0 +1,185 @@
+# A Brief History of Plant Disease Epidemiology {#sec-history .unnumbered}
+
+<!--
+บทนี้แยกออกมาจาก 01-intro.qmd (เดิมคือหัวข้อ 1.3) ตามที่ผู้เขียนตกลง 16 พ.ย. 2026
+เป็นบทไม่มีเลข อ่านก่อนบทที่ 1 ได้ แต่เนื้อหาหลักของเล่มไม่ต้องอ้างกลับมาที่บทนี้
+โครง: แต่ละยุค = เรื่องเล่า -> กล่อง "ความรู้ที่เกิดในยุคนี้" (ชี้ไปบทที่สอนเรื่องนั้น) -> กล่อง "เกร็ดประวัติ" แบบพับเก็บ (สำหรับคนอยากรู้ลึก)
+-->
+
+มใาเริ่มต้นรู้สึก plant disease epidemiology กับความเป็นไปเป็นมา จากอดีตจนถึงปัจจุบัน และ  และเกร็ดประวัติต่าง ๆ 
+
+โดยนำมาจากหลักฐานที่เป็นบทความที่บันทึกประวัติศาสตร์ระบาดวิทยาของโรคพืชมีอยู่หลายชิ้น โดยเฉพาะงานของ Zadoks and Koster (1976) ที่รวบรวมประวัติศาสตร์ยุคแรกเริ่มของการศึกษาโรคพืชในระดับประชากรไว้อย่างละเอียด พร้อมทั้งแปลตัดตอนข้อความจากเอกสารโบราณมาให้อ่านอย่างน่าตื่นตาตื่นใจ นอกจากนี้ยังมีงานของ Cowling and Horsfall (1978), Zadoks (2001) และ Waggoner and Aylor (2000) ที่ให้ข้อมูลที่มีคุณค่า ดังนั้นขอนำเสนอเฉพาะหมุดหมายสำคัญบางช่วงบางตอนเท่านั้น
+
+## ยุคบันทึกเชิงพรรณนา: จากฮิปโปเครตีสถึงศตวรรษที่ 19 {#sec-history-early .unnumbered}
+
+ย้อนกลับไปเมื่อ 2,400 ปีก่อน ฮิปโปเครตีส (Jones, 1972) เคยเขียนถึงการระบาดของโรคในมนุษย์ เช่น โรคคางทูมและมาลาเรีย โดยชี้ให้เห็นถึงอิทธิพลของสภาพแวดล้อมที่มีต่อการปะทุของโรค ต่อมา ธีโอฟรัสทัส (Theophrastus: 372–287 ปีก่อน ค.ศ.) และพลินี (Pliny: ค.ศ. 23–79) ก็ได้เริ่มบันทึกข้อสังเกตเกี่ยวกับโรคพืช พร้อมทั้งตอกย้ำว่าบทบาทของสภาพแวดล้อมมีผลต่อการเกิดโรคระบาดเช่นเดียวกัน
+
+จากนั้น ผลงานชิ้นเอกที่ล้ำยุคเกินกว่าใครแต่กลับถูกมองข้ามไปหลายร้อยปี ก็ถือกำเนิดขึ้นในปี 1728 โดย Duhamel de Monceau เขาได้เขียนถึงการระบาดในต้นหญ้าฝรั่น (*Saffron crocus*) ที่เกิดจากเชื้อรา *Rhizoctonia violacea* และเสนอวิธีควบคุมโรคโดยอิงจากความรู้เรื่องการระบาด ยิ่งไปกว่านั้น เขายังแสดงหลักฐานว่าโรคนี้น่าจะเกิดจาก "สิ่งมีชีวิตบางอย่าง" ซึ่ง Zadoks and Koster (1976) ยกย่องว่า นี่คือบันทึกการศึกษาระบาดวิทยาของโรคพืชชิ้นแรกในประวัติศาสตร์มนุษยชาติ
+
+ต่อมาในศตวรรษที่ 18 และ 19 อิทธิพลของสภาพแวดล้อม (โดยเฉพาะลมฟ้าอากาศ) ต่อการระบาดโรคพืช โดยเฉพาะโรคราสนิมข้าวสาลี (wheat rust) เริ่มถูกหยิบยกมาศึกษาจริงจังโดยนักคิดหลายท่าน เช่น Fontana และ Tozzetti (Zadoks and Koster, 1976) และในตำราโรคพืชที่น่าจะนับได้ว่าเป็นเล่มแรกของโลก Kühn (1858) ได้เขียนบรรยายความสำคัญของการระบาดของโรคพืชไว้อย่างชัดเจน โดยเปรียบเทียบเทียบเคียงกับการระบาดของโรคในคนและสัตว์ ในยุคนั้น คนส่วนใหญ่ยังเข้าใจคำว่า "การระบาด" ว่าหมายถึงการที่โรคทวีความรุนแรงจนลุกลามใหญ่โตเท่านั้น
+
+กระทั่ง Ward (1901) ได้นำมุมมองเชิงนิเวศวิทยาเข้ามาจับในหนังสือที่ทรงอิทธิพลอย่าง *Disease in Plants* โดยเขาระบุไว้อย่างน่าคิดว่า:
+
+> *"เมื่อเราเริ่มสืบสาวราวเรื่องว่า อะไรคือเงื่อนไขที่ทำให้พืชผล สวนผลไม้ หรือผืนป่าของเราถูกจู่โจมอย่างรุนแรงและฉับพลัน... ไม่ช้าเราก็จะได้ค้นพบเครือข่ายปัญหาอันซับซ้อนของความสัมพันธ์ที่เกี่ยวพันกัน ระหว่างสิ่งมีชีวิตชนิดหนึ่งกับอีกชนิดหนึ่ง และระหว่างสิ่งมีชีวิตทั้งสองกับสิ่งแวดล้อมที่ไร้ชีวิต ซึ่งสิ่งเหล่านี้เตือนใจเราได้อย่างดีว่า อย่าเพิ่งด่วนสรุปเด็ดขาดว่าสาเหตุของโรคเกิดจากตัวการเดี่ยว ๆ เพียงตัวเดียวลำพัง"*
+
+> *"When we come to enquire into what circumstances bring about those severe and apparently sudden attacks on our crops, orchards, gardens, and forests … we soon discover the existence of a series of complex problems of intertwined relationships between one organism and another, and between both and the non-living environment, which fully justify the caution already given against concluding that any cause of disease can be a single agent working alone."*
+
+<!-- Source: Ward (1901) Disease in Plants, Chapter XVI "The Factors of an Epidemic", first paragraph (verified against Project Gutenberg eBook #39011) -->
+
+::: {.callout-note title="ความรู้ที่เกิดในยุคนี้"}
+ยุคนี้ยังเป็นการบรรยายเชิงพรรณนา แต่ได้วางแนวคิดสองเรื่องที่ทั้งเล่มใช้ต่อ เรื่องแรกคือสภาพแวดล้อมเป็นตัวกำหนดการระบาดร่วมกับพืชอาศัยและเชื้อก่อโรค ซึ่งต่อมากลายเป็น disease triangle ใน @sec-intro-concepts เรื่องที่สองคือการระบาดเป็นปรากฏการณ์ของประชากรที่เทียบได้กับโรคในคนและสัตว์ (Kühn, 1858) และเกิดจากหลายปัจจัยพัวพันกัน (Ward, 1901) งานของ Duhamel de Monceau (1728) ยังแสดงให้เห็นเป็นครั้งแรกว่าความรู้เรื่องการระบาดนำไปสู่วิธีควบคุมโรคได้
+:::
+
+## จากการพรรณนาสู่ตัวเลข (1945–1963) {#sec-history-quantitative .unnumbered}
+
+ในอดีต ผู้คนมักมุ่งเน้นไปที่การอธิบายหรือทำความเข้าใจการระบาดที่รุนแรงจนเห็นได้ชัดเท่านั้น (เหมือนที่ Ward เรียกว่า "การจู่โจมรุนแรงอย่างฉับพลัน" หรือ "severe and apparently sudden attacks") แต่พอก้าวเข้าสู่ช่วงกลางศตวรรษที่ 20 มุมมองเริ่มเปิดกว้างขึ้น นักวิชาการเริ่มตระหนักถึงความหลากหลายของรูปแบบการระบาด (ทั้งแบบรุนแรงมากและรุนแรงน้อย) ตำราคลาสสิกของ Gäumann เรื่อง *Pflanzliche Infektionslehre (Principles of Plant Infection)* ในปี 1946 (แปลเป็นภาษาอังกฤษปี 1950) ถือว่าตรงจุดมาก Gäumann ระบุไว้ว่า:
+
+> *"...การระบาดมีขอบเขตจำกัดอยู่ 2 ประการ นั่นคือมันมีจุดเริ่มต้นและจุดสิ้นสุด ทั้งในมิติของเวลาและพื้นที่"*
+
+> *"… an epidemic is delimited in two ways; it has a beginning and an end, both in time and space"*
+
+เขายังได้จำแนกวิถีเฉพาะตัวของการระบาดแต่ละแบบ และให้แนวทางเงื่อนไขที่จำเป็นในการเกิดโรคไว้อย่างเป็นระบบ เช่น ต้องมีพืชอาศัยที่อ่อนแอ เชื้อก่อโรคต้องมีศักยภาพในการขยายพันธุ์สูงและแพร่กระจายได้อย่างมีประสิทธิภาพ และต้องมีสภาพอากาศที่เอื้ออำนวย ซึ่งถือเป็นก้าวแรก ๆ ในการเปรียบเทียบการระบาดแต่ละแบบ แม้จะยังเป็นในเชิงคุณภาพ ก็ตาม
+
+ช่วงปี 1945 ถึง 1963 นับเป็นช่วงเวลาหัวเลี้ยวหัวต่อที่พลิกโฉมระบาดวิทยาโรคพืช จากการพรรณนาเชิงคุณภาพไปสู่การวัดและคำนวณเชิงปริมาณ อย่างเต็มตัว:
+
+* **Large (1952)** แสดงให้เห็นถึงข้อดีของ disease progress curve (แบบเดียวกับ @fig-intro-dpc) ว่ามีประโยชน์อย่างยิ่งในการทำความเข้าใจ เปรียบเทียบการระบาด และประเมินความเสียหายของผลผลิต
+* **P. H. Gregory** ทำงานวิจัยเรื่องการแพร่กระจายของสปอร์เชื้อก่อโรค โดยนำโมเดลทางฟิสิกส์เข้ามาอธิบายการเคลื่อนที่ หนังสือของเขา *The Microbiology of the Atmosphere* (Gregory, 1961 และฉบับปรับปรุง 1973) กลายเป็นทฤษฎีบูรณาการการฟุ้งกระจายของสปอร์ที่สั่นสะเทือนวงการ และยังคงเป็นตำราที่คู่ควรสำหรับทุกคนที่สนใจศึกษา airborne microorganisms มาจนถึงทุกวันนี้
+* **Horsfall and Dimond (1960)** บรรณาธิการชุดตำราโรคพืชสามเล่ม (three-volume treatise on plant pathology) ได้ให้เนื้อหาเล่มที่สามทั้งเล่มกับเรื่องโรคพืชในระดับประชากรโดยเฉพาะ เล่มนี้เองที่ทำให้แนวคิดระบาดวิทยาสมัยใหม่เริ่มลงหลักปักฐาน โดยเน้นหนักไปที่ประชากร การพยากรณ์โรค ฟิสิกส์การกระจายสปอร์ ความหนาแน่นของเชื้อตั้งต้น และการสร้างโมเดลทางคณิตศาสตร์
+
+::: {.callout-note title="ความรู้ที่เกิดในยุคนี้"}
+disease progress curve ที่ Large (1952) ผลักดันคือข้อมูลพื้นฐานของการวิเคราะห์การระบาดตามเวลาทั้งหมดใน @sec-temporal-foundations และเป็นจุดตั้งต้นของการเชื่อมโรคกับผลผลิตใน @sec-yield-loss งานของ Gregory เรื่องการฟุ้งกระจายของสปอร์ และงานของ Gregory and Read (1949) เรื่องความลาดชันของโรคตามระยะห่างจากแหล่งเชื้อ กลายเป็นรากของ @sec-disease-gradients ส่วน disease cycle ตามแนวของ Gäumann คือตัวอย่างโมเดลเชิงคุณภาพที่ใช้เปิด @sec-modeling-concepts
+:::
+
+## Vanderplank และกำเนิดระบาดวิทยาเชิงปริมาณ (1960–1963) {#sec-history-vanderplank .unnumbered}
+
+ไฮไลต์สำคัญในตำราชุดของ Horsfall and Dimond (1960) คือบทที่มีชื่อว่า *"Analysis of Epidemics"* (การวิเคราะห์การระบาด) ซึ่งเขียนโดยนักปรับปรุงพันธุ์มันฝรั่งจากแอฟริกาใต้ที่แทบไม่มีใครรู้จักในตอนนั้น คือ **J. E. Vanderplank**
+
+Vanderplank (1960) ได้เสนอแนวคิดสุดแหวก (และดูแปลกประหลาดมากสำหรับนักโรคพืชในยุคนั้น) ว่า **การระบาดของโรคพืชสามารถสร้างเป็นโมเดลทางคณิตศาสตร์ได้** และการวิเคราะห์ด้วยโมเดลนี่แหละคือหัวใจสำคัญในการทำความเข้าใจการพัฒนาของโรคในระดับประชากร รวมถึงการวางยุทธวิธีในการควบคุมโรค
+
+บทความสั้น ๆ ชิ้นนั้นจุดประกายให้ Vanderplank เขียนตำราเล่มเปลี่ยนโลกในปี 1963 ที่มีชื่อว่า **Plant Diseases: Epidemics and Control** หนังสือเล่มนี้ได้ต่อยอดไอเดียเดิมจนกลายเป็นทฤษฎีการระบาดของโรคพืชในฐานะ dynamic population processes ที่มีข้อมูลเชิงประจักษ์รองรับอย่างแน่นหนา เขาวางหลักการวัดการระบาดด้วยอัตราการเปลี่ยนแปลงผ่าน nonlinear mathematical models ยิ่งไปกว่านั้น เขายังเชื่อมโยงระบาดวิทยาเข้ากับวิธีควบคุมโรคอย่างสมบูรณ์ ทั้งเรื่องการใช้พันธุ์ต้านทาน สารเคมี และการลดปริมาณเชื้อตั้งต้น แนวคิดเรื่อง **vertical resistance** และ **horizontal resistance** ก็ถือกำเนิดขึ้นจากที่นี่ ก่อนจะถูกขยายความต่อในหนังสือปี 1968 และปรับปรุงในปี 1984 จนกลายเป็นหัวข้อที่ถกเถียงกันต่อมาอีกหลายทศวรรษ
+
+หนังสือปี 1963 ของ Vanderplank เปรียบเสมือนการถือกำเนิดระบาดวิทยาโรคพืชยุคใหม่ ภายในเวลาไม่กี่ปี ภาควิชาโรคพืชทั่วโลกเริ่มยกให้วิชาระบาดวิทยามีความสำคัญทัดเทียมกับวิชากีฏวิทยาหรือไวรัสวิทยา แม้ในตอนแรกนักโรคพืชหลายคนจะยังเข้าไม่ถึงคณิตศาสตร์ที่ซับซ้อน แต่แนวคิดเบื้องหลังสมการเหล่านั้นกลับได้รับการยอมรับอย่างกว้างขวาง ในทศวรรษ 1970 หลักสูตรระดับบัณฑิตศึกษาเริ่มบรรจุวิชาสถิติ คณิตศาสตร์ และการเขียนโปรแกรมคอมพิวเตอร์มากขึ้น จนเกิดนักระบาดวิทยาเชิงปริมาณรุ่นใหม่เข้ามาขับเคลื่อนวงการ ดังที่ Cowling and Horsfall (1978) ได้เขียนเปรียบเปรยไว้อย่างเห็นภาพว่า:
+
+> *"Vanderplank คือชายผู้จุดประกายระบาดวิทยา ทำให้ความรู้ใหม่ ๆ ทะลักล้นออกมาอย่างรวดเร็วจนแผ่ขยายเป็นวงกว้าง ด้วยแรงกระตุ้นของเขา ความคิดเชิงปริมาณได้แพร่กระจายราวกับโรคระบาดไปทั่ววงการโรคพืช และดูเหมือนว่าวงการนี้จะไม่มีวันกลับไปเป็นเหมือนเดิมอีกต่อไป"*
+
+> *Vanderplank is "the man who 'pulled the bung on the epidemiological barrel.' At present new knowledge is spilling out rapidly in everwidening pools of understanding. With his stimulation, quantitative thinking has spread like an epidemic across the field of plant pathology and it appears that the field will never again be the same."*
+
+แน่นอนว่า Vanderplank ไม่ใช่คนแรกที่เอาคณิตศาสตร์มาใช้ในโรคพืช และไม่ใช่คนแรกที่วาดกราฟการพัฒนาของโรค ก่อนหน้าเขาก็มีนักวิจัยหลายคนที่ศึกษาเรื่องนี้ เช่น Fracker (1936) และ Large (1952) ที่ใช้สถิติวัดอัตราการเพิ่มของโรคตามเวลา หรือ Gregory and Read (1949) ที่ศึกษาความลาดชันของโรคตามระยะห่างจากแหล่งเชื้อ อีกทั้งในฝั่งโรคคนก็มีการพัฒนาโมเดลระบาดวิทยาทางคณิตศาสตร์ที่ซับซ้อนมาก่อนแล้ว เช่น โมเดลคลาสสิกของ Kermack and McKendrick (1927) หรือโมเดลมาลาเรียของนายแพทย์ Ronald Ross (1911) ที่ใช้สมการเชิงอนุพันธ์เชื่อมโยงพลวัตของยุงพาหะกับคนติดเชื้อ โดย Ross ได้กล่าวประโยคทองไว้ว่า:
+
+> *"แท้จริงแล้ว ระบาดวิทยาทั้งหมดที่เกี่ยวข้องกับความแปรผันของโรคตามเวลาหรือสถานที่ จำเป็นต้องได้รับการพิจารณาในเชิงคณิตศาสตร์อย่างหลีกเลี่ยงไม่ได้ ไม่ว่าจะมีตัวแปรเข้ามาพัวพันมากมายเพียงใด หากเรายังต้องการให้มันมีสถานะเป็นวิทยาศาสตร์อย่างแท้จริง... และกระบวนการทางคณิตศาสตร์นั้น ก็ไม่มีอะไรอื่นนอกจากการนำเอาการใช้เหตุผลอย่างรอบคอบ มาจับกับปัญหาที่อยู่ตรงหน้านั่นเอง"*
+
+> _As a matter of fact all epidemiology, concerned as it is with variation of disease from time to time or from place to place, must be considered mathematically, however many variables are implicated, if it is to be considered scientifically at all. … And the mathematical method of treatment is really nothing but the application of careful reasoning to the problems at hand._
+
+แม้ Vanderplank จะคุ้นเคยกับ logistic model ของการเติบโตของประชากร ในทางนิเวศวิทยา (Verhulst, 1838; Pearl and Reed, 1920) แต่ไม่มีหลักฐานชัดเจนว่าเขาได้รับอิทธิพลโดยตรงจากโมเดลทางการแพทย์ของ Ross หรือ Kermack and McKendrick ถึงอย่างนั้น งานวิจัยในยุคต่อมาก็แสดงให้เห็นว่าโมเดลทางการแพทย์ยุคแรกกับโมเดลโรคพืชที่ Vanderplank ใช้มีรากฐานและโครงสร้างที่เชื่อมโยงถึงกันอย่างเหนียวแน่น
+
+::: {.callout-note title="ความรู้ที่เกิดในยุคนี้"}
+แทบทุกเครื่องมือของการวิเคราะห์การระบาดตามเวลาในเล่มนี้สืบมาจาก Vanderplank การวัดการระบาดด้วยอัตราการเพิ่มของโรค การแปลงข้อมูลให้เป็นเส้นตรงเพื่อเปรียบเทียบการระบาด และการแปลวิธีควบคุมโรคเป็นการลดเชื้อตั้งต้นหรือการลดอัตราการเพิ่มของโรค อยู่ใน @sec-temporal-foundations ส่วนโมเดลเชิงกลไกที่แตกองค์ประกอบของโรคออกเป็นระยะแฝงและระยะติดเชื้อ รวมถึงการเชื่อมกับโมเดล Kermack–McKendrick ของฝั่งการแพทย์ อยู่ใน @sec-temporal-models
+:::
+
+::: {.callout-tip collapse="true" title="เกร็ดประวัติ: Vanderplank กับกระดาษและปากกา"}
+ชื่อของเขาแต่เดิมสะกดว่า van der Plank ซึ่งยังพบได้ในเอกสารรุ่นเก่า
+
+ทุกวันนี้คอมพิวเตอร์อยู่รอบตัวจนเราอาจทึ่งเมื่อรู้ว่าโมเดลและการวิเคราะห์ทั้งหมดของ Vanderplank (1963) ทำด้วยมือโดยไม่มีคอมพิวเตอร์ช่วยแม้แต่เครื่องเดียว แต่การใช้แค่กระดาษกับปากกาย่อมมีขีดจำกัดในการใส่รายละเอียดที่ซับซ้อนของระบบ host–pathogen–environment ข้อจำกัดนี้เองที่เปิดทางให้ยุคถัดไป
+:::
+
+## หลังปี 1963: สำนักวิจัย คอมพิวเตอร์ และการกลับสู่สมการ {#sec-history-after1963 .unnumbered}
+
+หลังจากยุค Vanderplank การศึกษาพลวัตของโรคในระดับประชากรเพื่อนำมาวางแผนควบคุมโรคก็กลายเป็นกระแสหลักของวงการ บุคคลสำคัญที่มีบทบาทวางรากฐานระบาดวิทยาเชิงปริมาณต่อเนื่องยาวนานกว่า 3 ทศวรรษ ได้แก่ **Jan C. Zadoks** จาก Wageningen University (เนเธอร์แลนด์) **Jürgen Kranz** จาก Giessen University (เยอรมนี) และ **Paul E. Waggoner** จาก Connecticut Agricultural Experiment Station (สหรัฐอเมริกา) รวมถึงภาควิชาโรคพืช มหาวิทยาลัยเพนซิลเวเนียสเตต (Penn State)
+
+ทั้ง Zadoks และ Kranz ในฐานะอาจารย์มหาวิทยาลัย ได้สร้างลูกศิษย์ลูกหาในสายระบาดวิทยาไว้มากมาย ดูแลโครงการวิจัยในประเทศกำลังพัฒนาเกี่ยวกับการทำนายการระบาดและการกระจายของโรค ทั้งสองยังได้เขียนตำราเล่มสำคัญ (เช่น Kranz, 1974a, 1990a, 2003; Zadoks and Schein, 1979) ที่สร้างแรงบันดาลใจให้นักระบาดวิทยารุ่นต่อมา ขณะที่ภาควิชาโรคพืชที่ Penn State ซึ่งก่อตั้งขึ้นในปี 1963 พอดิบพอดี ก็ได้บรรจุหลักสูตรระบาดวิทยาเชิงประชากรอย่างเข้มข้น ผลิตนักวิจัยและผู้เชี่ยวชาญรุ่นใหม่กระจายไปทั่วสหรัฐฯ และทั่วโลก ส่วน Waggoner แม้จะทำงานในสถานีวิจัยและไม่ได้สอนหนังสือเป็นหลัก แต่ผลงานการสร้างโมเดลการระบาดของเขาก็ทรงอิทธิพลต่อวงการอย่างมหาศาล
+
+Waggoner และคณะสร้างจุดเปลี่ยนสำคัญด้วยการพัฒนา computer simulation model ที่จำลองวงจรชีวิตของโรค (เช่น การติดเชื้อ การสร้างสปอร์) โดยเชื่อมโยงกับตัวแปรสภาพอากาศเพื่อทำนายการระบาด (Waggoner and Horsfall, 1969) ความสำเร็จนี้จุดกระแสการสร้าง simulation model ของโรคพืชโดยอาศัยหลัก systems analysis ตามมาอย่างแพร่หลาย
+
+ทว่าพอเข้าสู่ช่วงปลายศตวรรษที่ 20 กระแสความนิยมในโมเดลคอมพิวเตอร์ที่ซับซ้อนจนเกินไปเริ่มคลายตัวลง เพราะนักวิจัยเริ่มตระหนักว่าคำถามพื้นฐานหลายอย่างเกี่ยวกับการระบาดไม่จำเป็นต้องพึ่งพาซิมูเลชันขนาดมหึมาเสมอไป differential equation ที่รัดกุมและออกแบบมาอย่างดีเพียงไม่กี่สมการ อาจให้คำตอบเรื่อง threshold ของการระบาด หรือจุดสิ้นสุดของความเสียหายได้แม่นยำและเข้าใจง่ายกว่ามาก (Jeger, 1986a) คอมพิวเตอร์จึงถูกปรับบทบาทมาเป็นเครื่องมือคู่ใจในการแก้สมการ วาดกราฟ และฟิตโมเดลเข้ากับข้อมูลจริงทางสถิติมากกว่า
+
+::: {.callout-note title="ความรู้ที่เกิดในยุคนี้"}
+การถกเถียงระหว่าง simulation model ขนาดใหญ่กับสมการกะทัดรัด คือที่มาของการแบ่ง empirical model กับ mechanistic model และแนวคิดการฟิตโมเดลกับข้อมูลใน @sec-modeling-concepts ส่วนการใช้ differential equation หา threshold ของการระบาดและพฤติกรรมระยะยาวของระบบ ขยายต่อใน @sec-temporal-models และ @sec-theoretical-temporal
+:::
+
+## การเติบโตของวงการ: การประชุมและตำรา {#sec-history-growth .unnumbered}
+
+ความเติบโตของศาสตร์แขนงหนึ่งดูได้จากการประชุมวิชาการและตำราที่ตีพิมพ์ออกมา ปี 1963 นอกจากจะเป็นปีที่หนังสือของ Vanderplank วางแผงแล้ว ยังเป็นปีที่มีการจัดการประชุมนานาชาติด้านระบาดวิทยาโรคพืชเป็นครั้งแรกที่เมืองโป (Pau) ประเทศฝรั่งเศส ตำราที่ตีพิมพ์ตามมาในช่วงสามทศวรรษถัดมาแสดงไว้ใน @tbl-history-books
+
+::: {.callout-tip collapse="true" title="เกร็ดประวัติ: เวิร์กช็อประบาดวิทยานานาชาติ"}
+การประชุมครั้งแรกที่ Pau ปี 1963 เป็นการประชุมอย่างไม่เป็นทางการ มีผู้เข้าร่วม 40 คนจาก 14 ประเทศ ครั้งที่สองจัดที่ Wageningen ประเทศเนเธอร์แลนด์ ในปี 1971 มีผู้เข้าร่วม 74 คนจาก 24 ประเทศ
+
+หลังจากนั้นเวิร์กช็อปนี้จัดต่อเนื่องในหลายประเทศ ทั้งสหรัฐฯ (1979, 1983) อิสราเอล (1986) เยอรมนี (1990) เนเธอร์แลนด์ (1994) บราซิล (2001) และฝรั่งเศส (2005) โดยมักจำกัดผู้เข้าร่วมไว้ไม่เกิน 100 คน เพื่อเน้นการแลกเปลี่ยนพูดคุยอย่างทั่วถึง ตั้งแต่ปี 1994 การประชุมนี้อยู่ภายใต้คณะกรรมการระบาดวิทยาของสมาคมโรคพืชนานาชาติ (ISPP) อย่างเป็นทางการ
+:::
+
+| Year | Title | Author (a) or editor (e) |
+| --- | --- | --- |
+| **1974** | *Epidemics of Plant Diseases: Mathematical Analysis and Modeling* | J. Kranz (e) |
+| **1978** | *Plant Disease: An Advanced Treatise, Vol. 1: How Disease Develops in Populations* | J. G. Horsfall and E. B. Cowling (e) |
+| **1978** | *Plant Disease Epidemiology* | P. R. Scott and A. Bainbridge (e) |
+| **1979** | *Epidemiology and Plant Disease Management* | J. C. Zadoks and R. D. Schein (a) |
+| **1980** | *Comparative Epidemiology: A Tool for Better Disease Management* | J. Palti and J. Kranz (e) |
+| **1983** | *Plant Virus Epidemiology: The Spread of Insect-borne Viruses* | R. T. Plumb and J. M. Thresh (e) |
+| **1985** | *Advances in Plant Pathology, Vol. 3: Mathematical Modelling of Crop Disease* | C. A. Gilligan (e) |
+| **1986** | *Plant Virus Epidemiology: Monitoring, Modelling, and Predicting Outbreaks* | G. D. McLean, R. G. Garrett and W. G. Ruesink (e) |
+| **1986** | *Plant Disease Epidemiology, Vol. 1: Population Dynamics and Management* | K. J. Leonard and W. E. Fry (e) |
+| **1986** | *[Handbook of Plant Disease Epidemiology]* (in Chinese) | Zeng Shimai (a) |
+| **1987** | *Crop Loss Assessment and Pest Management* | P. S. Teng (e) |
+| **1988** | *Experimental Techniques in Plant Disease Epidemiology* | J. Kranz and J. Rotem (e) |
+| **1989** | *Plant Disease Epidemiology, Vol. 2: Genetics, Resistance, and Management* | K. J. Leonard and W. E. Fry (e) |
+| **1989** | *The Spatial Components of Plant Disease Epidemics* | M. J. Jeger (e) |
+| **1990** | *Epidemics of Plant Diseases: Mathematical Analysis and Modeling* (2nd ed.) | J. Kranz (e) |
+| **1990** | *Introduction to Plant Disease Epidemiology* | C. L. Campbell and L. V. Madden (a) |
+| **1991** | *L'Épidémiologie en Pathologie Végétale* (in French) | F. Rapilly (a) |
+| **1994** | *Epidemiology and Management of Root Diseases* | C. L. Campbell and D. M. Benson (e) |
+| **1996** | *Doenças de Planta Tropicais: Epidemiologia e Controle Econômico* (in Portuguese) | A. Bergamin Filho and L. Amorim (a) |
+| **1996** | *Epidemiologie der Pflanzenkrankheiten* (in German) | J. Kranz (a) |
+| **1997** | *Exercises in Plant Disease Epidemiology* | L. J. Francl and D. A. Neher (e) |
+| **1998** | *The Epidemiology of Plant Diseases* | D. Gareth Jones (e) |
+| **2003** | *Comparative Epidemiology of Plant Diseases* | J. Kranz (a) |
+| **2006** | *The Epidemiology of Plant Diseases* (2nd ed.) | B. M. Cooke, D. Gareth Jones and B. Kaye (e) |
+
+: Major textbooks and reference books in plant disease epidemiology published since the 1970s {#tbl-history-books}
+
+ในแง่ของตำราเรียน หนังสือของ Zadoks and Schein (1979) ถือเป็นตำรา botanical epidemiology เล่มแรกของโลกที่ถ่ายทอดความสนุกของวิชานี้ ชี้ให้เห็นเสน่ห์ของคณิตศาสตร์ และเชื่อมโยงการจัดการโรคเข้ากับระบาดวิทยาได้อย่างงดงาม (แม้จะเน้นเฉพาะเชื้อราก็ตาม) ต่อมา Campbell and Madden (1990) ได้ขยายขอบเขตให้ครอบคลุมเชื้อก่อโรคทุกกลุ่ม พร้อมปูพื้นฐานการวิเคราะห์ทางสถิติและการสร้างโมเดลไว้อย่างครบถ้วน จนกลายเป็นตำราหลักของวิชาระบาดวิทยาโรคพืชในเวลาต่อมา
+
+## ท้ายเรื่อง {#sec-history-closing .unnumbered}
+
+พัฒนาการที่เล่ามาทั้งหมดนี้เน้นย้ำให้เห็นถึงการเปลี่ยนผ่านของระบาดวิทยาไปสู่การคำนวณเชิงปริมาณ แม้ว่าในช่วงไม่กี่ทศวรรษที่ผ่านมา ความ hot ของวิชานี้อาจดูเหมือนถูกบดบังไปบ้างด้วยกระแสความตื่นตัวของ molecular biology
+
+แต่ความเป็นจริงมีอยู่ว่า **ตราบใดที่ molecular biology (หรือการปรับปรุงพันธุ์แบบดั้งเดิม) ยังไม่สามารถเนรมิตพันธุ์พืชที่มี resistance ต่อโรคได้อย่างถาวรและครอบคลุมทุกโรคในทุกพืชผล การระบาดก็จะยังคงเกิดขึ้นอยู่เสมอ** และจะยังคงสร้างผลกระทบอย่างรุนแรงต่อเกษตรกร ผู้บริโภค และสังคมส่วนรวมต่อไป ระบาดวิทยาโรคพืชจึงยังคงมีความสำคัญสูงสุดในการช่วยให้เราเข้าใจว่าโรคระบาดเกิดขึ้นได้อย่างไร เมื่อใด และช่วยให้เราตัดสินใจควบคุมโรคได้อย่างมีหลักการ ทั้งในเชิงทฤษฎีและปฏิบัติ
+
+## อ่านเพิ่มเติม {#sec-history-further .unnumbered}
+
+<!-- พี่ต้นข้าว: หัวข้อนี้เพิ่ม 16 พ.ย. 2026 ตามที่น้องกันต์ขอ รวบรวมเรื่องที่ไม่ได้เล่าในเนื้อหาหลักไว้ให้ผู้อ่านค้นต่อ
+ตรวจ DOI ทุกรายการกับ Crossref แล้ว รายการที่ไม่มี DOI (หนังสือเก่า) ตรวจกับแหล่งที่เชื่อถือได้ ยังไม่ได้เพิ่มลง references.bib -->
+
+บทนี้เลือกเล่าเฉพาะหมุดหมายที่เชื่อมกับเนื้อหาในเล่ม ยังมีอีกหลายเรื่องที่ผู้สนใจค้นต่อได้ เอกสารด้านล่างจัดกลุ่มตามหัวเรื่อง
+
+ภาพรวมประวัติศาสตร์ของวิชา นอกจาก Zadoks and Koster (1976) และ Cowling and Horsfall (1978) ที่อ้างไว้ต้นบท บทความสองชิ้นนี้อ่านง่ายและเล่าต่อถึงปลายศตวรรษที่ 20
+
+- Zadoks, J. C. (2001). Plant disease epidemiology in the twentieth century: A picture by means of selected controversies. *Plant Disease*, 85, 808–816. <https://doi.org/10.1094/PDIS.2001.85.8.808>
+- Waggoner, P. E., and Aylor, D. E. (2000). Epidemiology: A science of patterns. *Annual Review of Phytopathology*, 38, 71–94. <https://doi.org/10.1146/annurev.phyto.38.1.71>
+- Ward, H. M. (1901). *Disease in Plants*. Macmillan. (ฉบับเต็มอ่านได้ฟรีที่ Project Gutenberg <https://www.gutenberg.org/ebooks/39011>)
+
+โรคใบไหม้มันฝรั่ง (late blight) กับกำเนิด germ theory การระบาดในไอร์แลนด์ช่วงปี 1845–1849 เป็นแรงผลักให้วงการถกเถียงว่าราเป็นสาเหตุหรือเป็นผลของโรค Prévost (1807) พิสูจน์ด้วยการปลูกเชื้อมาก่อนแล้วว่าเชื้อราทำให้เกิดโรคเขม่าข้าวสาลี Berkeley (1846) เสนอว่าราบนมันฝรั่งคือสาเหตุ และ de Bary (1861) พิสูจน์ด้วยการทดลอง ทั้งหมดเกิดก่อนที่ Koch จะพิสูจน์เชื้อแอนแทรกซ์ในปี 1876 งานของ Yoshida และคณะ (2013) ใช้ DNA จากตัวอย่างพรรณไม้แห้งในศตวรรษที่ 19 ระบุสายพันธุ์เชื้อที่ทำให้เกิดการระบาดครั้งนั้น
+
+- Berkeley, M. J. (1846). Observations, botanical and physiological, on the potato murrain. *Journal of the Horticultural Society of London*, 1, 9–34.
+- de Bary, A. (1861). *Die gegenwärtig herrschende Kartoffelkrankheit, ihre Ursache und ihre Verhütung*. A. Förstner'sche Buchhandlung.
+- Kelman, A., and Peterson, P. D. (2002). Contributions of plant scientists to the development of the germ theory of disease. *Microbes and Infection*, 4, 257–260. <https://doi.org/10.1016/S1286-4579(01)01532-5>
+- Yoshida, K., Schuenemann, V. J., Cano, L. M., et al. (2013). The rise and fall of the *Phytophthora infestans* lineage that triggered the Irish potato famine. *eLife*, 2, e00731. <https://doi.org/10.7554/eLife.00731>
+
+โรคข้าวกับความอดอยาก ข้าวก็มีเหตุการณ์ระดับเดียวกับมันฝรั่งไอร์แลนด์ คือความอดอยากครั้งใหญ่ในเบงกอลปี 1943 ซึ่งโรคใบจุดสีน้ำตาล (brown spot) เป็นปัจจัยสำคัญ
+
+- Padmanabhan, S. Y. (1973). The Great Bengal Famine. *Annual Review of Phytopathology*, 11, 11–24. <https://doi.org/10.1146/annurev.py.11.090173.000303>
+
+gene-for-gene และพันธุศาสตร์ประชากรของเชื้อ งานของ Flor เรื่องโรคราสนิมแฟลกซ์อธิบายว่าทำไมพันธุ์ resistance ที่ใช้ยีนเดียวจึงถูกเชื้อ race ใหม่เอาชนะได้ ซึ่งเป็นพื้นของแนวคิด vertical resistance ของ Vanderplank ต่อมาพันธุศาสตร์ประชากรของเชื้อก่อโรคหลอมรวมกับระบาดวิทยาจนเกิด molecular epidemiology ที่ใช้ DNA ติดตามการเคลื่อนย้ายของสายพันธุ์เชื้อ ตัวอย่างที่รู้จักกันดีคือราสนิมลำต้นข้าวสาลี race Ug99 ที่แพร่จากแอฟริกาตะวันออกไปถึงตะวันออกกลาง
+
+- Flor, H. H. (1971). Current status of the gene-for-gene concept. *Annual Review of Phytopathology*, 9, 275–296. <https://doi.org/10.1146/annurev.py.09.090171.001423>
+- McDonald, B. A., and Linde, C. (2002). Pathogen population genetics, evolutionary potential, and durable resistance. *Annual Review of Phytopathology*, 40, 349–379. <https://doi.org/10.1146/annurev.phyto.40.120501.101443>
+- Milgroom, M. G., and Peever, T. L. (2003). Population biology of plant pathogens: The synthesis of plant disease epidemiology and population genetics. *Plant Disease*, 87, 608–617. <https://doi.org/10.1094/PDIS.2003.87.6.608>
+- Singh, R. P., Hodson, D. P., Huerta-Espino, J., et al. (2011). The emergence of Ug99 races of the stem rust fungus is a threat to world wheat production. *Annual Review of Phytopathology*, 49, 465–481. <https://doi.org/10.1146/annurev-phyto-072910-095423>
+
+มิติเชิงพื้นที่ของการระบาด ช่วงทศวรรษ 1980–1990 การวิเคราะห์รูปแบบเชิงพื้นที่ของโรคพัฒนาขึ้นมาก หนังสือที่รวมงานยุคนั้นไว้คือ Jeger (1989) และ Campbell and Madden (1990) ใน @tbl-history-books เนื้อหาส่วนนี้ในเล่มอยู่ใน @sec-spatial-patterns @sec-spatiotemporal และ @sec-sampling-plans
+
+ระบาดวิทยาในศตวรรษที่ 21 climate change และการค้าข้ามพรมแดนพาเชื้อไปยังพื้นที่ใหม่ เช่น แบคทีเรีย *Xylella fastidiosa* ที่ระบาดในสวนมะกอกทางใต้ของอิตาลี ส่วนการวัดโรคก็เริ่มใช้เซนเซอร์ภาพและ remote sensing มากขึ้น
+
+- Chakraborty, S., and Newton, A. C. (2011). Climate change, plant diseases and food security: An overview. *Plant Pathology*, 60, 2–14. <https://doi.org/10.1111/j.1365-3059.2010.02411.x>
+- Bebber, D. P., Ramotowski, M. A. T., and Gurr, S. J. (2013). Crop pests and pathogens move polewards in a warming world. *Nature Climate Change*, 3, 985–988. <https://doi.org/10.1038/nclimate1990>
+- Savary, S., Willocquet, L., Pethybridge, S. J., et al. (2019). The global burden of pathogens and pests on major food crops. *Nature Ecology & Evolution*, 3, 430–439. <https://doi.org/10.1038/s41559-018-0793-y>
+- Schneider, K., van der Werf, W., Cendoya, M., et al. (2020). Impact of *Xylella fastidiosa* subspecies *pauca* in European olives. *Proceedings of the National Academy of Sciences*, 117, 9250–9259. <https://doi.org/10.1073/pnas.1912206117>
+- Mahlein, A.-K. (2016). Plant disease detection by imaging sensors: Parallels and specific demands for precision agriculture and plant phenotyping. *Plant Disease*, 100, 241–251. <https://doi.org/10.1094/PDIS-03-15-0340-FE>

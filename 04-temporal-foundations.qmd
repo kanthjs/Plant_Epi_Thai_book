@@ -1,4 +1,4 @@
-# พื้นฐานการวิเคราะห์การระบาดตามเวลาและการเปรียบเทียบการระบาด (Temporal Analysis I: Quantifying and Comparing Epidemics) {#sec-temporal-foundations}
+# Temporal Analysis I: Quantifying and Comparing Epidemics {#sec-temporal-foundations}
 
 <!-- พี่ต้นข้าว: ร่าง v2 (8 พ.ย. 2026) จัดโครงใหม่จาก 04-temporal-foundations-ori.qmd (มีเฉพาะ 4.1–4.3) เทียบกับ md/ch04/ch04.md ทั้งบท
      ผู้อ่าน: ปริญญาตรีค่อนไปทางปริญญาโท / โค้ด R แทรกในหัวข้อ / ภาพสแกนวาดใหม่ด้วย R หรือ mermaid ยกเว้น @fig-temporal-dpc-examples (ไม่มีข้อมูลดิบ)

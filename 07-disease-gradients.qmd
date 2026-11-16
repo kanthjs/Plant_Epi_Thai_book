@@ -1,4 +1,4 @@
-# การแพร่กระจายของเชื้อและความลาดชันของโรค (Dispersal and Disease Gradients) {#sec-disease-gradients}
+# Dispersal and Disease Gradients {#sec-disease-gradients}
 
 <!-- เขียนใหม่ 9 พ.ย. 2026 แทนต้นฉบับแปล (เก็บไว้ที่ 07-disease-gradients-ori.qmd ไม่ได้ render)
      สถานะ: หัวข้อ 1–2 ร่างแล้ว หัวข้อ 3–8 เป็นโครงรอเขียน -->

@@ -1,4 +1,4 @@
-# หัวข้อขั้นสูงของการวิเคราะห์การระบาดตามเวลา (Temporal Analysis III: Advanced Topics) {#sec-theoretical-temporal}
+# Temporal Analysis III: Advanced Topics {#sec-theoretical-temporal}
 
 <!-- พี่ต้นข้าว: ร่าง v2 (9 พ.ย. 2026) จัดโครงใหม่จาก 06-theoretical-temporal-ori.qmd เทียบกับ md/ch06/ch06.md ทั้งบท
      ผู้อ่าน: ปริญญาตรีค่อนไปทางปริญญาโท / โค้ด R แทรกในหัวข้อที่แนวคิดนั้นปรากฏ / ภาพสแกน 12 รูป (figures/ch06/*.png) วาดใหม่ด้วย R หรือ mermaid ทั้งหมด
